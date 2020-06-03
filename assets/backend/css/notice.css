@@ -1,0 +1,95 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 13, 2019, 1:55:33 PM
+    Author     : biplobadhikari
+*/
+
+/* review notice */
+.shortcode-addons-review-notice {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    margin: 15px;
+    border-left: 4px solid transparent;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.shortcode-addons-review-notice:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.shortcode-addons-notice-thumbnail {
+    width: 90px;
+    float: left;
+    padding: 5px;
+    text-align: center;
+    border-right: 4px solid transparent;
+}
+.shortcode-addons-notice-thumbnail img {
+    width: 72px;
+    opacity: 0.85;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.shortcode-addons-review-notice:hover .shortcode-addons-notice-thumbnail img {
+    opacity: 1;
+}
+.shortcode-addons--update-notice .shortcode-addons-notice-thumbnail img {
+    width: 40px;
+}
+.shortcode-addons--update-notice .shortcode-addons-notice-thumbnail {
+    width: auto;
+    padding: 0;
+}
+.shortcode-addons--update-notice .shortcode-addons--notice-message {
+    padding: 5px 0;
+}
+.shortcode-addons--review-text {
+    overflow: hidden;
+}
+.shortcode-addons--review-text h3 {
+    font-size: 24px;
+    margin: 0 0 5px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+.shortcode-addons--review-text p {
+    font-size: 13px;
+    margin: 0 0 5px;
+}
+.shortcode-addons--notice-link {
+    margin: 8px 0 0 0;
+    padding: 0;
+}
+.shortcode-addons--notice-link li {
+    display: inline-block;
+    margin-right: 15px;
+}
+.shortcode-addons--notice-link li a {
+    display: inline-block;
+    color: #10738b;
+    text-decoration: none;
+    padding-left: 26px;
+    position: relative;
+}
+.shortcode-addons--notice-link li a:hover {
+    color: #FB533B;
+}
+.shortcode-addons--notice-link li a span {
+    position: absolute;
+    left: 0;
+    top: 3px;
+}
+.notice.notice-has-thumbnail {
+    padding-left: 0;
+}
