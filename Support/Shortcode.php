@@ -15,6 +15,7 @@ trait Shortcode {
         extract(shortcode_atts(array('id' => ' ',), $atts));
         $styleid = (int) $atts['id'];
         ob_start();
+       
         $styledata = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->parent_table WHERE id = %d ", $styleid), ARRAY_A);
         $listdata = $this->wpdb->get_results("SELECT * FROM $this->child_table WHERE styleid= '$styleid'  ORDER by id ASC", ARRAY_A);
         $shortcode = '';

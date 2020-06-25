@@ -101,7 +101,6 @@ jQuery.noConflict();
         var functionname = "elements_template_style_data";
         $(this).html('<span class="dashicons dashicons-admin-generic"></span>');
         ShortcodeAddonsTemplateSettings(functionname, rawdata, styleid, childid, function (callback) {
-            console.log(callback);
             if (callback === "success") {
                 $("#OXIAADDONSCHANGEDPOPUP .icon-box").html('<span class="dashicons dashicons-yes"></span>');
                 $("#OXIAADDONSCHANGEDPOPUP .modal-body.text-center h4").html("Great!");
