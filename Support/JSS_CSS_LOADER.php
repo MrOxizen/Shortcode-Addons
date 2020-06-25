@@ -61,6 +61,7 @@ trait JSS_CSS_LOADER {
         $this->admin_js();
         $this->admin_vendor();
     }
+
     /**
      * Load Frontend Loader
      *
@@ -105,11 +106,24 @@ trait JSS_CSS_LOADER {
      * 
      * @since 2.0.0
      */
+    public function admin_import_media() {
+        $this->admin_elements_frontend_loader();
+        wp_enqueue_script('shortcode-addons-import', SA_ADDONS_URL . '/assets/backend/js/import.js', false, SA_ADDONS_PLUGIN_VERSION);
+        wp_localize_script('shortcode-addons-import', 'shortcode_addons_editor', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode-addons-editor')));
+    }
+
+    /**
+     * Admin Media Scripts.
+     * Most of time using into Style Editing Page
+     * 
+     * @since 2.0.0
+     */
     public function admin_media_scripts() {
         wp_enqueue_media();
         wp_register_script('shortcode_addons_media_scripts', SA_ADDONS_URL . '/assets/backend/js/media-uploader.js', false, SA_ADDONS_PLUGIN_VERSION);
         wp_enqueue_script('shortcode_addons_media_scripts');
     }
+
     /**
      * Replace data
      *

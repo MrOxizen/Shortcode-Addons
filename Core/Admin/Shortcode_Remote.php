@@ -87,8 +87,8 @@ class Shortcode_Remote {
                 'name' => 'Elements',
                 'homepage' => 'shortcode-addons'
             ];
-            $response['Shortcode']['Import Style'] = [
-                'name' => 'Import Style',
+            $response['Shortcode']['Import'] = [
+                'name' => 'Import',
                 'homepage' => 'shortcode-addons-import'
             ];
             $response['Shortcode']['Extension'] = [

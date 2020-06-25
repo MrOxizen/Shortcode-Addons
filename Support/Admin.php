@@ -295,7 +295,7 @@ trait Admin {
         $permission = $this->menu_permission();
         add_menu_page('Shortcode Addons', 'Shortcode Addons', $permission, 'shortcode-addons', [$this, 'addons_home']);
         add_submenu_page('shortcode-addons', 'Elements', 'Elements', $permission, 'shortcode-addons', [$this, 'addons_home']);
-        add_submenu_page('shortcode-addons', 'Import Style', 'Import Style', $permission, 'shortcode-addons-import', [$this, 'addons_import']);
+        add_submenu_page('shortcode-addons', 'Import', 'Import', $permission, 'shortcode-addons-import', [$this, 'addons_import']);
         add_submenu_page('shortcode-addons', 'Extension', 'Extension', $permission, 'shortcode-addons-extension', [$this, 'addons_extension']);
         add_submenu_page('shortcode-addons', 'Settings', 'Settings', $permission, 'shortcode-addons-settings', [$this, 'addons_settings']);
     }

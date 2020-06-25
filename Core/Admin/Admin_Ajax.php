@@ -363,6 +363,7 @@ class Admin_Ajax {
      *
      * @since 2.0.0
      */
+   
     public function elements_template_import($rawdata = '') {
         $settings = json_decode(stripslashes($rawdata), true);
         $redirect_id = '';
@@ -396,5 +397,11 @@ class Admin_Ajax {
             echo admin_url("admin.php?page=shortcode-addons&oxitype=$type&styleid=$redirect_id");
         endif;
     }
+     public function elements_elements_import($rawdata = '') {
+          $settings = json_decode(stripslashes($rawdata), true);
+          echo  $settings;
+         
+     }
+    
 
 }

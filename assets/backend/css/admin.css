@@ -470,6 +470,20 @@ ul.oxilab-admin-menu .oxilab-admin-menu-quick .oxi-icons{
     letter-spacing: .5px;
     font-weight: 500;
 }
+
+#oxi-addons-import-elements-form .oxi-addons-import-data .oxi-content-box{
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+#oxi-addons-import-elements-form .oxi-addons-import-data .oxi-content,
+#oxi-addons-import-elements-form .oxi-addons-import-data .oxi-buttom{
+    width: 100%;
+    padding: 10px;
+}
+#oxi-addons-import-elements-form .oxi-addons-import-data .oxi-buttom{
+    width: 120px;
+}
 .oxi-addons-import-data .oxi-buttom{
     padding: 10px;
     width: 100%;
