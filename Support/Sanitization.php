@@ -612,7 +612,7 @@ trait Sanitization {
         endif;
     }
 
-/*
+    /*
      * Shortcode Addons Style Admin Panel Password Input.
      * 
      * @since 2.0.0
@@ -631,6 +631,7 @@ trait Sanitization {
             </div>';
         endif;
     }
+
     /*
      * Shortcode Addons Style Admin Panel Hidden Input.
      * 
@@ -688,12 +689,15 @@ trait Sanitization {
 
     public function image_admin_control($id, array $data = [], array $arg = []) {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
+        $alt = array_key_exists($id . '-alt', $data) ? $data[$id . '-alt'] : '';
         if (isset($arg['select'])):
             $img = '';
             $type = ($arg['select'] != 'file') ? $arg['select'] : 'file';
+            $altfile = '';
         else:
             $img = 'style="background-image: url(' . $value . ');" ckdflt="background-image: url(' . $value . ');"';
             $type = '';
+            $altfile = '<input type="hidden" class="shortcode-addons-media-control-link-alt" id="' . $id . '-alt" name="' . $id . '-alt" value="' . $alt . '" >';
         endif;
         echo '  <div class="shortcode-form-control-input-wrapper">
                     <div class="shortcode-addons-media-control ' . (empty($value) ? 'shortcode-addons-media-control-hidden-button' : '') . ' shortcode-addons-media-control-type-' . $type . '">
@@ -708,6 +712,7 @@ trait Sanitization {
                         </div>
                     </div>
                     <input type="hidden" data-type="' . $type . '" class="shortcode-addons-media-control-link" id="' . $id . '" name="' . $id . '" value="' . $value . '" >
+                    ' . $altfile . '
                 </div>';
     }
 
@@ -763,7 +768,9 @@ trait Sanitization {
                         if (strpos($file, '{{') !== FALSE):
                             $file = $this->multiple_selector_handler($data, $file);
                         endif;
-                        $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        if (!empty($size)):
+                            $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        endif;
                     endif;
                 }
             endif;
@@ -824,12 +831,19 @@ trait Sanitization {
                 <div class="shortcode-form-control-input-select-wrapper">
                 <select id="' . $id . '" class="shortcode-addons-select-input ' . ($multiple ? 'js-example-basic-multiple' : '' ) . '" ' . ($multiple ? 'multiple' : '' ) . ' name="' . $id . '' . ($multiple ? '[]' : '' ) . '"  responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>';
         foreach ($arg['options'] as $key => $val) {
-            if (is_array($value)):
-                $new = array_flip($value);
-
-                echo ' <option value="' . $key . '" ' . (array_key_exists($key, $new) ? 'selected' : '') . '>' . $val . '</option>';
+            if (is_array($val)):
+                if (isset($val[0]) && $val[0] == true):
+                    echo '<optgroup label="' . $val[1] . '">';
+                else:
+                    echo '</optgroup>';
+                endif;
             else:
-                echo ' <option value="' . $key . '" ' . ($value == $key ? 'selected' : '') . '>' . $val . '</option>';
+                if (is_array($value)):
+                    $new = array_flip($value);
+                    echo ' <option value="' . $key . '" ' . (array_key_exists($key, $new) ? 'selected' : '') . '>' . $val . '</option>';
+                else:
+                    echo ' <option value="' . $key . '" ' . ($value == $key ? 'selected' : '') . '>' . $val . '</option>';
+                endif;
             endif;
         }
         echo '</select>
@@ -859,7 +873,9 @@ trait Sanitization {
                         if (strpos($file, '{{') !== FALSE):
                             $file = $this->multiple_selector_handler($data, $file);
                         endif;
-                        $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        if (!empty($value)):
+                            $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        endif;
                     }
                     $retun[$key][$key]['type'] = ($val != '' ? 'CSS' : 'HTML');
                     $retun[$key][$key]['value'] = $val;
@@ -901,11 +917,19 @@ trait Sanitization {
                     return false;
                 endif;
                 if ($data[$key] != $value):
+                    if (is_array($value)):
+                        $t = false;
+                        foreach ($value as $val) {
+                            if ($data[$key] == $val):
+                                $t = true;
+                            endif;
+                        }
+                        echo $t;
+                    endif;
                     if ($value == 'EMPTY' && $data[$key] != '0'):
                         return true;
                     endif;
                     if (strpos($data[$key], '&') !== FALSE):
-                        echo 'jasdjasdhasdasdhjsa';
                         return true;
                     endif;
                     return false;
@@ -931,7 +955,9 @@ trait Sanitization {
                     $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                     $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                     $file = str_replace('{{VALUE}}', $value, $val);
-                    $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                    if (!empty($value)):
+                        $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                    endif;
                 }
             endif;
         }
@@ -977,7 +1003,9 @@ trait Sanitization {
                         $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                         $file = str_replace('{{VALUE}}', str_replace("+", ' ', $value), $val);
-                        $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        if (!empty($value)):
+                            $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        endif;
                     endif;
                 }
             endif;
@@ -1026,7 +1054,9 @@ trait Sanitization {
                         $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                         $file = str_replace('{{VALUE}}', $value, $val);
-                        $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        if (!empty($value)):
+                            $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
+                        endif;
                     endif;
                 }
             endif;
@@ -1046,15 +1076,15 @@ trait Sanitization {
     public function dimensions_admin_control($id, array $data = [], array $arg = []) {
         $unit = array_key_exists($id . '-choices', $data) ? $data[$id . '-choices'] : $arg['default']['unit'];
         $top = array_key_exists($id . '-top', $data) ? $data[$id . '-top'] : $arg['default']['size'];
-        $bottom = array_key_exists($id . '-bottom', $data) ? $data[$id . '-bottom'] : $arg['default']['size'];
-        $left = array_key_exists($id . '-left', $data) ? $data[$id . '-left'] : $arg['default']['size'];
-        $right = array_key_exists($id . '-right', $data) ? $data[$id . '-right'] : $arg['default']['size'];
+        $bottom = array_key_exists($id . '-bottom', $data) ? $data[$id . '-bottom'] : $top;
+        $left = array_key_exists($id . '-left', $data) ? $data[$id . '-left'] : $top;
+        $right = array_key_exists($id . '-right', $data) ? $data[$id . '-right'] : $top;
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
         $ar = [$top, $bottom, $left, $right];
         $unlink = (count(array_unique($ar)) === 1 ? '' : 'link-dimensions-unlink');
         if (array_key_exists('selector-data', $arg) && $arg['selector-data'] == TRUE && $arg['render'] == TRUE) {
             if (array_key_exists('selector', $arg)) :
-                if ($top > -100000) :
+                if (isset($top) && isset($right) && isset($bottom) && isset($left)) :
                     foreach ($arg['selector'] as $key => $val) {
                         $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
@@ -1080,7 +1110,7 @@ trait Sanitization {
                 echo '</div>';
             endif;
         endif;
-        $unitvalue = array_key_exists($id . '-choices', $data) ? 'unit="' . $data[$id . '-choices'] . '"' : '';
+        $unitvalue = array_key_exists($id . '-choices', $data) ? 'unit="' . $data[$id . '-choices'] . '"' : $arg['default']['unit'];
         echo '<div class="shortcode-form-control-input-wrapper">
                 <ul class="shortcode-form-control-dimensions">
                     <li class="shortcode-form-control-dimension">
@@ -1125,6 +1155,7 @@ trait Sanitization {
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
+            'description' => $arg['description'],
                 ]
         );
 
@@ -1384,13 +1415,13 @@ trait Sanitization {
 
         $type = array_key_exists('default', $arg) ? $arg['default']['type'] : 'media-library';
         $value = array_key_exists('default', $arg) ? $arg['default']['link'] : '';
-
+        $level = array_key_exists('label', $arg) ? $arg['label'] : 'Photo Source';
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
 
         echo '<div class="shortcode-form-control" style="padding: 0;" ' . $this->forms_condition($arg) . '>';
         $this->add_control(
                 $id . '-select', $data, [
-            'label' => __('Photo Source', SHORTCODE_ADDOONS),
+            'label' => __($level, SHORTCODE_ADDOONS),
             'type' => Controls::CHOOSE,
             'loader' => TRUE,
             'default' => $type,
@@ -1511,6 +1542,20 @@ trait Sanitization {
         endif;
         $true = TRUE;
         $selector_key = $selector = $selectorvalue = $loader = $loadervalue = '';
+        if (!array_key_exists($id . '-shadow', $data)):
+            $data[$id . '-shadow'] = 'yes';
+        endif;
+        if (!array_key_exists($id . '-blur-size', $data)):
+            $data[$id . '-blur-size'] = 0;
+        endif;
+        if (!array_key_exists($id . '-horizontal-size', $data)):
+            $data[$id . '-horizontal-size'] = 0;
+        endif;
+        if (!array_key_exists($id . '-vertical-size', $data)):
+            $data[$id . '-vertical-size'] = 0;
+        endif;
+
+
         if (array_key_exists($id . '-shadow', $data) && $data[$id . '-shadow'] == 'yes' && array_key_exists($id . '-color', $data) && array_key_exists($id . '-blur-size', $data) && array_key_exists($id . '-spread-size', $data) && array_key_exists($id . '-horizontal-size', $data) && array_key_exists($id . '-vertical-size', $data)) :
             $true = ($data[$id . '-blur-size'] == 0 || empty($data[$id . '-blur-size'])) && ($data[$id . '-spread-size'] == 0 || empty($data[$id . '-spread-size'])) && ($data[$id . '-horizontal-size'] == 0 || empty($data[$id . '-horizontal-size'])) && ($data[$id . '-vertical-size'] == 0 || empty($data[$id . '-vertical-size'])) ? TRUE : FALSE;
             $boxshadow = ($true == FALSE ? '-webkit-box-shadow:' . (array_key_exists($id . '-type', $data) ? $data[$id . '-type'] : '') . ' ' . $data[$id . '-horizontal-size'] . 'px ' . $data[$id . '-vertical-size'] . 'px ' . $data[$id . '-blur-size'] . 'px ' . $data[$id . '-spread-size'] . 'px ' . $data[$id . '-color'] . ';' : '');
@@ -1534,7 +1579,8 @@ trait Sanitization {
             'label' => __('Box Shadow', SHORTCODE_ADDOONS),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator
+            'separator' => $separator,
+            'description' => $arg['description'],
                 ]
         );
         $this->add_control(
@@ -1708,7 +1754,8 @@ trait Sanitization {
             'label' => __('Text Shadow', SHORTCODE_ADDOONS),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator
+            'separator' => $separator,
+            'description' => $arg['description'],
                 ]
         );
         $this->add_control(
@@ -1809,7 +1856,8 @@ trait Sanitization {
             'label' => __('Animation', SHORTCODE_ADDOONS),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator
+            'separator' => $separator,
+            'description' => 'Customize animation with animation type, Animation Duration with Delay and Looping Options',
                 ]
         );
         $this->add_control(
@@ -1818,7 +1866,10 @@ trait Sanitization {
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
+                'optgroup0' => [true, 'Attention Seekers'],
                 '' => __('None', SHORTCODE_ADDOONS),
+                'optgroup1' => [false],
+                'optgroup2' => [true, 'Attention Seekers'],
                 'bounce' => __('Bounce', SHORTCODE_ADDOONS),
                 'flash' => __('Flash', SHORTCODE_ADDOONS),
                 'pulse' => __('Pulse', SHORTCODE_ADDOONS),
@@ -1828,6 +1879,57 @@ trait Sanitization {
                 'tada' => __('Tada', SHORTCODE_ADDOONS),
                 'wobble' => __('Wobble', SHORTCODE_ADDOONS),
                 'jello' => __('Jello', SHORTCODE_ADDOONS),
+                'optgroup3' => [false],
+                'optgroup4' => [true, 'Bouncing Entrances'],
+                'bounceIn' => __('BounceIn', SHORTCODE_ADDOONS),
+                'bounceInDown' => __('BounceInDown', SHORTCODE_ADDOONS),
+                'bounceInLeft' => __('BounceInLeft', SHORTCODE_ADDOONS),
+                'bounceInRight' => __('BounceInRight', SHORTCODE_ADDOONS),
+                'bounceInUp' => __('BounceInUp', SHORTCODE_ADDOONS),
+                'optgroup5' => [false],
+                'optgroup6' => [true, 'Fading Entrances'],
+                'fadeIn' => __('FadeIn', SHORTCODE_ADDOONS),
+                'fadeInDown' => __('FadeInDown', SHORTCODE_ADDOONS),
+                'fadeInDownBig' => __('FadeInDownBig', SHORTCODE_ADDOONS),
+                'fadeInLeft' => __('FadeInLeft', SHORTCODE_ADDOONS),
+                'fadeInLeftBig' => __('FadeInLeftBig', SHORTCODE_ADDOONS),
+                'fadeInRight' => __('FadeInRight', SHORTCODE_ADDOONS),
+                'fadeInRightBig' => __('FadeInRightBig', SHORTCODE_ADDOONS),
+                'fadeInUp' => __('FadeInUp', SHORTCODE_ADDOONS),
+                'fadeInUpBig' => __('FadeInUpBig', SHORTCODE_ADDOONS),
+                'optgroup7' => [false],
+                'optgroup8' => [true, 'Flippers'],
+                'flip' => __('Flip', SHORTCODE_ADDOONS),
+                'flipInX' => __('FlipInX', SHORTCODE_ADDOONS),
+                'flipInY' => __('FlipInY', SHORTCODE_ADDOONS),
+                'optgroup9' => [false],
+                'optgroup10' => [true, 'Lightspeed'],
+                'lightSpeedIn' => __('LightSpeedIn', SHORTCODE_ADDOONS),
+                'optgroup11' => [false],
+                'optgroup12' => [true, 'Rotating Entrances'],
+                'rotateIn' => __('RotateIn', SHORTCODE_ADDOONS),
+                'rotateInDownLeft' => __('RotateInDownLeft', SHORTCODE_ADDOONS),
+                'rotateInDownRight' => __('RotateInDownRight', SHORTCODE_ADDOONS),
+                'rotateInUpLeft' => __('RotateInUpLeft', SHORTCODE_ADDOONS),
+                'rotateInUpRight' => __('RotateInUpRight', SHORTCODE_ADDOONS),
+                'optgroup13' => [false],
+                'optgroup14' => [true, 'Sliding Entrances'],
+                'slideInUp' => __('SlideInUp', SHORTCODE_ADDOONS),
+                'slideInDown' => __('SlideInDown', SHORTCODE_ADDOONS),
+                'slideInLeft' => __('SlideInLeft', SHORTCODE_ADDOONS),
+                'slideInRight' => __('SlideInRight', SHORTCODE_ADDOONS),
+                'optgroup15' => [false],
+                'optgroup16' => [true, 'Zoom Entrances'],
+                'zoomIn' => __('ZoomIn', SHORTCODE_ADDOONS),
+                'zoomInDown' => __('ZoomInDown', SHORTCODE_ADDOONS),
+                'zoomInLeft' => __('ZoomInLeft', SHORTCODE_ADDOONS),
+                'zoomInRight' => __('ZoomInRight', SHORTCODE_ADDOONS),
+                'zoomInUp' => __('ZoomInUp', SHORTCODE_ADDOONS),
+                'optgroup17' => [false],
+                'optgroup18' => [true, 'Specials'],
+                'hinge' => __('Hinge', SHORTCODE_ADDOONS),
+                'rollIn' => __('RollIn', SHORTCODE_ADDOONS),
+                'optgroup19' => [false],
             ],
                 ]
         );
@@ -1929,6 +2031,7 @@ trait Sanitization {
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
+            'description' => $arg['description'],
                 ]
         );
 
@@ -2067,6 +2170,7 @@ trait Sanitization {
             'condition' => array_key_exists('condition', $arg) ? $arg['condition'] : '',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
+            'description' => $arg['description'],
                 ]
         );
         $this->add_control(
@@ -2251,7 +2355,8 @@ trait Sanitization {
             'separator' => $separator,
             'placeholder' => 'www.example.com/',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            $cond => $condition
+            $cond => $condition,
+            'description' => $arg['description'],
                 ]
         );
         echo '<div class="shortcode-form-control-content shortcode-form-control-content-popover-body">';
@@ -2320,7 +2425,8 @@ trait Sanitization {
             ],
             $select => $selector,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            $cond => $condition
+            $cond => $condition,
+            'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
                 ]
         );
         $this->add_control(
@@ -2338,6 +2444,7 @@ trait Sanitization {
                 'oxi-bt-col-md-1' => __('Col 12', SHORTCODE_ADDOONS),
             ],
             $select => $selector,
+            'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             $cond => $condition
                 ]
@@ -2357,6 +2464,7 @@ trait Sanitization {
                 'oxi-bt-col-sm-1' => __('Col 12', SHORTCODE_ADDOONS),
             ],
             $select => $selector,
+            'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             $cond => $condition
                 ]

@@ -4,6 +4,7 @@ jQuery.noConflict();
 
     var custom_uploader;
     var $Storetype;
+    var $image;
     $(document.body).on("click", ".shortcode-addons-media-control", function (e) {
         $This = $(this);
         var link = $This.siblings("input").attr('id');
@@ -52,6 +53,7 @@ jQuery.noConflict();
                 }
             });
         } else {
+            $image = 'image';
             custom_uploader = wp.media.frames.file_frame = wp.media({
                 title: 'Choose Image',
                 button: {
@@ -68,6 +70,7 @@ jQuery.noConflict();
         custom_uploader.on('select', function () {
             attachment = custom_uploader.state().get('selection').first().toJSON();
             var url = attachment.url;
+
             if (($("#oxi-addons-list-data-modal").data("bs.modal") || {})._isShown) {
                 jQuery("#oxi-addons-list-data-modal").css({
                     "overflow-x": "hidden",
@@ -80,6 +83,11 @@ jQuery.noConflict();
             }
             var lnkdata = $("#shortcode-addons-body-image-upload-hidden").val();
             $(lnkdata).val(url).change();
+            if ($image === 'image') {
+                var alt = attachment.alt;
+                $(lnkdata + '-alt').val(alt).change();
+                console.log(alt);
+            }
             $(lnkdata).siblings('.shortcode-addons-media-control').removeClass('shortcode-addons-media-control-hidden-button');
             if (datatype === '') {
                 $(lnkdata).siblings('.shortcode-addons-media-control').children('.shortcode-addons-media-control-image-load').css('background-image', 'url(' + url + ')');
