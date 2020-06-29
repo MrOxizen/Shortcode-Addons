@@ -4,7 +4,7 @@
  * Plugin Name: Shortcode Addons- with Visual Composer, Divi, Beaver Builder and Elementor Extension
  * Description: Shortcode Addons is an amazing set of beautiful and useful elements with Visual Composer, Divi, Beaver Builder and Elementor Extension.
  * Plugin URI: https://www.shortcode-addons.com
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: biplob018
  * Author URI: https://www.oxilab.org/
  * Text Domain: shortcode-addons
@@ -21,7 +21,7 @@ define('SA_ADDONS_FILE', __FILE__);
 define('SA_ADDONS_BASENAME', plugin_basename(__FILE__));
 define('SA_ADDONS_PATH', plugin_dir_path(__FILE__));
 define('SA_ADDONS_URL', plugins_url('/', __FILE__));
-define('SA_ADDONS_PLUGIN_VERSION', '2.1.1');
+define('SA_ADDONS_PLUGIN_VERSION', '2.1.2');
 define('SHORTCODE_ADDOONS', 'SHORTCODE_ADDOONS');
 $upload = wp_upload_dir();
 define('SA_ADDONS_UPLOAD_PATH', $upload['basedir'] . '/shortcode-addons/');

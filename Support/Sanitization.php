@@ -1155,7 +1155,7 @@ trait Sanitization {
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => $arg['description'],
+            'description' => (array_key_exists('description', $arg)? $arg['description']: ''),
                 ]
         );
 
@@ -1580,7 +1580,7 @@ trait Sanitization {
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => $arg['description'],
+            'description' => (array_key_exists('description', $arg)? $arg['description']: ''),
                 ]
         );
         $this->add_control(
@@ -1755,7 +1755,7 @@ trait Sanitization {
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => $arg['description'],
+            'description' => (array_key_exists('description', $arg)? $arg['description']: ''),
                 ]
         );
         $this->add_control(
@@ -2031,7 +2031,7 @@ trait Sanitization {
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => $arg['description'],
+            'description' => (array_key_exists('description', $arg)? $arg['description']: ''),
                 ]
         );
 
@@ -2170,7 +2170,7 @@ trait Sanitization {
             'condition' => array_key_exists('condition', $arg) ? $arg['condition'] : '',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => $arg['description'],
+            'description' => (array_key_exists('description', $arg)? $arg['description']: ''),
                 ]
         );
         $this->add_control(
@@ -2356,7 +2356,7 @@ trait Sanitization {
             'placeholder' => 'www.example.com/',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             $cond => $condition,
-            'description' => $arg['description'],
+            'description' => (array_key_exists('description', $arg)? $arg['description']: ''),
                 ]
         );
         echo '<div class="shortcode-form-control-content shortcode-form-control-content-popover-body">';
