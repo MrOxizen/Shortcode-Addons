@@ -136,6 +136,7 @@ class AdminStyle {
      * @since 2.0.0
      */
     public $StyleName;
+
     /**
      * Shortcode Addons Construct
      *
@@ -229,16 +230,6 @@ class AdminStyle {
     }
 
     /**
-     * Template Modal Form Data
-     * return always false and abstract with current Style Template
-     *
-     * @since 2.0.0
-     */
-    public function modal_form_data() {
-        $this->form = 'single';
-    }
-
-    /**
      * Template Parent Modal Form
      *
      * @since 2.0.0
@@ -259,6 +250,16 @@ class AdminStyle {
                     </form>
                 </div>
               </div>';
+    }
+
+    /**
+     * Template Modal Form Data
+     * return always false and abstract with current Style Template
+     *
+     * @since 2.0.0
+     */
+    public function modal_form_data() {
+        $this->form = 'single';
     }
 
     /**
@@ -494,6 +495,7 @@ class AdminStyle {
         </div>
         <?php
     }
+
     /**
      * Shortcode Addons Import Font Family
      *

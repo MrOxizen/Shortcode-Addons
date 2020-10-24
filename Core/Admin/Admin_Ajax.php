@@ -55,6 +55,21 @@ class Admin_Ajax {
             $this->$type($data, $styleid, $itemid);
         }
     }
+
+    /**
+     * Remove files in dir
+     *
+     * @since 2.0.0
+     */
+    public function empty_dir($path) {
+        if (!is_dir($path) || !file_exists($path)):
+            return;
+        endif;
+        WP_Filesystem();
+        global $wp_filesystem;
+        $wp_filesystem->rmdir($path, true);
+    }
+
     /**
      * Elements in upload folder
      *
@@ -73,20 +88,6 @@ class Admin_Ajax {
             $zip->close();
             echo 'Done';
         endif;
-    }
-
-    /**
-     * Remove files in dir
-     *
-     * @since 2.0.0
-     */
-    public function empty_dir($path) {
-        if (!is_dir($path) || !file_exists($path)):
-            return;
-        endif;
-        WP_Filesystem();
-        global $wp_filesystem;
-        $wp_filesystem->rmdir($path, true);
     }
 
     /**
@@ -358,12 +359,12 @@ class Admin_Ajax {
         $styledata = ['rawdata' => $rawdata, 'id' => $styleid, 'type' => $oxitype, 'style_name' => $StyleName, 'stylesheet' => ''];
         $CLASS->__construct($styledata, $child, 'admin');
     }
+
     /**
      * Template Import
      *
      * @since 2.0.0
      */
-   
     public function elements_template_import($rawdata = '') {
         $settings = json_decode(stripslashes($rawdata), true);
         $redirect_id = '';
@@ -397,11 +398,10 @@ class Admin_Ajax {
             echo admin_url("admin.php?page=shortcode-addons&oxitype=$type&styleid=$redirect_id");
         endif;
     }
-     public function elements_elements_import($rawdata = '') {
-          $settings = json_decode(stripslashes($rawdata), true);
-          echo  $settings;
-         
-     }
-    
+
+    public function elements_elements_import($rawdata = '') {
+        $settings = json_decode(stripslashes($rawdata), true);
+        echo $settings;
+    }
 
 }
