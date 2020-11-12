@@ -32,6 +32,21 @@ class Settings {
     }
 
     /**
+     * Shortcode Addons nemu.
+     *
+     * @since 2.1.0
+     */
+    public function menu() {
+        echo _('<div class="shortcode-addons-main-tab-header">
+                    <a href="' . admin_url('admin.php?page=shortcode-addons-settings') . '">
+                        <div class="shortcode-addons-header">General</div>
+                    </a>
+                    <a href="' . admin_url('admin.php?page=shortcode-addons-settings&view=fonts') . '">
+                        <div class="shortcode-addons-header">Font Family</div>
+                    </a>
+                </div>');
+    }
+    /**
      * Shortcode Addons Hooks.
      *
      * @since 2.1.0
@@ -53,22 +68,6 @@ class Settings {
             </div>
         </div>
         <?php
-    }
-
-    /**
-     * Shortcode Addons nemu.
-     *
-     * @since 2.1.0
-     */
-    public function menu() {
-        echo _('<div class="shortcode-addons-main-tab-header">
-                    <a href="' . admin_url('admin.php?page=shortcode-addons-settings') . '">
-                        <div class="shortcode-addons-header">General</div>
-                    </a>
-                    <a href="' . admin_url('admin.php?page=shortcode-addons-settings&view=fonts') . '">
-                        <div class="shortcode-addons-header">Font Family</div>
-                    </a>
-                </div>');
     }
 
 }

@@ -117,16 +117,6 @@ abstract class Elements_Frontend {
         $this->admin_elements_frontend_loader();
         $this->admin_ajax_load();
     }
-
-    /**
-     * Admin Notice JS file loader
-     * @return void
-     */
-    public function admin_ajax_load() {
-        wp_enqueue_script('shortcode-addons-template', SA_ADDONS_URL . '/assets/backend/js/template_frontend.js', false, SA_ADDONS_PLUGIN_VERSION);
-        wp_localize_script('shortcode-addons-template', 'shortcode_addons_editor', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode-addons-editor')));
-    }
-
     /**
      * Shortcode Addons Database Data
      *
@@ -135,7 +125,6 @@ abstract class Elements_Frontend {
     public function database_data() {
         return $this->wpdb->get_results("SELECT * FROM $this->parent_table WHERE type = '$this->oxitype' ORDER BY id DESC", ARRAY_A);
     }
-
     /**
      * Shortcode Addons Pre Active Check.
      *
@@ -156,7 +145,6 @@ abstract class Elements_Frontend {
         }
         return $return;
     }
-
     /**
      * Shortcode Addons Pre Created Templates.
      *
@@ -204,7 +192,6 @@ abstract class Elements_Frontend {
             <br>');
         return $return;
     }
-
     /**
      * Shortcode Addons Shortcode Name.
      *
@@ -213,7 +200,6 @@ abstract class Elements_Frontend {
     public function ShortcodeName($data) {
         return $this->admin_name_validation($data);
     }
-
     /**
      * Shortcode Addons Shortcode Raw Data
      *
@@ -230,7 +216,6 @@ abstract class Elements_Frontend {
         $rt .= ob_get_clean();
         return $rt;
     }
-
     /**
      * Shortcode Addons Shortcode Control.
      *
@@ -274,6 +259,14 @@ abstract class Elements_Frontend {
     }
 
     /**
+     * Admin Notice JS file loader
+     * @return void
+     */
+    public function admin_ajax_load() {
+        wp_enqueue_script('shortcode-addons-template', SA_ADDONS_URL . '/assets/backend/js/template_frontend.js', false, SA_ADDONS_PLUGIN_VERSION);
+        wp_localize_script('shortcode-addons-template', 'shortcode_addons_editor', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode-addons-editor')));
+    }
+    /**
      * Shortcode Addons Element Import.
      *
      * @since 2.1.0
@@ -310,7 +303,6 @@ abstract class Elements_Frontend {
         </div>
         <?php
     }
-
     /**
      * Shortcode Addons Template Rendar.
      *
@@ -332,7 +324,6 @@ abstract class Elements_Frontend {
                                 </div>
                              </div>', SHORTCODE_ADDOONS);
     }
-
     /**
      * Shortcode Addons Element home.
      *
@@ -432,7 +423,6 @@ abstract class Elements_Frontend {
 
         <?php
     }
-
     /**
      * Shortcode Addons Rander.
      *
@@ -442,14 +432,14 @@ abstract class Elements_Frontend {
         ?>
         <div class="wrap">  
             <div class="oxi-addons-wrapper">
-        <?php
-        apply_filters('shortcode-addons/admin_nav_menu', false);
-        if ($this->oxiimport == 'import'):
-            $this->elements_import();
-        else:
-            $this->elements_home();
-        endif;
-        ?>
+                <?php
+                apply_filters('shortcode-addons/admin_nav_menu', false);
+                if ($this->oxiimport == 'import'):
+                    $this->elements_import();
+                else:
+                    $this->elements_home();
+                endif;
+                ?>
             </div>
         </div>
         <?php

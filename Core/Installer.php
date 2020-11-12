@@ -52,18 +52,6 @@ class Installer {
     }
 
     /**
-     * Plugin Transient hook
-     *
-     * @since 2.0.0
-     */
-    public function plugin_deactivation_hook() {
-        delete_transient(self::SHORTCODE_TRANSIENT_ELEMENTS);
-        delete_transient(self::SHORTCODE_TRANSIENT_MENU);
-        delete_transient(self::SHORTCODE_TRANSIENT_GOOGLE_FONT);
-        delete_transient(self::SHORTCODE_TRANSIENT_EXTENSION);
-    }
-
-    /**
      * Plugin Upgrade hook
      *
      * @since 2.0.0
@@ -78,6 +66,18 @@ class Installer {
         $this->sql_default_data();
         // create upload folder
         $this->create_upload_folder();
+    }
+
+    /**
+     * Plugin Transient hook
+     *
+     * @since 2.0.0
+     */
+    public function plugin_deactivation_hook() {
+        delete_transient(self::SHORTCODE_TRANSIENT_ELEMENTS);
+        delete_transient(self::SHORTCODE_TRANSIENT_MENU);
+        delete_transient(self::SHORTCODE_TRANSIENT_GOOGLE_FONT);
+        delete_transient(self::SHORTCODE_TRANSIENT_EXTENSION);
     }
 
 }

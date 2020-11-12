@@ -32,33 +32,6 @@ class Shortcode_Remote {
     }
 
     /**
-     * Get  Shortcode Addons Menu.
-     * @return mixed
-     * 
-     *  @since 2.0.0
-     */
-    public function Menu($force_update = FALSE) {
-        $res = get_transient(self::SHORTCODE_TRANSIENT_MENU);
-        $response = (!$res ? [] : $res);
-        if ($force_update) {
-            $response['Shortcode']['Elements'] = [
-                'name' => 'Elements',
-                'homepage' => 'shortcode-addons'
-            ];
-            $response['Shortcode']['Import'] = [
-                'name' => 'Import',
-                'homepage' => 'shortcode-addons-import'
-            ];
-            $response['Shortcode']['Extension'] = [
-                'name' => 'Extension',
-                'homepage' => 'shortcode-addons-extension'
-            ];
-            set_transient(self::SHORTCODE_TRANSIENT_MENU, $response, 10 * DAY_IN_SECONDS);
-        }
-        return $response;
-    }
-
-    /**
      * Get  template Elements List.
      * @return mixed
      * 
@@ -96,6 +69,33 @@ class Shortcode_Remote {
             } else {
                 $response = $request->get_error_message();
             }
+        }
+        return $response;
+    }
+
+    /**
+     * Get  Shortcode Addons Menu.
+     * @return mixed
+     * 
+     *  @since 2.0.0
+     */
+    public function Menu($force_update = FALSE) {
+        $res = get_transient(self::SHORTCODE_TRANSIENT_MENU);
+        $response = (!$res ? [] : $res);
+        if ($force_update) {
+            $response['Shortcode']['Elements'] = [
+                'name' => 'Elements',
+                'homepage' => 'shortcode-addons'
+            ];
+            $response['Shortcode']['Import'] = [
+                'name' => 'Import',
+                'homepage' => 'shortcode-addons-import'
+            ];
+            $response['Shortcode']['Extension'] = [
+                'name' => 'Extension',
+                'homepage' => 'shortcode-addons-extension'
+            ];
+            set_transient(self::SHORTCODE_TRANSIENT_MENU, $response, 10 * DAY_IN_SECONDS);
         }
         return $response;
     }

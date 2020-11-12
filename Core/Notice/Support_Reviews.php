@@ -29,29 +29,6 @@ class Support_Reviews {
     }
 
     /**
-     * Admin Notice Ajax  loader
-     * @return void
-     * 
-     *  @since 2.0.0
-     */
-    public function notice_dissmiss() {
-        if (isset($_POST['_wpnonce']) || wp_verify_nonce(sanitize_key(wp_unslash($_POST['_wpnonce'])), 'shortcode-addons-admin-notice')):
-            $notice = isset($_POST['notice']) ? sanitize_text_field($_POST['notice']) : '';
-            if ($notice == 'maybe'):
-                $data = strtotime("now");
-                update_option($this->fixed_data('6f78695f6164646f6e735f73686f7274636f64655f61637469766174696f6e5f64617465'), $data);
-            else:
-                update_option($this->fixed_data('6f78695f6164646f6e735f73686f7274636f64655f72657669657773'), $notice);
-            endif;
-            echo 'Its Complete';
-        else:
-            return;
-        endif;
-
-        die();
-    }
-
-    /**
      * First Installation Track
      * @return void
      * 
@@ -119,6 +96,29 @@ class Support_Reviews {
     public function dismiss_button_scripts() {
         wp_enqueue_script('shortcode-addons-admin-notice', SA_ADDONS_URL . '/assets/backend/js/admin-notice.js', false, SA_ADDONS_PLUGIN_VERSION);
         wp_localize_script('shortcode-addons-admin-notice', 'shortcode_addons_admin_notice', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode-addons-admin-notice')));
+    }
+
+    /**
+     * Admin Notice Ajax  loader
+     * @return void
+     * 
+     *  @since 2.0.0
+     */
+    public function notice_dissmiss() {
+        if (isset($_POST['_wpnonce']) || wp_verify_nonce(sanitize_key(wp_unslash($_POST['_wpnonce'])), 'shortcode-addons-admin-notice')):
+            $notice = isset($_POST['notice']) ? sanitize_text_field($_POST['notice']) : '';
+            if ($notice == 'maybe'):
+                $data = strtotime("now");
+                update_option($this->fixed_data('6f78695f6164646f6e735f73686f7274636f64655f61637469766174696f6e5f64617465'), $data);
+            else:
+                update_option($this->fixed_data('6f78695f6164646f6e735f73686f7274636f64655f72657669657773'), $notice);
+            endif;
+            echo 'Its Complete';
+        else:
+            return;
+        endif;
+
+        die();
     }
 
 }

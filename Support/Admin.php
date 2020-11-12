@@ -158,9 +158,9 @@ trait Admin {
     public function shortcode_addons_row_data($agr) {
         $vs = get_option($this->fixed_data('6f78695f6164646f6e735f6c6963656e73655f737461747573'));
         if ($vs == $this->fixed_data('76616c6964')) {
-            return TRUE;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 

@@ -56,7 +56,6 @@ class Font_Manager {
             $this->$func($rawdata, $type);
         }
     }
-
     /**
      * Font Loader
      *
@@ -70,7 +69,14 @@ class Font_Manager {
             $this->stored_font[$value['font']] = $value;
         }
     }
-
+    /**
+     * Google font selection.
+     *
+     * @since 2.1.0
+     */
+    public function selected_google_font($data = '', $type = '') {
+        echo json_encode($this->stored_font);
+    }
     /**
      * Get Google font.
      *
@@ -104,16 +110,6 @@ class Font_Manager {
         endif;
         echo json_encode($response);
     }
-
-    /**
-     * Google font selection.
-     *
-     * @since 2.1.0
-     */
-    public function selected_google_font($data = '', $type = '') {
-        echo json_encode($this->stored_font);
-    }
-
     /**
      * Add Google font.
      *
@@ -130,7 +126,6 @@ class Font_Manager {
             endif;
         }
     }
-
     /**
      * Add Custom font.
      *
@@ -147,7 +142,6 @@ class Font_Manager {
             endif;
         }
     }
-
     /**
      * Remove Google font.
      *
