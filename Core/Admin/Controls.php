@@ -131,8 +131,8 @@ class Controls {
      * Gallery control.
      */
     const GALLERY = 'gallery';
-    
-     /**
+
+    /**
      * Heading Control.
      */
     const HEADING = 'heading';
@@ -141,25 +141,26 @@ class Controls {
      * File Upload.
      */
     const FILEUPLOAD = 'fileupload';
+
     /**
      * Video Upload.
      */
     const VIDEO = 'video';
+
     /**
      * Video Upload.
      */
     const AUDIO = 'audio';
-    
+
     /**
      * PDF Upload.
      */
     const FILE = 'file';
 
-/**
+    /**
      * Password control.
      */
     const PASSWORD = 'password';
-
 
     /*
      * 
@@ -213,12 +214,11 @@ class Controls {
      * Column control.
      */
     const COLUMN = 'column';
-    
+
     /**
      * Rearrange control.
      */
     const REARRANGE = 'rearrange';
-
 
     /*
      * 
@@ -242,8 +242,6 @@ class Controls {
      * Display felx align control.
      */
     const ALIGNFLEX = 'align_flex';
-
-
 
     /*
      * 
@@ -269,22 +267,22 @@ class Controls {
      * Shortcode Name.
      */
     const SHORTCODENAME = 'shortcodename';
-    
-    
 
     /**
      * Shortcode Info.
      */
     const SHORTCODEINFO = 'shortcodeinfo';
-    
+
     /**
      *  Separator control.
      */
     const SEPARATOR = 'separator';
+
     /**
      * INSIDE Control (Repeater Condition).
      */
     const INSIDE = 'inside';
+
     /**
      *  OUTSIDE Control (Repeater Condition).
      */

@@ -1,0 +1,27 @@
+.shortcode-addons-template-body{
+    padding: 20px;
+    background: #fff;
+}
+#wpadminbar{
+    display: none !important;
+}
+
+
+.oxi-addons-admin-edit-list {
+    position: relative;
+}
+
+.oxi-addons-admin-absulote {
+    position: absolute;
+    right: 0;
+    opacity: 1;
+    display: flex;
+    top: 5px;
+    z-index: 111;
+}
+
+
+.oxi-addons-admin-absulate-edit {
+    display: inline-block;
+    margin-right: 5px;
+}

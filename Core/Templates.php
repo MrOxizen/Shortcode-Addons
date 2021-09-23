@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
  */
 class Templates {
 
-    use \SHORTCODE_ADDONS\Support\Validation;
+    use \SHORTCODE_ADDONS\Layouts\Template\Validation;
 
     /**
      * Current Elements id

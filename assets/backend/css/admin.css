@@ -3792,10 +3792,10 @@ span.sa-spinner-open-left{
 .shortcode-form-control .wp-editor-tools{
     z-index: 999;
 }
-.addons-pre-check-pro-only{
+.addons-pre-check-pro{
     position: relative;
 }
-.addons-pre-check-pro-only:before{
+.addons-pre-check-pro:before{
     content: "premium";
     position: absolute;
     top: 0;
