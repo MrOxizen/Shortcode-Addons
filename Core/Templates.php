@@ -21,6 +21,7 @@ class Templates {
      * @since 2.0.0
      */
     public $oxiid;
+
     /**
      * Current Elements type
      *
@@ -83,7 +84,8 @@ class Templates {
      * @since 2.0.0
      */
     public $admin;
-     /**
+
+    /**
      * Current Elements Admin Control
      *
      * @since 2.0.0
@@ -99,7 +101,7 @@ class Templates {
         if (count($dbdata) > 0):
             $this->dbdata = $dbdata;
             $this->child = $child;
-            $this->admin = ($admin == 'basic'? 'admin': $admin);
+            $this->admin = ($admin == 'basic' ? 'admin' : $admin);
             $this->CoreAdminRecall = $admin;
             if (!empty($dbdata['rawdata'])):
                 $this->loader();
@@ -144,14 +146,16 @@ class Templates {
      * @since 2.0.0
      */
     public function hooks() {
+
+        $this->public_frontend_loader();
         $this->public_jquery();
         $this->public_css();
-        $this->public_frontend_loader();
         $this->render();
         $inlinecss = $this->inline_public_css() . $this->inline_css;
         $inlinejs = $this->inline_public_jquery();
         wp_enqueue_style('shortcode-addons-' . $this->oxitype . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])), SA_ADDONS_UPLOAD_URL . $this->oxitype . '/Css/' . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])) . '.css', false, SA_ADDONS_PLUGIN_VERSION);
         if ($this->CSSDATA == '' && $this->admin == 'admin') {
+            $this->style['shortcode-addons-elements-id'] = $this->oxiid;
             $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $this->oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])) . '';
             $CLASS = new $cls('admin');
             $inlinecss .= $CLASS->inline_template_css_render($this->style);
@@ -161,7 +165,7 @@ class Templates {
         echo $this->font_familly_validation(json_decode(($this->dbdata['font_family'] != '' ? $this->dbdata['font_family'] : "[]"), true));
 
         if ($inlinejs != ''):
-            if ($this->CoreAdminRecall != 'basic'):
+            if ($this->admin == 'admin'):
                 //only load while ajax called
                 echo _('<script>
                         (function ($) {
@@ -170,12 +174,14 @@ class Templates {
                 echo _('    }, 1000);
                         })(jQuery)</script>');
             else:
-                $jquery = '(function ($) {' . $inlinejs . '})(jQuery);';
+                $jquery = '(function ($) {var $ = jQuery; ' . $inlinejs . '})(jQuery);';
                 wp_add_inline_script($this->JSHANDLE, $jquery);
             endif;
 
         endif;
+
         if ($inlinecss != ''):
+
             $inlinecss = html_entity_decode($inlinecss);
             if ($this->admin == 'admin'):
                 //only load while ajax called
@@ -183,6 +189,7 @@ class Templates {
                 echo $inlinecss;
                 echo _('</style>');
             else:
+
                 wp_add_inline_style('shortcode-addons-style', $inlinecss);
             endif;
         endif;
@@ -197,13 +204,29 @@ class Templates {
         wp_enqueue_script("jquery");
         wp_enqueue_style('animation', SA_ADDONS_URL . '/assets/front/css/animation.css', false, SA_ADDONS_PLUGIN_VERSION);
         wp_enqueue_style('shortcode-addons-style', SA_ADDONS_URL . '/assets/front/css/style.css', false, SA_ADDONS_PLUGIN_VERSION);
-        wp_enqueue_script('waypoints.min', SA_ADDONS_URL . '/assets/front/js/waypoints.min.js', false, SA_ADDONS_PLUGIN_VERSION);
+
+        $fontawesome = get_option('oxi_addons_font_awesome');
+        if ($fontawesome != 'no'):
+            wp_enqueue_style('shortcode-font-awsome.min', SA_ADDONS_URL . '/assets/front/css/font-awsome.min.css', false, SA_ADDONS_PLUGIN_VERSION);
+        endif;
+
+        $bootstrap = get_option('oxi_addons_bootstrap');
+        if ($bootstrap != 'no'):
+            wp_enqueue_style('shortcode-bootstrap', SA_ADDONS_URL . '/assets/backend/css/bootstrap.min.css', false, SA_ADDONS_PLUGIN_VERSION);
+        endif;
+
+        $waypoints = get_option('oxi_addons_waypoints');
+        if ($waypoints != 'no'):
+            wp_enqueue_script('waypoints.min', SA_ADDONS_URL . '/assets/front/js/waypoints.min.js', false, SA_ADDONS_PLUGIN_VERSION);
+        endif;
+
         wp_enqueue_script('shortcode-addons-jquery', SA_ADDONS_URL . '/assets/front/js/jquery.js', false, SA_ADDONS_PLUGIN_VERSION);
+
         wp_localize_script('shortcode-addons-jquery', 'shortcode_addons_data', array(
-            'ajaxurl' => admin_url('admin-ajax.php'), 
+            'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('shortcode-addons-data'),
-            'saupload'=> SA_ADDONS_UPLOAD_URL,
-            ));
+            'saupload' => SA_ADDONS_UPLOAD_URL,
+        ));
     }
 
     /**
@@ -221,7 +244,7 @@ class Templates {
      * @since 2.0.0
      */
     public function render() {
-        echo '<div class="oxi-addons-container ' . $this->WRAPPER . '">
+        echo '<div class="oxi-addons-container ' . $this->WRAPPER . ' '. get_option('oxi_addons_conflict_class').'">
                  <div class="oxi-addons-row">';
         $this->default_render($this->style, $this->child, $this->admin);
         echo '   </div>

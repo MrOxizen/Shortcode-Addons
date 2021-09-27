@@ -3807,3 +3807,186 @@ span.sa-spinner-open-left{
 
 
 }
+
+
+.oxi-addons-admin-settings h2 {  
+    color: #23282d;
+    font-size: 18px;
+    margin: 16px 0;
+    display: block;
+    font-weight: 600;
+}
+.oxi-addons-settings-connfirmation, .responsive_tabs_with_accordions_license_massage{
+    display: inline-block;
+    vertical-align: middle;
+}
+.oxi-addons-settings-massage{
+    display: inline-block;
+    vertical-align: middle;
+}
+span.oxi-confirmation-blank:after {
+    font-family: dashicons;
+    content: "";
+    color: #ffb900;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-size: 28px;
+    vertical-align: middle;
+}
+span.oxi-confirmation-failed:after {
+    font-family: dashicons;
+    color: #dc3232;
+    content: "";
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-size: 28px;
+    vertical-align: middle;
+}
+span.oxi-confirmation-success:after {
+    font-family: dashicons;
+    color: #46b450;
+    content: "";
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-size: 28px;
+    vertical-align: middle;
+}
+
+.oxi-addons-docs-column-wrapper {
+    max-width: 1170px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.oxi-docs-admin-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.oxi-docs-admin-block {
+    background-color: #FFF;
+    flex: 1 1 auto;
+    min-width: 250px;
+    width: 100%;
+    margin: 10px 10px 25px 10px;
+    box-shadow: 0px 8px 38px 0px rgba(16, 16, 16, 0.07);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.oxi-docs-admin-header {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    padding: 30px 30px 0 25px;
+}
+
+.oxi-docs-admin-header-icon {
+    height: 45px;
+    width: 45px;
+    background: rgba(50, 222, 212, 1);
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.oxi-docs-admin-header-icon .dashicons {
+    color: #fff;
+}
+
+.oxi-docs-admin-header .oxi-docs-admin-header-title {
+    margin: 10px 0 10px 0px;
+    padding: 0 20px;
+    font-size: 18px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333333;
+}
+
+.oxi-docs-admin-block-content {
+    overflow: hidden;
+    position: relative;
+    padding: 0px 30px 30px 90px;
+    background-color: #fff;
+}
+
+.oxi-docs-admin-block-content p {
+    font-size: 15px;
+    color: #707070;
+    margin: 0px 0 20px 0;
+    line-height: 1.4;
+}
+
+.oxi-docs-admin-block-content .oxi-docs-button {
+    font-size: 14px;
+    border-radius: 3px;
+    box-shadow: 0px 14px 15px 0px rgba(0, 5, 41, 0.08);
+    box-shadow: 0px 14px 15px 0px rgba(0, 5, 41, 0.08);
+    background: rgba(50, 222, 212, 1);
+    color: #fff;
+    display: inline-block;
+    padding: 12px 22px 14px;
+    text-decoration: none;
+    line-height: 1;
+    transition: all 0.3s;
+}
+
+.oxi-docs-admin-block-content .oxi-docs-button:hover,
+.oxi-docs-admin-block-content .oxi-docs-button:focus {
+    background: rgb(42, 169, 162);
+    color: #fff;
+}
+
+#oxi-addons-modal-rearrange .list-group-item:hover {
+    cursor: move;
+    background: rgba(240, 248, 255, 1)
+}
+
+.oxi-addons-admin-notifications {
+    position: relative;
+       margin-bottom: 20px;
+    padding: 20px 20px 0;
+    border: 1px solid #e5e5e5;
+    background-color: #fdfdfd;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+.oxi-addons-admin-notifications h3{
+    margin: -27px -20px 0;
+    padding: 14px;
+    border-bottom: 1px solid #ccc;
+    background-color: #fdfdfd;
+    font-size: 22px;
+}
+.oxi-addons-admin-notifications .dashicons-flag{
+    color: rgb(93, 35, 122);
+    margin-top: 3px;
+    font-size: 20px;
+}
+.oxi-addons-admin-notifications-holder{
+    display: flex;
+}
+.oxi-addons-admin-notifications-holder p{
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 1em 0px;
+}
+.oxi-addons-admin-notifications-alert{
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
+    padding: 0px 12px;
+    border-left: 4px solid rgb(255, 255, 255);
+    background: rgb(255, 255, 255);
+    width: 100%;
+    border-left-color: rgb(93, 35, 122);
+}
+.oxi-addons-admin-notifications-alert a{
+    color: #dc128a;
+    text-decoration: underline;
+}

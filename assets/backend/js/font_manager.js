@@ -1,29 +1,77 @@
 
 jQuery.noConflict();
 (function ($) {
-    $wrapper = $("#s-a-font-manager-fonts");
+    var $wrapper = $("#s-a-font-manager-fonts");
     function FONTNEWRegExp(par = '') {
         return new RegExp(par, "g");
     }
 
-    function ShortcodeAddonsFontManager(functionname, rawdata, type, callback) {
-        if (functionname !== "") {
-            $.ajax({
-                url: shortcode_addons_font_manager.ajaxurl,
-                type: "post",
-                data: {
-                    action: "shortcode_addons_font_manager",
-                    _wpnonce: shortcode_addons_font_manager.nonce,
-                    functionname: functionname,
-                    type: type,
-                    rawdata: rawdata
+    var styleid = '';
+    var childid = '';
+
+    async function ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, callback) {
+        if (functionname === "") {
+            alert('Confirm Function Name');
+            return false;
+        }
+        let result;
+        try {
+            result = await $.ajax({
+                url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
+                method: 'POST',
+                dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-WP-Nonce', ShortCodeAddonsUltimate.nonce);
                 },
-                success: function (response) {
-                    callback(response);
+                data: {
+                    styleid: styleid,
+                    childid: childid,
+                    rawdata: rawdata
                 }
             });
+            console.log(result)
+            return callback(result);
+        } catch (error) {
+            console.error(error);
         }
     }
+
+    $(document).ready(function () {
+        var $menu = $(".shortcode-addons-fonts-selected"),
+                offset = $menu.offset(),
+                topPadding = 15;
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + 35 + 15 > offset.top) {
+                $menu.addClass('font_selection_fixed');
+            } else {
+                $menu.removeClass('font_selection_fixed');
+            }
+        });
+    });
+    $(window).load(function () {
+        $wrapper.addClass('font-loading');
+        Get_Google_Fonts();
+        Selected_Google_Fonts();
+    });
+    function Get_Google_Fonts() {
+        var styleid = parseInt($('#s-a-font-manager-fonts').attr('data-font-load'));
+        if (styleid < 3) {
+            R = 0;
+        } else {
+            R = styleid;
+        }
+        var functionname = "google_font";
+        var rawdata = $("#shortcode-addons-search-font").val();
+        ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
+            console.log(callback)
+            var $HTML = convert_json_to_html(callback);
+            $wrapper.append($HTML);
+            $wrapper.attr('data-font-load', (R + 10));
+            $wrapper.removeClass('font-loading');
+        });
+    }
+
+
     function convert_json_to_html(object) {
         object = $.parseJSON(object);
         $HTML = '';
@@ -56,9 +104,8 @@ jQuery.noConflict();
     function Selected_Google_Fonts() {
         var functionname = "selected_google_font";
         var rawdata = 'selected';
-        var id = '';
-        var type = '';
-        ShortcodeAddonsFontManager(functionname, rawdata, type, function (callback) {
+
+        ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
             object = $.parseJSON(callback);
             $HTML = '';
             $.each(object, function (i, f) {
@@ -80,27 +127,7 @@ jQuery.noConflict();
             $('#shortcode-addons-stored-font').html($HTML);
         });
     }
-    function Get_Google_Fonts() {
-        var rawdata = parseInt($('#s-a-font-manager-fonts').attr('data-font-load'));
-        if (rawdata < 3) {
-            R = 0;
-        } else {
-            R = rawdata;
-        }
-        var functionname = "get_google_font";
-        var type = $("#shortcode-addons-search-font").val();
-        ShortcodeAddonsFontManager(functionname, rawdata, type, function (callback) {
-            var $HTML = convert_json_to_html(callback);
-            $wrapper.append($HTML);
-            $wrapper.attr('data-font-load', (R + 10));
-            $wrapper.removeClass('font-loading');
-        });
-    }
-    $(window).load(function () {
-        $wrapper.addClass('font-loading');
-        Get_Google_Fonts();
-        Selected_Google_Fonts();
-    });
+
     $(window).scroll(function () {
         if ($(window).scrollTop() > ($(document).height() - $(window).height() - 150)) {
             var $SEARCH = $('#shortcode-addons-search-font').val();
@@ -114,10 +141,8 @@ jQuery.noConflict();
         var rawdata = $(this).attr('data-font_family');
         $(this).siblings('.s-a-font-load-header').children('.spinner').css('visibility', 'visible');
         var functionname = "add_google_font";
-        var id = '';
-        var type = '';
         $This = $(this);
-        ShortcodeAddonsFontManager(functionname, rawdata, type, function (callback) {
+        ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
             $This.siblings('.s-a-font-load-header').children('.spinner').css("visibility", "hidden");
             $This.val('Selected').removeClass('btn-success').removeClass('s-a-google-font-collection').addClass('btn-warning').addClass('s-a-google-font-selected');
             Selected_Google_Fonts();
@@ -128,10 +153,8 @@ jQuery.noConflict();
         var rawdata = $(this).attr('data-font_family');
         $(this).siblings('.s-a-font-load-header').children('.spinner').css('visibility', 'visible');
         var functionname = "remove_google_font";
-        var id = '';
-        var type = '';
         $This = $(this);
-        ShortcodeAddonsFontManager(functionname, rawdata, type, function (callback) {
+        ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
             $This.siblings('.s-a-font-load-header').children('.spinner').css("visibility", "hidden");
             $This.val('Add to Collection').removeClass('btn-warning').removeClass('s-a-google-font-selected').addClass('btn-success').addClass('s-a-google-font-collection');
             if ($This.hasClass('selected-type')) {
@@ -144,7 +167,7 @@ jQuery.noConflict();
             Selected_Google_Fonts();
         });
     });
-
+//
     $('body').on('click', '#shortcode-addons-custom-fonts', function () {
         $("#addons-font-name").val('');
         $("#shortcode-addons-custom-fonts-modal").modal("show");
@@ -153,11 +176,9 @@ jQuery.noConflict();
         e.preventDefault();
         var rawdata = $('#addons-font-name').val();
         var functionname = "add_custom_font";
-        var id = '';
-        var type = '';
-        $This = $(this);
-        ShortcodeAddonsFontManager(functionname, rawdata, type, function (callback) {
-            Selected_Google_Fonts();
+        ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
+          
+         //   Selected_Google_Fonts();
             $("#addons-font-name").val('');
             $("#shortcode-addons-custom-fonts-modal").modal("hide");
         });
@@ -185,16 +206,5 @@ jQuery.noConflict();
         Get_Google_Fonts();
     }
 
-    $(document).ready(function () {
-        var $menu = $(".shortcode-addons-fonts-selected"),
-                offset = $menu.offset(),
-                topPadding = 15;
-        $(window).scroll(function () {
-            if ($(window).scrollTop() + 35 + 15 > offset.top) {
-                $menu.addClass('font_selection_fixed');
-            } else {
-                $menu.removeClass('font_selection_fixed');
-            }
-        });
-    });
+
 })(jQuery)

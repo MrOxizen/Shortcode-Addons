@@ -1,6 +1,5 @@
 <?php
 
-
 namespace SHORTCODE_ADDONS\Layouts\Template;
 
 /**
@@ -13,48 +12,60 @@ trait Validation {
      * 
      * @since 2.1.0
      */
+
     public function name_converter($data) {
         $data = str_replace('_', ' ', $data);
         $data = str_replace('-', ' ', $data);
         $data = str_replace('+', ' ', $data);
         return ucwords($data);
     }
+
     /*
      * Shortcode Addons font family validation.
      * 
      * @since 2.1.0
      */
+
     public function font_familly_validation($data = []) {
-        foreach ($data as $value) {
-            wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
-        }
+        $check = get_option('oxi_addons_google_font');
+        if ($check != 'no'):
+            foreach ($data as $value) {
+                wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
+            }
+        endif;
     }
+
     /*
      * Shortcode Addons admin name Validation.
      * 
      * @since 2.1.0
      */
+
     public function admin_name_validation($data) {
         $data = str_replace('_', ' ', $data);
         $data = str_replace('-', ' ', $data);
         $data = str_replace('+', ' ', $data);
         return ucwords($data);
     }
+
     /*
      * Shortcode Addons Array render.
      * 
      * @since 2.1.0
      */
+
     public function array_render($id, $style) {
         if (array_key_exists($id, $style)):
             return $style[$id];
         endif;
     }
+
     /*
      * Shortcode Addons Media Render.
      * image
      * @since 2.1.0
      */
+
     public function media_render($id, $style) {
         $url = '';
         if (array_key_exists($id . '-select', $style)):
@@ -65,11 +76,13 @@ trait Validation {
             endif;
         endif;
     }
+
     /*
      * Shortcode Addons Media Render.
      * image
      * @since 2.1.0
      */
+
     public function file_render($id, $style) {
         $url = '';
         if (array_key_exists($id . '-select', $style)):
@@ -80,19 +93,23 @@ trait Validation {
             endif;
         endif;
     }
+
     /*
      * Shortcode Addons text render.
      * 
      * @since 2.1.0
      */
+
     public function text_render($data) {
         return do_shortcode(str_replace('spTac', '&nbsp;', str_replace('spBac', '<br>', html_entity_decode($data))), $ignore_html = false);
     }
+
     /*
      * Shortcode Addons fontawesome Icon Render.
      * 
      * @since 2.1.0
      */
+
     public function font_awesome_render($data) {
         $fadata = get_option('oxi_addons_font_awesome');
         if ($fadata == 'yes'):
@@ -101,22 +118,26 @@ trait Validation {
         $files = '<i class="' . $data . ' oxi-icons"></i>';
         return $files;
     }
+
     /*
      * Shortcode Addons column Render.
      * 
      * @since 2.1.0
      */
+
     public function column_render($id, $style) {
         $file = $style[$id . '-lap'] . ' ';
         $file .= $style[$id . '-tab'] . ' ';
         $file .= $style[$id . '-mob'] . ' ';
         return $file;
     }
+
     /*
      * Shortcode Addons url render.
      * 
      * @since 2.1.0
      */
+
     public function url_render($id, $style) {
         $link = '';
         if (array_key_exists($id . '-url', $style) && $style[$id . '-url'] != ''):
@@ -134,11 +155,13 @@ trait Validation {
 
         return $link;
     }
+
     /*
      * Shortcode Addons Animation render.
      * 
      * @since 2.1.0
      */
+
     public function animation_render($id, $style) {
         $return = (array_key_exists($id . '-type', $style) && $style[$id . '-type'] != '' ? ' sa-data-animation="' . $style[$id . '-type'] . ' ' . (array_key_exists($id . '-looping', $style) && $style[$id . '-looping'] != '0' ? 'infinite' : '') . '"' : '');
         if ($return != ''):
@@ -148,11 +171,13 @@ trait Validation {
             return $return;
         endif;
     }
+
     /*
      * Shortcode Addons Background render.
      * 
      * @since 2.1.0
      */
+
     public function background_render($id, $style, $class) {
         $backround = '';
         if (array_key_exists($id . '-color', $style)):
@@ -188,11 +213,13 @@ trait Validation {
         endif;
         return $backround;
     }
+
     /*
      * Shortcode Addons replace category stirng to calss.
      * 
      * @since 2.1.0
      */
+
     public function CatStringToClassReplacce($string, $number = '000') {
         $entities = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', "t");
         $replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]", " ");

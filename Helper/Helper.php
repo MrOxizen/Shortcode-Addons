@@ -132,8 +132,8 @@ trait Helper {
         endif;
         $menu .= '              </ul>
                             <ul class="oxilab-sa-admin-menu2">
-                               ' . (apply_filters('shortcode-addons/pro_enabled', false) == FALSE ? ' <li class="fazil-class" ><a target="_blank" href="https://www.oxilab.org/downloads/short-code-addons/">Upgrade</a></li>' : '') . '
-                               <li class="saadmin-doc"><a target="_black" href="https://www.shortcode-addons.com/docs/">Docs</a></li>
+                               ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE ? ' <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Upgrade</a></li>' : '') . '
+                               <li class="saadmin-doc"><a target="_black" href="https://www.oxilabdemos.com/shortcode-addons/docs/">Docs</a></li>
                                <li class="saadmin-doc"><a target="_black" href="https://wordpress.org/support/plugin/shortcode-addons/">Support</a></li>
                                <li class="saadmin-set"><a href="' . admin_url('admin.php?page=shortcode-addons-settings') . '"><span class="dashicons dashicons-admin-generic"></span></a></li>
                             </ul>
@@ -153,9 +153,10 @@ trait Helper {
         $permission = $this->menu_permission();
         add_menu_page('Shortcode Addons', 'Shortcode Addons', $permission, 'shortcode-addons', [$this, 'addons_elements']);
         add_submenu_page('shortcode-addons', 'Elements', 'Elements', $permission, 'shortcode-addons', [$this, 'addons_elements']);
-        add_submenu_page('shortcode-addons', 'Extension', 'Extension', $permission, 'shortcode-addons-extension', [$this, 'addons_extension']);
         add_submenu_page('shortcode-addons', 'Import', 'Import', $permission, 'shortcode-addons-import', [$this, 'addons_import']);
+        add_submenu_page('shortcode-addons', 'Font Manager', 'Font Manager', $permission, 'shortcode-addons-font', [$this, 'addons_font']);
         add_submenu_page('shortcode-addons', 'Settings', 'Settings', $permission, 'shortcode-addons-settings', [$this, 'addons_settings']);
+        add_submenu_page('shortcode-addons', 'Oxilab Plugins', 'Oxilab Plugins', $permission, 'shortcode-addons-plugins', [$this, 'oxilab_plugins']);
         add_submenu_page('shortcode-addons', 'Addons Support', 'Addons Support', $permission, 'shortcode-addons-support', [$this, 'addons_support']);
     }
 
@@ -189,8 +190,9 @@ trait Helper {
                 $StyleName = ucfirst(str_replace('-', "_", $query['style_name']));
                 $clsss = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . $StyleName . '';
                 if (class_exists($clsss)):
-                     new $clsss();
+                    new $clsss();
                 else:
+                    $this->file_check($oxitype);
                     $url = admin_url('admin.php?page=shortcode-addons');
                     echo '<script type="text/javascript"> document.location.href = "' . $url . '"; </script>';
                     exit;
@@ -212,16 +214,10 @@ trait Helper {
      * @since 2.1.0
      */
     public function addons_import() {
-        //  new \SHORTCODE_ADDONS\Core\Admin\Import();
-    }
 
-    /**
-     * Plugin extensions
-     *
-     * @since 2.1.0
-     */
-    public function addons_extension() {
-        //   new \SHORTCODE_ADDONS\Core\Admin\Extension();
+
+        $elements = new \SHORTCODE_ADDONS\Layouts\Import();
+        $elements->element_page();
     }
 
     /**
@@ -230,21 +226,27 @@ trait Helper {
      * @since 2.0.0
      */
     public function addons_settings() {
-        // new \SHORTCODE_ADDONS\Core\Admin\Settings();
+        new \SHORTCODE_ADDONS\Layouts\Settings();
+    }
+
+    /**
+     * Plugin admin Menu Extension
+     *
+     * @since 2.0.0
+     */
+    public function addons_font() {
+        $elements = new \SHORTCODE_ADDONS\Layouts\GoogleFont();
+        $elements->font_manager();
     }
 
     public function addons_support() {
-//        $response = get_transient('shortcode_addons_elements');
-//        echo '<pre>';
-//        print_r($response);
-//        echo '</pre>';
+        new \SHORTCODE_ADDONS\Layouts\Support();
     }
 
-    public function plugin_update() {
-
-
-        $upgrade = new \SHORTCODE_ADDONS\Core\Console();
-        $upgrade->update_plugin();
+    public function oxilab_plugins() {
+        if (current_user_can('activate_plugins')):
+            new \SHORTCODE_ADDONS\Layouts\Plugins();
+        endif;
     }
 
     /**
@@ -271,8 +273,8 @@ trait Helper {
                     <p></p>
                     <div class="oxi-addons-admin-notifications-holder">
                         <div class="oxi-addons-admin-notifications-alert">
-                            <p>Thank you for using my Accordions - Multiple Accordions or FAQs Builders. I Just wanted to see if you have any questions or concerns about my plugins. If you do, Please do not hesitate to <a href="https://wordpress.org/support/plugin/accordions-or-faqs#new-post">file a bug report</a>. </p>
-                            ' . (apply_filters(OXI_ACCORDIONS_PREMIUM, false) ? '' : '<p>By the way, did you know we also have a <a href="https://oxilab.org/accordions/pricing">Premium Version</a>? It offers lots of options with automatic update. It also comes with 16/5 personal support.</p>') . '
+                            <p>Unable to create your desire design or need any help? I Just wanted to see if you have any questions or concerns about my plugins. If you do, Please do not hesitate to <a href="https://wordpress.org/support/plugin/shortcode-addons#new-post">file a bug report or help</a>. Our dedicated team will helps you to solve your issues. </p>
+                            ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) ? '' : '<p>By the way, did you know we also have a <a href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Premium Version</a>? It offers lots of options with automatic update. It also comes with 16/5 personal support.</p>') . '
                             <p>Thanks Again!</p>
                             <p></p>
                         </div>                     
@@ -287,12 +289,57 @@ trait Helper {
      * @since 2.0.1
      */
     public function check_current_version($agr) {
-        $vs = get_option($this->fixed_data('76616c6964'));
+        $vs = get_option('oxi_addons_license_status');
         if ($vs == $this->fixed_data('76616c6964')) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /*
+     * Shortcode Addons file Check.
+     * 
+     * @since 2.1.0
+     */
+
+    public function file_check($elements) {
+        ob_start();
+        $upload = new \SHORTCODE_ADDONS\Core\Console();
+        $upload->post_get_elements($elements);
+        ob_get_clean();
+    }
+
+    /**
+     * Shortcode Call
+     */
+    public function oxi_addons_shortcode($atts) {
+        extract(shortcode_atts(array('id' => ' ',), $atts));
+        $styleid = (int) $atts['id'];
+        $shortcode = new \SHORTCODE_ADDONS\Layouts\Shortcode();
+        return $shortcode->oxi_addons($styleid);
+    }
+
+    /**
+     * shortcode addons Data Process
+     * 
+     * @since 2.0.0
+     */
+    public function shortcode_addons_data_process() {
+
+        if (isset($_POST['_wpnonce']) && wp_verify_nonce(sanitize_key(wp_unslash($_POST['_wpnonce'])), 'shortcode-addons-data')):
+            $classname = isset($_POST['classname']) ? '\\' . str_replace('\\\\', '\\', sanitize_text_field($_POST['classname'])) : '';
+            $functionname = isset($_POST['functionname']) ? sanitize_text_field($_POST['functionname']) : '';
+            $rawdata = isset($_POST['rawdata']) ? sanitize_post($_POST['rawdata']) : '';
+            $optional = isset($_POST['optional']) ? sanitize_post($_POST['optional']) : '';
+            $optional2 = isset($_POST['optional2']) ? sanitize_post($_POST['optional2']) : '';
+            if (!empty($classname) && !empty($functionname)):
+                $classname::$functionname($rawdata, $optional, $optional2);
+            endif;
+        else:
+            return;
+        endif;
+        die();
     }
 
 }

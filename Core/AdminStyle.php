@@ -317,7 +317,7 @@ class AdminStyle {
         $this->oxiid = $styleid;
         $this->WRAPPER = '.shortcode-addons-wrapper-' . $this->oxiid;
         ob_start();
-         $this->template_css_render = 'css_render';
+        $this->template_css_render = 'css_render';
         $dt = $this->register_controls();
         ob_end_clean();
         $fullcssfile = '';
@@ -351,7 +351,6 @@ class AdminStyle {
      * @since 2.0.0
      */
     public function render() {
-        $sortable = get_option('shortcode-addons-2-0-sortable');
         ?>
         <div class="wrap">  
             <div class="oxi-addons-wrapper">
@@ -380,6 +379,9 @@ class AdminStyle {
                 ?>
                 <div class="oxi-addons-style-20-spacer"></div>
                 <div class="oxi-addons-row">
+                    <?php
+                    apply_filters('shortcode-addons/support-and-comments', false);
+                    ?>
                     <div class="oxi-addons-wrapper shortcode-addons-tabs-mode">
                         <div class="oxi-addons-settings" id="oxisettingsreload">
                             <div class="oxi-addons-style-left">

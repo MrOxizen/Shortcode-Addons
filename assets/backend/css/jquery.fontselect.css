@@ -106,3 +106,26 @@
     box-shadow: inset 0 1px 3px rgba(0,0,0,.06);
     border-radius: .1875rem;
 }
+.fs-drop-add-more-body{
+    width: 100%;
+}
+
+.fs-drop .fs-drop-add-more{
+    text-align: center;
+    line-height: 100%;
+    padding: 8px 8px;
+    margin: 0;
+    list-style: none;
+    font-size: 12px;
+    white-space: nowrap;   
+    background-color: #929292;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+}
+.fs-drop .fs-drop-add-more:hover{
+    text-decoration: none;
+    background-color: #797979;
+     color: #fff;
+}

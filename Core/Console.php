@@ -15,8 +15,14 @@ class Console extends Database {
     const SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS = 'shortcode_addons_installed_elements';
     const SHORTCODE_TRANSIENT_MENU = 'get_oxilab_addons_menu';
     const SHORTCODE_TRANSIENT_GOOGLE_FONT = 'shortcode_addons_google_font';
-    const API = 'http://127.0.0.1/shortcode-addons/wp-json/api/';
-    const DOWNLOAD_SHORTCODE_ELEMENTS = 'http://127.0.0.1/shortcode-addons/shortcode-elements/elements/';
+    const API = 'https://www.oxilabdemos.com/shortcode-addons/wp-json/api/';
+    const DOWNLOAD_SHORTCODE_ELEMENTS = 'https://www.oxilabdemos.com/shortcode-addons/Shortcode-Addons/Elements/';
+
+    public $request;
+    public $rawdata;
+    public $styleid;
+    public $childid;
+    public $stored_font = [];
 
     /**
      * Plugin fixed debugging data
@@ -80,7 +86,7 @@ class Console extends Database {
 
             $response = $catarray = $catnewdata = [];
             foreach ($elements as $value) {
-                $file = explode('shortcode-addons/', $value);
+                $file = explode('/uploads/shortcode-addons/', $value);
                 if (!empty($value)) {
                     if (!empty($value) && count($file) == 2) {
                         $vs = array('1..0', 'Custom Elements', false);
@@ -135,8 +141,10 @@ class Console extends Database {
      *
      * @since 2.0.0
      */
-    public function post_get_elements() {
-
+    public function post_get_elements($elements = '') {
+        if (!empty($elements)):
+            $this->rawdata = $elements;
+        endif;
         if (is_dir(SA_ADDONS_UPLOAD_PATH . $this->rawdata)):
             $this->empty_dir(SA_ADDONS_UPLOAD_PATH . $this->rawdata);
         endif;
@@ -186,6 +194,129 @@ class Console extends Database {
         else:
             return 'Problem';
         endif;
+    }
+
+    /**
+     * Font Loader
+     *
+     * @since 2.1.0
+     */
+    public function stored_font() {
+        $type = 'shortcode-addons';
+        $cache = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM  $this->import_table WHERE type = %s ", $type), ARRAY_A);
+
+        if (count($cache) == 0) {
+            $font = ['Roboto', 'Manjari', 'Gayathri', 'Open+Sans', 'Lato', 'Chilanka', 'Montserrat', 'Roboto+Condensed', 'Source+Sans+Pro'];
+            foreach ($font as $value) {
+                $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} ( type, font) VALUES (%s, %s)", array('shortcode-addons', $value)));
+                $redirect_id = $this->wpdb->insert_id;
+                $this->stored_font[$value] = [
+                    'id' => $redirect_id,
+                    'type' => 'shortcode-addons',
+                    'name' => '',
+                    'font' => $value
+                ];
+            }
+        }
+        foreach ($cache as $value) {
+            $this->stored_font[$value['font']] = $value;
+        }
+    }
+
+    /**
+     * Get Google font.
+     *
+     * @since 2.1.0
+     */
+    public function post_google_font() {
+
+        if ($this->rawdata != ''):
+            $response = array();
+            foreach ($this->google_fonts() as $val) {
+                if (stripos($val['font'], str_replace(' ', '+', $this->rawdata)) !== false) {
+                    $check = (array_key_exists($val['font'], $this->stored_font) ? 'yes' : 'no');
+                    $response[$val['font']] = [
+                        'font' => $val['font'],
+                        'stored' => $check
+                    ];
+                }
+            }
+        else:
+            $this->stored_font();
+            $response = array();
+            $start_count = ($this->styleid != 1 ? $this->styleid : 0);
+            $fetch_count = 10;
+            $font_slice_array = array_slice($this->google_fonts(), $start_count, $fetch_count);
+            foreach ($font_slice_array as $val) {
+                $check = (array_key_exists($val['font'], $this->stored_font) ? 'yes' : 'no');
+                $response[$val['font']] = [
+                    'font' => $val['font'],
+                    'stored' => $check
+                ];
+            }
+        endif;
+        return json_encode($response);
+    }
+
+    /**
+     * Google font selection.
+     *
+     * @since 2.1.0
+     */
+    public function post_selected_google_font() {
+        $this->stored_font();
+        return json_encode($this->stored_font);
+    }
+
+    /**
+     * Add Google font.
+     *
+     * @since 2.1.0
+     */
+    public function post_add_google_font() {
+        if ($this->rawdata != '' && !empty($this->rawdata)) {
+            $data = sanitize_text_field($this->rawdata);
+            $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
+            if (is_array($font)):
+                return 'Someone already Saved it';
+            else:
+                $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} ( type, font) VALUES (%s, %s)", array('shortcode-addons', $data)));
+                return 'Stored';
+            endif;
+        }
+    }
+
+    /**
+     * Remove Google font.
+     *
+     * @since 2.1.0
+     */
+    public function post_remove_google_font() {
+        $data = sanitize_text_field($this->rawdata);
+        $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
+        if (is_array($font)):
+            $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->import_table} WHERE id = %d ", $font['id']));
+        endif;
+        return 'Done';
+    }
+
+    /**
+     * Add Custom font.
+     *
+     * @since 2.1.0
+     */
+    public function post_add_custom_font() {
+        if ($this->rawdata != '' && !empty($this->rawdata)) {
+            $data = sanitize_text_field($this->rawdata);
+            $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s AND  name = %s ", 'shortcode-addons', $data, 'custom'), ARRAY_A);
+            if (is_array($font)):
+                return 'Someone already Saved it';
+            else:
+                $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} ( type, name, font) VALUES (%s, %s, %s)", array('shortcode-addons', 'custom', $data)));
+            endif;
+            return 'Done';
+        }
+        return 'jamela';
     }
 
 }

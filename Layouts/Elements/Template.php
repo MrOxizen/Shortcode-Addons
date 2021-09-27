@@ -7,10 +7,7 @@ namespace SHORTCODE_ADDONS\Layouts\Elements;
  * @author biplo
  */
 trait Template {
-    
-  
-  
-    
+
     public function pre_created_templates() {
         if (count($this->database_data()) == 0):
             return;
@@ -59,7 +56,7 @@ trait Template {
     }
 
     public function Shortcode($rawdata) {
-         $rt = '';
+        $rt = '';
         $oxitype = $rawdata['style']['type'];
         $StyleName = $rawdata['style']['style_name'];
         $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . ucfirst($oxitype) . '\Templates\\' . ucfirst(str_replace('-', '_', $StyleName)) . '';
@@ -68,12 +65,22 @@ trait Template {
         $CLASS->__construct($rawdata['style'], $rawdata['child'], '');
         $rt .= ob_get_clean();
         return $rt;
-        
     }
-     public function elements_import() {
+
+    public function elements_import() {
         ?>
         <div class="oxi-addons-row">
+
             <?php
+            apply_filters('shortcode-addons/support-and-comments', false);
+
+            foreach ($this->templates() as $value) {
+                $settings = json_decode($value, true);
+                if ((array_key_exists($settings['style']['style_name'], $this->pre_active_check())) == FALSE):
+                    echo $this->template_rendar($settings);
+                endif;
+            }
+
             echo _('<div class="oxi-addons-view-more-demo" style=" padding-top: 35px; padding-bottom: 35px; ">
                         <div class="oxi-addons-view-more-demo-data" >
                             <div class="oxi-addons-view-more-demo-icon">
@@ -84,20 +91,14 @@ trait Template {
                                     More Layouts
                                 </div>
                                 <div class="oxi-addons-view-more-demo-content">
-                                    Thank you for using Shortcode Addons. As limitation of viewing Layouts or Design we added some layouts. Kindly check more  <a target="_blank" href="https://www.shortcode-addons.com/elements/' . str_replace('_', '-', $this->oxitype) . '" >' . $this->admin_name_validation($this->oxitype) . '</a> design from shortcode-addons.com. Copy <strong>export</strong> code and <strong>import</strong> it, get your preferable layouts.
+                                    Thank you for using Shortcode Addons. As limitation of viewing Layouts or Design we added some layouts. Kindly check more  <a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/elements/' . str_replace('_', '-', $this->oxitype) . '" >' . $this->admin_name_validation($this->oxitype) . '</a> design from shortcode-addons.com. Copy <strong>export</strong> code and <strong>import</strong> it, get your preferable layouts.
                                 </div>
                             </div>
                             <div class="oxi-addons-view-more-demo-button">
-                                <a target="_blank" class="oxi-addons-more-layouts" href="https://www.shortcode-addons.com/elements/' . str_replace('_', '-', $this->oxitype) . '" >View layouts</a>
+                                <a target="_blank" class="oxi-addons-more-layouts" href="https://www.oxilabdemos.com/shortcode-addons/elements/' . str_replace('_', '-', $this->oxitype) . '" >View layouts</a>
                             </div>
                         </div>
                     </div>');
-            foreach ($this->templates() as $value) {
-                $settings = json_decode($value, true);
-                if ((array_key_exists($settings['style']['style_name'], $this->pre_active_check())) == FALSE):
-                    echo $this->template_rendar($settings);
-                endif;
-            }
             ?>
         </div>
         <?php
@@ -237,5 +238,4 @@ trait Template {
         <?php
     }
 
-   
 }

@@ -152,19 +152,10 @@ class Database {
                 'name' => 'Elements',
                 'homepage' => 'shortcode-addons'
             ];
-            $response['Shortcode']['Extension'] = [
-                'name' => 'Extension',
-                'homepage' => 'shortcode-addons-extension'
-            ];
             $response['Shortcode']['Import'] = [
                 'name' => 'Import',
                 'homepage' => 'shortcode-addons-import'
             ];
-            $response['Shortcode']['Font Library'] = [
-                'name' => 'Google Font',
-                'homepage' => 'shortcode-addons-import'
-            ];
-
             set_transient(self::SHORTCODE_TRANSIENT_MENU, $response, 10 * DAY_IN_SECONDS);
         }
         return $response;
@@ -186,20 +177,20 @@ class Database {
         });
         return $arr;
     }
-  
+
     public function name_converter($data) {
         $data = str_replace('_', ' ', $data);
         $data = str_replace('-', ' ', $data);
         $data = str_replace('+', ' ', $data);
         return ucwords($data);
     }
-   
+
     public function font_familly_validation($data = []) {
         foreach ($data as $value) {
             wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
         }
     }
-    
+
     public function admin_name_validation($data) {
         $data = str_replace('_', ' ', $data);
         $data = str_replace('-', ' ', $data);

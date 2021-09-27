@@ -63,7 +63,6 @@ class Collection extends Console {
     }
 
     public function render() {
-       
         ?>
         <div class="wrap">  
             <?php

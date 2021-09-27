@@ -56,16 +56,14 @@ class Elements_Frontend extends Database {
         $this->oxiimport = (!empty($_GET['oxiimport']) ? sanitize_text_field($_GET['oxiimport']) : '');
         $this->admin();
         $this->rander();
-        
     }
-    
-      public function admin() {
-          $this->admin_elements_scripts();
-          $this->database_data();
-          $this->pre_active_check();
-        
+
+    public function admin() {
+        $this->admin_elements_scripts();
+        $this->database_data();
+        $this->pre_active_check();
     }
-    
+
     /**
      * Shortcode Addons Rander.
      *
@@ -76,7 +74,7 @@ class Elements_Frontend extends Database {
         <div class="wrap">  
             <div class="oxi-addons-wrapper">
                 <?php
-               apply_filters('shortcode-addons/admin_menu', false);
+                apply_filters('shortcode-addons/admin_menu', false);
                 if ($this->oxiimport == 'import'):
                     $this->elements_import();
                 else:
@@ -87,7 +85,8 @@ class Elements_Frontend extends Database {
         </div>
         <?php
     }
-     /**
+
+    /**
      * Shortcode Addons Element home.
      *
      * @since 2.1.0
@@ -107,19 +106,30 @@ class Elements_Frontend extends Database {
         ?>
 
         <div class="oxi-addons-row">
+
+
+            <?php
+            apply_filters('shortcode-addons/support-and-comments', false);
+            ?>
             <?php
             $i = 0;
+            $templatenai = false;
             foreach ($this->templates() as $value) {
                 $settings = json_decode($value, true);
                 if (array_key_exists($settings['style']['style_name'], $this->pre_active_check())):
                     $i++;
                     echo $this->template_rendar($settings);
+                else:
+                    $templatenai = true;
                 endif;
             }
             if ($i < 1):
                 $this->pre_active_check(true);
             endif;
-            echo _('<div class="oxi-addons-col-1 oxi-import">
+            if ($templatenai):
+
+
+                echo _('<div class="oxi-addons-col-1 oxi-import">
                         <div class="oxi-addons-style-preview">
                             <div class="oxilab-admin-style-preview-top">
                                 <a href="' . admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&oxiimport=import") . '">
@@ -134,6 +144,7 @@ class Elements_Frontend extends Database {
                         </div>
                     </div>');
 
+            endif;
             echo _('<div class="modal fade" id="oxi-addons-style-create-modal" >
                         <form method="post" id="oxi-addons-style-modal-form">
                             <div class="modal-dialog modal-sm">

@@ -47,6 +47,24 @@ trait Admin_Scripts {
     }
 
     /**
+     * Admin Notice JS file loader
+     * @return void
+     */
+    public function admin_settings() {
+        $this->admin_scripts();
+        wp_enqueue_script('shortcode-addons-settings-page', SA_ADDONS_URL . '/assets/backend/js/settings.js', false, SA_ADDONS_PLUGIN_VERSION);
+    }
+
+    /**
+     * Admin Notice JS file loader
+     * @return void
+     */
+    public function admin_font_manager() {
+        $this->admin_scripts();
+        wp_enqueue_script('shortcode-addons-font-manager', SA_ADDONS_URL . '/assets/backend/js/font_manager.js', false, SA_ADDONS_PLUGIN_VERSION);
+    }
+
+    /**
      * Load Admin vendor Css and js
      *
      * @since v2.1.0
@@ -59,7 +77,7 @@ trait Admin_Scripts {
         wp_enqueue_script('shortcode-addons-elements', SA_ADDONS_URL . '/assets/backend/js/elements.js', false, SA_ADDONS_PLUGIN_VERSION);
     }
 
-    //  wp_enqueue_script('shortcode-addons-vendor', SA_ADDONS_URL . '/assets/backend/js/vendor.js', false, SA_ADDONS_PLUGIN_VERSION);
+   
 
     /**
      * Load Frontend Loader

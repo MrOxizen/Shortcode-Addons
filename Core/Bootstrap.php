@@ -48,16 +48,8 @@ class Bootstrap {
         $this->load_shortcode();
 
         if (is_admin()) {
-            $this->User_Admin();
             $this->User_Reviews();
-            if (isset($_GET['page']) && 'oxi-addons-style-view' === $_GET['page']) {
-             
-                 $clsss = '\SHORTCODE_ADDONS\Layouts\Preview';
-                if (class_exists($clsss)):
-                    $elements = new $clsss();
-                    $elements->templates();
-                endif;
-            }
+            $this->User_Admin();
         }
     }
 
@@ -71,7 +63,9 @@ class Bootstrap {
     }
 
     public function load_shortcode() {
-        add_shortcode('oxi_addons', [$this, 'shortcode_render']);
+        add_action('wp_ajax_shortcode_addons_data', array($this, 'shortcode_addons_data_process'));
+        add_action('wp_ajax_nopriv_shortcode_addons_data', [$this, 'shortcode_addons_data_process']);
+        add_shortcode('oxi_addons', [$this, 'oxi_addons_shortcode']);
         $Widget = new \SHORTCODE_ADDONS\Includes\Widget();
         add_filter('widget_text', 'do_shortcode');
         add_action('widgets_init', array($Widget, 'register_shortcode_addons_widget'));
@@ -88,21 +82,67 @@ class Bootstrap {
     }
 
     public function User_Reviews() {
-        if (current_user_can('activate_plugins')):
-        //  $this->admin_recommended();
+        if (!current_user_can('activate_plugins')):
+            return;
         endif;
 
-        $this->shortcode_addons_update();
-
-        /// $this->admin_notice();
+        $this->admin_recommended();
+        $this->admin_notice();
     }
 
-    public function shortcode_addons_update() {
-        $version = get_option('SA_ADDONS_PLUGIN_VERSION');
-        if ($version != SA_ADDONS_PLUGIN_VERSION) :
-            add_action('shortcode_addons_update', [$this, 'plugin_update']);
-            wp_schedule_single_event(time() + 10, 'shortcode_addons_update');
+    public function admin_recommended() {
+        if (!empty($this->admin_recommended_status())):
+            return;
         endif;
+
+        if (strtotime('-1 days') < $this->installation_date()):
+            return;
+        endif;
+        new \SHORTCODE_ADDONS\Oxilab\Recommended();
+    }
+
+    /**
+     * Admin Notice Check
+     *
+     * @since 2.0.0
+     */
+    public function admin_recommended_status() {
+        $data = get_option('shortcode_addons_recommended');
+        return $data;
+    }
+
+    /**
+     * Admin Notice Check
+     *
+     * @since 2.0.0
+     */
+    public function admin_notice_status() {
+        $data = get_option('shortcode_addons_no_bug');
+        return $data;
+    }
+
+    /**
+     * Admin Install date Check
+     *
+     * @since 2.0.0
+     */
+    public function installation_date() {
+        $data = get_option('shortcode_addons_activation_date');
+        if (empty($data)):
+            $data = strtotime("now");
+            update_option('shortcode_addons_activation_date', $data);
+        endif;
+        return $data;
+    }
+
+    public function admin_notice() {
+        if (!empty($this->admin_notice_status())):
+            return;
+        endif;
+        if (strtotime('-7 days') < $this->installation_date()):
+            return;
+        endif;
+        new \SHORTCODE_ADDONS\Oxilab\Reviews();
     }
 
     public function redirect_on_activation() {
