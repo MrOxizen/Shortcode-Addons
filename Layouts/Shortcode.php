@@ -32,7 +32,6 @@ class Shortcode extends Database {
             $CLASS = new $cls;
             $CLASS->__construct($styledata, $listdata, $user);
         } else {
-            $shortcode .= $styleid;
             $shortcode .= '<div class="oxi-addons-container">
                                 <div class="oxi-addons-error">
                                     **<strong>Empty</strong> data found. Kindly check shortcode and put right shortcode with id from Shortcode Addons Elements** 

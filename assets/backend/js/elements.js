@@ -66,6 +66,8 @@ jQuery.noConflict();
             }, 1000);
         });
     });
+
+
     $(".oxi-addons-addons-template-create").on("click", function () {
         $("#oxi-addons-style-modal-form")[0].reset();
         var data = $(this).attr("addons-data");
@@ -85,6 +87,28 @@ jQuery.noConflict();
             }, 1000);
         });
     });
+
+
+    $(".shortcode-addons-addons-data-delete").on("click", function (e) {
+        e.preventDefault();
+        var $This = $(this);
+        var rawdata = 'deleting';
+        var styleid = $This.val();
+
+
+        var functionname = 'shortcode_delete';
+        $(this).append('<span class="spinner sa-spinner-open"></span>');
+        ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
+            console.log(callback);
+            setTimeout(function () {
+                if (callback === 'done') {
+                    $This.parents('tr').remove();
+                }
+            }, 1000);
+        }
+        );
+    });
+
 
 
     setTimeout(function () {

@@ -73,7 +73,7 @@ class RestApi extends Console {
     }
 
     public function import_json_template($folder, $filename, $name = 'truee') {
-
+        
         if (is_file($folder . $filename)) {
             $this->rawdata = file_get_contents($folder . $filename);
 
@@ -195,6 +195,7 @@ class RestApi extends Console {
             else:
                 $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s )", array($this->styleid, $type, $this->rawdata)));
             endif;
+            return 'Done';
         endif;
     }
 
@@ -208,9 +209,21 @@ class RestApi extends Console {
             $listdata = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM {$this->child_table} WHERE id = %d ", $this->childid), ARRAY_A);
             $returnfile = json_decode(stripslashes($listdata['rawdata']), true);
             $returnfile['shortcodeitemid'] = $this->childid;
-            echo json_encode($returnfile);
+            return json_encode($returnfile);
         else:
-            echo 'Silence is Golden';
+            return 'Silence is Golden';
+        endif;
+    }
+    
+     public function post_shortcode_delete()
+    {
+        $styleid = (int) $this->styleid;
+        if ($styleid) :
+            $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->parent_table} WHERE id = %d", $styleid));
+            $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->child_table} WHERE styleid = %d", $styleid));
+            return 'done';
+        else :
+            return 'Silence is Golden';
         endif;
     }
 
@@ -222,9 +235,9 @@ class RestApi extends Console {
     public function post_elements_template_modal_data_delete() {
         if ((int) $this->childid):
             $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->child_table} WHERE id = %d ", $this->childid));
-            echo 'done';
+            return 'done';
         else:
-            echo 'Silence is Golden';
+            return 'Silence is Golden';
         endif;
     }
 

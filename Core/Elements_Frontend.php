@@ -64,6 +64,19 @@ class Elements_Frontend extends Database {
         $this->pre_active_check();
     }
 
+    public function templates() {
+        $template_data = [];
+
+        $basename = array_map('basename', glob(SA_ADDONS_UPLOAD_PATH . $this->oxitype . '/Layouts/' . '*.json', GLOB_BRACE));
+
+        foreach ($basename as $key => $value) {
+            $folder = $this->safe_path(SA_ADDONS_UPLOAD_PATH . $this->oxitype . '/Layouts/');
+            $layoutsdata = file_get_contents($folder . $value);
+            $template_data[] = $layoutsdata;
+        }
+        return $template_data;
+    }
+
     /**
      * Shortcode Addons Rander.
      *
@@ -116,7 +129,8 @@ class Elements_Frontend extends Database {
             $templatenai = false;
             foreach ($this->templates() as $value) {
                 $settings = json_decode($value, true);
-                if (array_key_exists($settings['style']['style_name'], $this->pre_active_check())):
+                $layouts = str_replace('-', '_', ucfirst($settings['style']['style_name']));
+                if (array_key_exists($layouts, $this->pre_active_check())):
                     $i++;
                     echo $this->template_rendar($settings);
                 else:

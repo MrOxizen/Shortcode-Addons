@@ -37,7 +37,7 @@ jQuery.noConflict();
                     rawdata: rawdata
                 }
             });
-            console.log(result);
+          //  console.log(result);
             return callback(result);
         } catch (error) {
             console.error(error);
@@ -450,7 +450,12 @@ jQuery.noConflict();
                                 }
                             } else if (tp === 'hidden') {
                                 $('input[name=' + key + ']').val(value);
+                                if(!key.includes("image-alt")){
+                                    
                                 $('input[name=' + key + ']').siblings('.shortcode-addons-media-control').children('.shortcode-addons-media-control-image-load').css({'background-image': 'url(' + value + ')'});
+                                }
+                                console.log(key.includes("image-alt"));
+                            
                             } else {
                                 $("#" + key).val(value);
                             }

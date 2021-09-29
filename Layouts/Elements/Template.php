@@ -35,11 +35,8 @@ trait Template {
                     . '<span>Php Code &nbsp;&nbsp; <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;?php echo do_shortcode(&#039;[oxi_addons  id=&quot;' . $id . '&quot;]&#039;); ?&gt;"></span></td>');
             $return .= _('<td> 
                        <a href="' . admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&styleid=$id") . '"  title="Edit"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Edit</a>
-                       <form method="post" class="oxi-addons-style-delete">
-                               <input type="hidden" name="oxideleteid" value="' . $id . '">
-                               <button class="btn btn-danger" style="float:left"  title="Delete"  type="submit" value="delete" name="addonsdatadelete">Delete</button>  
-                       </form>
-                          <a href="' . esc_url_raw(rest_url()) . 'ShortCodeAddonsUltimate/v2/shortcode_export?styleid=' . $id . '"  title="Export"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Export</a>    
+                        <button class="btn btn-danger shortcode-addons-addons-data-delete" style="float:left"  title="Delete"  type="button" value="' . $id . '">Delete</button>  
+                       <a href="' . esc_url_raw(rest_url()) . 'ShortCodeAddonsUltimate/v2/shortcode_export?styleid=' . $id . '"  title="Export"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Export</a>    
                 </td>');
             $return .= _(' </tr>');
         }
@@ -76,7 +73,8 @@ trait Template {
 
             foreach ($this->templates() as $value) {
                 $settings = json_decode($value, true);
-                if ((array_key_exists($settings['style']['style_name'], $this->pre_active_check())) == FALSE):
+                $layouts = str_replace('-', '_', ucfirst($settings['style']['style_name']));
+                if ((array_key_exists($layouts, $this->pre_active_check())) == FALSE):
                     echo $this->template_rendar($settings);
                 endif;
             }
@@ -103,17 +101,24 @@ trait Template {
         </div>
         <?php
     }
+     public function template_name_optimize($data) {
+             $data = str_replace('-', ' ', $data);
+             $data = str_replace('_', ' ', $data);
+             return ucfirst($data);
+             
+     }
+    
 
     public function template_rendar($data = array()) {
-
-        return __('<div class="oxi-addons-col-1" id="' . $data['style']['style_name'] . '">
+        $layouts = str_replace('-', '_', ucfirst($data['style']['style_name']));
+        return __('<div class="oxi-addons-col-1" id="' . $layouts . '">
                                 <div class="oxi-addons-style-preview">
                                     <div class="oxi-addons-style-preview-top oxi-addons-center">
                                     ' . ($this->Shortcode($data)) . '
                                     </div>
                                     <div class="oxi-addons-style-preview-bottom">
                                         <div class="oxi-addons-style-preview-bottom-left">
-                                        ' . $this->ShortcodeName($data['style']['name']) . '
+                                        ' . $this->template_name_optimize($data['style']['style_name']) . '
                                         </div>
                                         ' . $this->ShortcodeControl($data) . '
                                     </div>
@@ -122,14 +127,16 @@ trait Template {
     }
 
     public function ShortcodeControl($data = []) {
+
+        $layouts = str_replace('-', '_', ucfirst($data['style']['style_name']));
         $number = rand();
         if ($this->oxiimport):
             if (apply_filters('shortcode-addons/admin_version', false) === FALSE):
-                if (in_array($data['style']['style_name'], $this->pre_active())):
+                if (in_array($layouts, $this->pre_active())):
                     return _('<div class="oxi-addons-style-preview-bottom-right">
                                 <form method="post" class="shortcode-addons-template-active" style=" display: inline-block; ">
                                     <input type="hidden" id="oxitype" name="oxitype" value="' . $this->oxitype . '">
-                                    <input type="hidden" name="oxiactivestyle" value="' . $data['style']['style_name'] . '">
+                                    <input type="hidden" name="oxiactivestyle" value="' . $layouts . '">
                                     <button class="btn btn-success" title="Active"  type="submit" value="Active" name="addonsstyleactive">Import Style</button>  
                                 </form> 
                             </div>');
@@ -140,7 +147,7 @@ trait Template {
                 return _('<div class="oxi-addons-style-preview-bottom-right">
                             <form method="post" class="shortcode-addons-template-active" style=" display: inline-block; ">
                                 <input type="hidden" id="oxitype" name="oxitype" value="' . $this->oxitype . '">
-                                <input type="hidden" id="oxiactivestyle" name="oxiactivestyle" value="' . $data['style']['style_name'] . '">
+                                <input type="hidden" id="oxiactivestyle" name="oxiactivestyle" value="' . $layouts . '">
                                 <button class="btn btn-success" title="Active"  type="submit" value="Active" name="addonsstyleactive">Import Style</button>  
                             </form> 
                         </div>');
@@ -149,7 +156,7 @@ trait Template {
             return __('<div class="oxi-addons-style-preview-bottom-right">
                         <form method="post" style=" display: inline-block; " class="shortcode-addons-template-deactive">
                             <input type="hidden" id="oxitype" name="oxitype" value="' . $this->oxitype . '">
-                            <input type="hidden" name="oxideletestyle" value="' . $data['style']['style_name'] . '">
+                            <input type="hidden" name="oxideletestyle" value="' . $layouts . '">
                             <button class="btn btn-warning oxi-addons-addons-style-btn-warning" title="Delete"  type="submit" value="Deactive" name="addonsstyledelete">Deactive</button>  
                         </form>
                            <textarea style="display:none" id="oxistyle' . $number . 'data"  value="">' . htmlentities(json_encode($data)) . '</textarea>
@@ -177,7 +184,9 @@ trait Template {
             $i = 0;
             foreach ($this->templates() as $value) {
                 $settings = json_decode($value, true);
-                if (array_key_exists($settings['style']['style_name'], $this->pre_active_check())):
+                
+                 $layouts = str_replace('-', '_', ucfirst($settings['style']['style_name']));
+                if (array_key_exists($layouts, $this->pre_active_check())):
                     $i++;
                     echo $this->template_rendar($settings);
                 else:
