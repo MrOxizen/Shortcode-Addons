@@ -73,7 +73,7 @@ class RestApi extends Console {
     }
 
     public function import_json_template($folder, $filename, $name = 'truee') {
-        
+
         if (is_file($folder . $filename)) {
             $this->rawdata = file_get_contents($folder . $filename);
 
@@ -91,9 +91,14 @@ class RestApi extends Console {
                 $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
                 $rawdata['shortcode-addons-elements-id'] = $redirect_id;
                 $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $stylename)) . '';
+                if (!class_exists($cls)) {
+                    $return = $this->post_get_elements($oxitype);
+                    if($return != 'Done'){
+                        echo 'Error';
+                    }
+                }
                 $CLASS = new $cls('admin');
                 $cssgenera = $CLASS->template_css_render($rawdata);
-
                 foreach ($child as $value) {
                     $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, $value['type'], $value['rawdata'])));
                 }
@@ -214,9 +219,8 @@ class RestApi extends Console {
             return 'Silence is Golden';
         endif;
     }
-    
-     public function post_shortcode_delete()
-    {
+
+    public function post_shortcode_delete() {
         $styleid = (int) $this->styleid;
         if ($styleid) :
             $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->parent_table} WHERE id = %d", $styleid));

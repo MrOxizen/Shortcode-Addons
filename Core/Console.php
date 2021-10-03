@@ -13,7 +13,6 @@ class Console extends Database {
 
     const SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS = 'shortcode_addons_available_elements';
     const SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS = 'shortcode_addons_installed_elements';
-    const SHORTCODE_TRANSIENT_MENU = 'get_oxilab_addons_menu';
     const SHORTCODE_TRANSIENT_GOOGLE_FONT = 'shortcode_addons_google_font';
     const API = 'https://www.oxilabdemos.com/shortcode-addons/wp-json/api/';
     const DOWNLOAD_SHORTCODE_ELEMENTS = 'https://www.oxilabdemos.com/shortcode-addons/Shortcode-Addons/Elements/';
@@ -53,6 +52,16 @@ class Console extends Database {
     }
 
     /**
+     * Plugin fixed debugging data
+     *
+     * @since 2.0.1
+     */
+    public function delete_transient() {
+        delete_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
+        delete_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
+    }
+
+    /**
      * Get  template Elements List.
      * @return mixed
      * 
@@ -69,6 +78,8 @@ class Console extends Database {
             } else {
                 $response = $request->get_error_message();
             }
+            $installed = $this->installed_elements($force_update);
+            $response = array_merge($response, $installed);
         }
         return $response;
     }
@@ -79,11 +90,9 @@ class Console extends Database {
      * @since 2.0.0
      */
     public function installed_elements($force_update = FALSE) {
-
         $response = get_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
         if (!$response || $force_update) :
             $elements = glob(SA_ADDONS_UPLOAD_PATH . '*', GLOB_ONLYDIR);
-
             $response = $catarray = $catnewdata = [];
             foreach ($elements as $value) {
                 $file = explode('/uploads/shortcode-addons/', $value);
@@ -112,6 +121,7 @@ class Console extends Database {
             }
             set_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS, $response, 30 * DAY_IN_SECONDS);
         endif;
+
         return $response;
     }
 

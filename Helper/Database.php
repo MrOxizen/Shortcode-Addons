@@ -36,7 +36,7 @@ class Database {
      */
     public $child_table;
 
-    const SHORTCODE_TRANSIENT_MENU = 'get_oxilab_addons_menu';
+  
 
     /**
      * Plugins Loader
@@ -139,27 +139,7 @@ class Database {
         }
     }
 
-    /**
-     * Get  Shortcode Addons Menu.
-     * @return mixed
-     * 
-     *  @since 2.0.0
-     */
-    public function active_menu() {
-        $response = get_transient(self::SHORTCODE_TRANSIENT_MENU);
-        if (!is_array($response) || !isset($response['Shortcode'])) {
-            $response['Shortcode']['Elements'] = [
-                'name' => 'Elements',
-                'homepage' => 'shortcode-addons'
-            ];
-            $response['Shortcode']['Import'] = [
-                'name' => 'Import',
-                'homepage' => 'shortcode-addons-import'
-            ];
-            set_transient(self::SHORTCODE_TRANSIENT_MENU, $response, 10 * DAY_IN_SECONDS);
-        }
-        return $response;
-    }
+   
 
     /**
      * Generate safe path

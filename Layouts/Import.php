@@ -93,7 +93,7 @@ class Import extends Console {
                         if (file_exists($fileconpress)) {
                             unlink($fileconpress);
                         }
-                        $this->installed_elements(true);
+                        $this->shortcode_elements(true);
                         $return = admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($name[0]));
                         echo '<script type="text/javascript"> document.location.href = "' . $return . '"; </script>';
                         exit;

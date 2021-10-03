@@ -11,7 +11,6 @@ class Installation {
 
     public $database;
 
-    const SHORTCODE_TRANSIENT_MENU = 'get_oxilab_addons_menu';
 
     /**
      * Plugins Loader
@@ -36,7 +35,7 @@ class Installation {
     }
 
     public function __construct() {
-        $this->database = new \SHORTCODE_ADDONS\Helper\Database();
+        $this->database = new \SHORTCODE_ADDONS\Core\Console();
     }
 
     /**
@@ -70,7 +69,7 @@ class Installation {
      * @since 2.0.1
      */
     public function plugin_deactivation_hook() {
-        delete_transient(self::SHORTCODE_TRANSIENT_MENU);
+        $this->database->delete_transient();
     }
 
 }

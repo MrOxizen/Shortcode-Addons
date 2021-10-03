@@ -71,13 +71,6 @@ trait Helper {
      * @since 2.0.0
      */
     public function oxilab_admin_menu($agr) {
-        $admin_menu = 'get_oxilab_addons_menu';
-        $response = !empty(get_transient($admin_menu)) ? get_transient($admin_menu) : [];
-        if (!array_key_exists('Shortcode', $response)) :
-            $database = new \SHORTCODE_ADDONS\Helper\Database();
-            $response = $database->active_menu();
-            set_transient($admin_menu, $response, 10 * DAY_IN_SECONDS);
-        endif;
 
         $bgimage = SA_ADDONS_URL . 'image/sa-logo.png';
         $sub = '';
@@ -94,42 +87,24 @@ trait Helper {
         $GETPage = sanitize_text_field($_GET['page']);
         $oxitype = (!empty($_GET['oxitype']) ? sanitize_text_field($_GET['oxitype']) : '');
 
-        if (count($response) == 1) :
-            if ($oxitype != '') :
-                $menu .= '<li class="active"><a href="' . admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype) . '">' . $this->name_converter($oxitype) . '</a></li>';
-            endif;
-            foreach ($response['Shortcode'] as $key => $value) {
-                $active = ($GETPage == $value['homepage'] ? (empty($oxitype) ? ' class="active" ' : '') : '');
-                $menu .= '<li ' . $active . '><a href="' . admin_url('admin.php?page=' . $value['homepage'] . '') . '">' . $this->name_converter($value['name']) . '</a></li>';
-            }
-        else :
-            foreach ($response as $key => $value) {
-                $active = ($key == 'Shortcode' ? 'active' : '');
-                $menu .= '<li class="' . $active . '"><a class="oxi-nev-drop-menu" href="#">' . $this->name_converter($key) . '</a>';
-                $menu .= '     <div class="oxi-nev-d-menu">
-                                                    <div class="oxi-nev-drop-menu-li">';
-                foreach ($value as $key2 => $submenu) {
-                    $menu .= '<a href="' . admin_url('admin.php?page=' . $submenu['homepage'] . '') . '">' . $this->name_converter($submenu['name']) . '</a>';
-                }
-                $menu .= '                                                                                                  </div>';
-                $menu .= '</li>';
-            }
-            if ($GETPage == 'shortcode-addons' || $GETPage == 'shortcode-addons-import' || $GETPage == 'shortcode-addons-extension') :
-                $sub .= '<div class="shortcode-addons-main-tab-header">';
-                if ($oxitype != '') :
-                    $sub .= '<a href="' . admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype) . '">
-                                <div class="shortcode-addons-header oxi-active">' . $this->name_converter($oxitype) . '</div>
-                              </a>';
-                endif;
-                foreach ($response['Shortcode'] as $key => $value) {
-                    $active = ($GETPage == $value['homepage'] ? (empty($oxitype) ? 'oxi-active' : '') : '');
-                    $sub .= '<a href="' . admin_url('admin.php?page=' . $value['homepage'] . '') . '">
-                                <div class="shortcode-addons-header ' . $active . '">' . $this->name_converter($value['name']) . '</div>
-                              </a>';
-                }
-                $sub .= '</div>';
-            endif;
+        if ($oxitype != '') :
+            $menu .= '<li class="active"><a href="' . admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype) . '">' . $this->name_converter($oxitype) . '</a></li>';
         endif;
+        $response = [
+            'Elements' => [
+                'name' => 'Elements',
+                'homepage' => 'shortcode-addons'
+            ],
+            'Import' => [
+                'name' => 'Import',
+                'homepage' => 'shortcode-addons-import'
+            ]
+        ];
+
+        foreach ($response as $key => $value) {
+            $active = ($GETPage == $value['homepage'] ? (empty($oxitype) ? ' class="active" ' : '') : '');
+            $menu .= '<li ' . $active . '><a href="' . admin_url('admin.php?page=' . $value['homepage'] . '') . '">' . $this->name_converter($value['name']) . '</a></li>';
+        }
         $menu .= '              </ul>
                             <ul class="oxilab-sa-admin-menu2">
                                ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE ? ' <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Upgrade</a></li>' : '') . '
