@@ -79,7 +79,9 @@ class Console extends Database {
                 $response = $request->get_error_message();
             }
             $installed = $this->installed_elements($force_update);
-            $response = array_merge($response, $installed);
+            if (count($installed) > 0):
+                $response = array_merge($response, $installed);
+            endif;
         }
         return $response;
     }

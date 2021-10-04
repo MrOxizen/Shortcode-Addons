@@ -3,8 +3,8 @@ Contributors: Biplob018
 Donate link: https://www.oxilab.org
 Tags: shortcode, visual composer, divi, siteorgin, addons, shortcode addons
 Requires at least: 4.5
-Tested up to: 5.5.3
-Stable tag: 2.1.4
+Tested up to: 5.8.1
+Stable tag: 3.0.1
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -292,6 +292,12 @@ Its too easy Chose your style from Elements List and click at Clone.
 4. Admin panel With Live Preview.
 
 == Changelog ==
+
+= 3.0.1 = 
+*Update Admin Modules
+*Fixed Elements Page
+
+
 = 2.1.4 = 
 *Update media Queries
 
@@ -354,6 +360,10 @@ Its too easy Chose your style from Elements List and click at Clone.
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 3.0.1 = 
+Update Admin Modules
+Fixed Elements Page
 
 = 2.1.4 = 
 Update media Queries

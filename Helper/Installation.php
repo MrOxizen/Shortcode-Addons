@@ -11,7 +11,6 @@ class Installation {
 
     public $database;
 
-
     /**
      * Plugins Loader
      * 
@@ -35,7 +34,7 @@ class Installation {
     }
 
     public function __construct() {
-        $this->database = new \SHORTCODE_ADDONS\Core\Console();
+        $this->database = new \SHORTCODE_ADDONS\Layouts\ClearOlderFile();
     }
 
     /**
@@ -48,6 +47,7 @@ class Installation {
         $this->database->update_database();
         // create upload folder
         $this->database->create_upload_folder();
+        $this->database->clearolderfiles();
     }
 
     /**
@@ -60,6 +60,8 @@ class Installation {
         $this->database->update_database();
         // create upload folder
         $this->database->create_upload_folder();
+     
+        $this->database->clearolderfiles();
         set_transient('shortcode_adddons_activation_redirect', true, 60);
     }
 
@@ -69,9 +71,8 @@ class Installation {
      * @since 2.0.1
      */
     public function plugin_deactivation_hook() {
-        $this->database->delete_transient();
+
+        $this->database->clearolderfiles();
     }
 
 }
-
-       

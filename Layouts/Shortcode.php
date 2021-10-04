@@ -10,6 +10,18 @@ namespace SHORTCODE_ADDONS\Layouts;
 use SHORTCODE_ADDONS\Helper\Database as Database;
 
 class Shortcode extends Database {
+    /*
+     * Shortcode Addons file Check.
+     * 
+     * @since 2.1.0
+     */
+
+    public function file_check($elements) {
+        ob_start();
+        $upload = new \SHORTCODE_ADDONS\Core\Console();
+        $upload->post_get_elements($elements);
+        ob_get_clean();
+    }
 
     /**
      * Shortcode Call
