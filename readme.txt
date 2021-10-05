@@ -19,7 +19,7 @@ Shortcode Addons is an amazing set of beautiful and useful elements with Visual 
 
 **Shortcode Addons- with Visual Composer, Divi, Beaver Builder, and Elementor Extension** is the ultimate addons bundle for major page builders and general users that is packed with 10000+ awesome Templates, Blocks and stunning Pre-designs.Add some more flexibility into that, and you have easier options in form of page builders like **Visual Composer**, **Divi**, **Elementor** or **Beaver Builder** With over 120+ essential elements and extensions, you will find the ultimate advantage of enhancing your web creation while using Shortcode Addons in WordPress. With the mighty Shortcode Addons, you’ll get the power of having access to all the essential widgets that you have never gotten ever before in one place. 
 
->[Live Demo ](https://www.shortcode-addons.com/elements/ "Live Demo Of Shortcode Addons") | [Documentation](https://www.shortcode-addons.com/docs/ "Documentation") | [Video tutorial](https://youtu.be/Ovvqi7iZJ-s "Watch video tutorial") | [Support forum](https://wordpress.org/support/plugin/shortcode-addons/ "Free support")
+>[Live Demo ](https://www.oxilabdemos.com/shortcode-addons/elements/ "Live Demo Of Shortcode Addons") | [Documentation](https://www.oxilabdemos.com/shortcode-addons/docs/ "Documentation") | [Video tutorial](https://youtu.be/Ovvqi7iZJ-s "Watch video tutorial") | [Support forum](https://wordpress.org/support/plugin/shortcode-addons/ "Free support")
 
 [youtube https://www.youtube.com/watch?v=BhgngA_cF1c]
 

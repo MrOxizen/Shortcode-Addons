@@ -14,7 +14,6 @@ class Console extends Database {
     const SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS = 'shortcode_addons_available_elements';
     const SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS = 'shortcode_addons_installed_elements';
     const SHORTCODE_TRANSIENT_GOOGLE_FONT = 'shortcode_addons_google_font';
-    const API = 'https://www.oxilabdemos.com/shortcode-addons/wp-json/api/';
     const DOWNLOAD_SHORTCODE_ELEMENTS = 'https://www.oxilabdemos.com/shortcode-addons/Shortcode-Addons/Elements/';
 
     public $request;
@@ -70,14 +69,9 @@ class Console extends Database {
     public function shortcode_elements($force_update = FALSE) {
         $response = get_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
         if (!$response || $force_update) {
-            $URL = self::API . 'elements';
-            $request = wp_remote_request($URL);
-            if (!is_wp_error($request)) {
-                $response = json_decode(wp_remote_retrieve_body($request), true);
-                set_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS, $response, 30 * DAY_IN_SECONDS);
-            } else {
-                $response = $request->get_error_message();
-            }
+            $folder = $this->safe_path(SA_ADDONS_PATH . '/assets/element/');
+            $response = json_decode(file_get_contents($folder . 'elements.json'), true);
+            set_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS, $response, 30 * DAY_IN_SECONDS);
             $installed = $this->installed_elements($force_update);
             if (count($installed) > 0):
                 $response = array_merge($response, $installed);
@@ -94,6 +88,8 @@ class Console extends Database {
     public function installed_elements($force_update = FALSE) {
         $response = get_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
         if (!$response || $force_update) :
+            
+            $this->create_upload_folder();
             $elements = glob(SA_ADDONS_UPLOAD_PATH . '*', GLOB_ONLYDIR);
             $response = $catarray = $catnewdata = [];
             foreach ($elements as $value) {
@@ -136,14 +132,9 @@ class Console extends Database {
     public function google_fonts($force_update = FALSE) {
         $response = get_transient(self::SHORTCODE_TRANSIENT_GOOGLE_FONT);
         if (!$response || $force_update) {
-            $URL = self::API . 'fonts';
-            $request = wp_remote_request($URL);
-            if (!is_wp_error($request)) {
-                $response = json_decode(wp_remote_retrieve_body($request), true);
-                set_transient(self::SHORTCODE_TRANSIENT_GOOGLE_FONT, $response, 30 * DAY_IN_SECONDS);
-            } else {
-                $response = $request->get_error_message();
-            }
+            $folder = $this->safe_path(SA_ADDONS_PATH . '/assets/element/');
+            $response = json_decode(file_get_contents($folder . 'fonts.json'), true);
+            set_transient(self::SHORTCODE_TRANSIENT_GOOGLE_FONT, $response, 30 * DAY_IN_SECONDS);
         }
         return $response;
     }
