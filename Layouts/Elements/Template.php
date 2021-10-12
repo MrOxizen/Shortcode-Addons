@@ -89,7 +89,7 @@ trait Template {
                                     More Layouts
                                 </div>
                                 <div class="oxi-addons-view-more-demo-content">
-                                    Thank you for using Shortcode Addons. As limitation of viewing Layouts or Design we added some layouts. Kindly check more  <a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/elements/' . str_replace('_', '-', $this->oxitype) . '" >' . $this->admin_name_validation($this->oxitype) . '</a> design from shortcode-addons.com. Copy <strong>export</strong> code and <strong>import</strong> it, get your preferable layouts.
+                                    Thank you for using Shortcode Addons. As limitation of viewing Layouts or Design we added some layouts. Kindly check more  <a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/elements/' . str_replace('_', '-', $this->oxitype) . '" >' . $this->admin_name_validation($this->oxitype) . '</a> design from https://www.oxilabdemos.com/shortcode-addons/. Copy <strong>export</strong> code and <strong>import</strong> it, get your preferable layouts.
                                 </div>
                             </div>
                             <div class="oxi-addons-view-more-demo-button">
