@@ -3952,7 +3952,7 @@ span.oxi-confirmation-success:after {
 
 .oxi-addons-admin-notifications {
     position: relative;
-       margin-bottom: 20px;
+       margin: 20px 0;
     padding: 20px 20px 0;
     border: 1px solid #e5e5e5;
     background-color: #fdfdfd;

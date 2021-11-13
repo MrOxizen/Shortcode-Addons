@@ -242,7 +242,7 @@ trait Helper {
     public function supportandcomments($agr) {
         echo '  <div class="oxi-addons-admin-notifications">
                     <h3>
-                        <span class="dashicons dashicons-flag"></span> 
+                        <span class="dashicons dashicons-flag"></span>
                         Notifications
                     </h3>
                     <p></p>
@@ -252,7 +252,7 @@ trait Helper {
                             ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) ? '' : '<p>By the way, did you know we also have a <a href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Premium Version</a>? It offers lots of options with automatic update. It also comes with 16/5 personal support.</p>') . '
                             <p>Thanks Again!</p>
                             <p></p>
-                        </div>                     
+                        </div>
                     </div>
                     <p></p>
                 </div>';
@@ -274,7 +274,7 @@ trait Helper {
 
     /*
      * Shortcode Addons file Check.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -295,9 +295,83 @@ trait Helper {
         return $shortcode->oxi_addons($styleid);
     }
 
+    public function User_Reviews() {
+        if (!current_user_can('activate_plugins')):
+            return;
+        endif;
+
+        $this->admin_recommended();
+        $this->admin_notice();
+    }
+
+    public function admin_recommended() {
+        if (!empty($this->admin_recommended_status())):
+            return;
+        endif;
+
+        if (strtotime('-1 days') < $this->installation_date()):
+            return;
+        endif;
+        new \SHORTCODE_ADDONS\Oxilab\Recommended();
+    }
+
+    /**
+     * Admin Notice Check
+     *
+     * @since 2.0.0
+     */
+    public function admin_recommended_status() {
+        $data = get_option('shortcode_addons_recommended');
+        return $data;
+    }
+
+    /**
+     * Admin Notice Check
+     *
+     * @since 2.0.0
+     */
+    public function admin_notice_status() {
+        $data = get_option('shortcode_addons_no_bug');
+        return $data;
+    }
+
+    /**
+     * Admin Install date Check
+     *
+     * @since 2.0.0
+     */
+    public function installation_date() {
+        $data = get_option('shortcode_addons_activation_date');
+        if (empty($data)):
+            $data = strtotime("now");
+            update_option('shortcode_addons_activation_date', $data);
+        endif;
+        return $data;
+    }
+
+    public function admin_notice() {
+        if (!empty($this->admin_notice_status())):
+            return;
+        endif;
+        if (strtotime('-7 days') < $this->installation_date()):
+            return;
+        endif;
+        new \SHORTCODE_ADDONS\Oxilab\Reviews();
+    }
+
+    public function redirect_on_activation() {
+        if (get_transient('shortcode_adddons_activation_redirect')) :
+            delete_transient('shortcode_adddons_activation_redirect');
+            if (is_network_admin() || isset($_GET['activate-multi'])) :
+                return;
+            endif;
+            wp_safe_redirect(admin_url("admin.php?page=shortcode-addons-support"));
+        endif;
+    }
+
     /**
      * shortcode addons Data Process
-     * 
+     *
      * @since 2.0.0
      */
     public function shortcode_addons_data_process() {

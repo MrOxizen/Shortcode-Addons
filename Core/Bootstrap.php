@@ -17,7 +17,7 @@ class Bootstrap {
 
     /**
      * Plugins Loader
-     * 
+     *
      * $instance
      *
      * @since 2.0.0
@@ -79,80 +79,6 @@ class Bootstrap {
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('admin_head', [$this, 'admin_icon']);
         add_action('admin_init', array($this, 'redirect_on_activation'));
-    }
-
-    public function User_Reviews() {
-        if (!current_user_can('activate_plugins')):
-            return;
-        endif;
-
-        $this->admin_recommended();
-        $this->admin_notice();
-    }
-
-    public function admin_recommended() {
-        if (!empty($this->admin_recommended_status())):
-            return;
-        endif;
-
-        if (strtotime('-1 days') < $this->installation_date()):
-            return;
-        endif;
-        new \SHORTCODE_ADDONS\Oxilab\Recommended();
-    }
-
-    /**
-     * Admin Notice Check
-     *
-     * @since 2.0.0
-     */
-    public function admin_recommended_status() {
-        $data = get_option('shortcode_addons_recommended');
-        return $data;
-    }
-
-    /**
-     * Admin Notice Check
-     *
-     * @since 2.0.0
-     */
-    public function admin_notice_status() {
-        $data = get_option('shortcode_addons_no_bug');
-        return $data;
-    }
-
-    /**
-     * Admin Install date Check
-     *
-     * @since 2.0.0
-     */
-    public function installation_date() {
-        $data = get_option('shortcode_addons_activation_date');
-        if (empty($data)):
-            $data = strtotime("now");
-            update_option('shortcode_addons_activation_date', $data);
-        endif;
-        return $data;
-    }
-
-    public function admin_notice() {
-        if (!empty($this->admin_notice_status())):
-            return;
-        endif;
-        if (strtotime('-7 days') < $this->installation_date()):
-            return;
-        endif;
-        new \SHORTCODE_ADDONS\Oxilab\Reviews();
-    }
-
-    public function redirect_on_activation() {
-        if (get_transient('shortcode_adddons_activation_redirect')) :
-            delete_transient('shortcode_adddons_activation_redirect');
-            if (is_network_admin() || isset($_GET['activate-multi'])) :
-                return;
-            endif;
-            wp_safe_redirect(admin_url("admin.php?page=shortcode-addons-support"));
-        endif;
     }
 
 }
