@@ -15,10 +15,9 @@ jQuery.noConflict();
                 url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
                 method: 'POST',
                 dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', ShortCodeAddonsUltimate.nonce);
-                },
+
                 data: {
+                    _wpnonce: ShortCodeAddonsUltimate.nonce,
                     styleid: styleid,
                     childid: childid,
                     rawdata: rawdata
@@ -74,7 +73,12 @@ jQuery.noConflict();
         $("#oxi-addons-data").val(jQuery("#" + data).val());
         $("#oxi-addons-style-create-modal").modal("show");
     });
-
+    jQuery(".shortcode-addons-addons-data-clone").on("click", function () {
+        $("#oxi-addons-style-modal-form")[0].reset();
+        var dataid = jQuery(this).val();
+        jQuery('#oxistyleid').val(dataid);
+        jQuery("#oxi-addons-style-create-modal").modal("show");
+    });
 
     jQuery("#oxi-addons-style-modal-form").submit(function (e) {
         e.preventDefault();

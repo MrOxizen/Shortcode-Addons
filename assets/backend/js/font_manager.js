@@ -20,10 +20,9 @@ jQuery.noConflict();
                 url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
                 method: 'POST',
                 dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', ShortCodeAddonsUltimate.nonce);
-                },
+
                 data: {
+                    _wpnonce: ShortCodeAddonsUltimate.nonce,
                     styleid: styleid,
                     childid: childid,
                     rawdata: rawdata
@@ -177,8 +176,8 @@ jQuery.noConflict();
         var rawdata = $('#addons-font-name').val();
         var functionname = "add_custom_font";
         ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
-          
-         //   Selected_Google_Fonts();
+
+            //   Selected_Google_Fonts();
             $("#addons-font-name").val('');
             $("#shortcode-addons-custom-fonts-modal").modal("hide");
         });

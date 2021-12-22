@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Settings
  *
@@ -28,7 +32,7 @@ class Settings {
 
     public function admin() {
         $this->admin_settings();
-        
+
         global $wp_roles;
         $this->roles = $wp_roles->get_names();
         $this->saved_role = get_option('oxi_addons_user_permission');
@@ -38,7 +42,7 @@ class Settings {
 
     public function render() {
         ?>
-        <div class="wrap">  
+        <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
             ?>
@@ -56,7 +60,7 @@ class Settings {
                                         <select name="oxi_addons_user_permission">
                                             <?php foreach ($this->roles as $key => $role) { ?>
                                                 <option value="<?php echo $key; ?>" <?php selected($this->saved_role, $key); ?>><?php echo $role; ?></option>
-                                            <?php } ?>
+        <?php } ?>
                                         </select>
                                         <span class="oxi-addons-settings-connfirmation oxi_addons_user_permission"></span>
                                         <br>
@@ -155,7 +159,7 @@ class Settings {
                                 </td>
                             </tr>
                         </tbody>
-                    </table>	
+                    </table>
                     <br>
                     <br>
 

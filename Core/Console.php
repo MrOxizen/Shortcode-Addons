@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Core;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Cloud
  *
@@ -63,7 +67,7 @@ class Console extends Database {
     /**
      * Get  template Elements List.
      * @return mixed
-     * 
+     *
      *  @since 2.0.0
      */
     public function shortcode_elements($force_update = FALSE) {
@@ -88,7 +92,7 @@ class Console extends Database {
     public function installed_elements($force_update = FALSE) {
         $response = get_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
         if (!$response || $force_update) :
-            
+
             $this->create_upload_folder();
             $elements = glob(SA_ADDONS_UPLOAD_PATH . '*', GLOB_ONLYDIR);
             $response = $catarray = $catnewdata = [];
@@ -126,7 +130,7 @@ class Console extends Database {
     /**
      * Get  template google font.
      * @return mixed
-     * 
+     *
      *  @since 2.0.0
      */
     public function google_fonts($force_update = FALSE) {
@@ -145,6 +149,9 @@ class Console extends Database {
      * @since 2.0.0
      */
     public function post_get_elements($elements = '') {
+        if (!current_user_can('upload_files')):
+            return;
+        endif;
         if (!empty($elements)):
             $this->rawdata = $elements;
         endif;
@@ -211,6 +218,7 @@ class Console extends Database {
         if (count($cache) == 0) {
             $font = ['Roboto', 'Manjari', 'Gayathri', 'Open+Sans', 'Lato', 'Chilanka', 'Montserrat', 'Roboto+Condensed', 'Source+Sans+Pro'];
             foreach ($font as $value) {
+                $value = sanitize_text_field($value);
                 $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} ( type, font) VALUES (%s, %s)", array('shortcode-addons', $value)));
                 $redirect_id = $this->wpdb->insert_id;
                 $this->stored_font[$value] = [

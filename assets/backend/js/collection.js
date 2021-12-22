@@ -15,10 +15,9 @@ jQuery.noConflict();
                 url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
                 method: 'POST',
                 dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', ShortCodeAddonsUltimate.nonce);
-                },
+               
                 data: {
+                    _wpnonce: ShortCodeAddonsUltimate.nonce,
                     styleid: styleid,
                     childid: childid,
                     rawdata: rawdata

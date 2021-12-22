@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Oxilab;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Reviews
  *

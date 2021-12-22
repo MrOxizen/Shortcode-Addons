@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Elements
  *
@@ -40,7 +44,7 @@ class Collection extends Console {
 
     /*
      * Shortcode Addons fontawesome Icon Render.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -51,7 +55,7 @@ class Collection extends Console {
 
     /*
      * Shortcode Addons name converter.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -64,7 +68,7 @@ class Collection extends Console {
 
     public function render() {
         ?>
-        <div class="wrap">  
+        <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
             ?>
@@ -88,7 +92,7 @@ class Collection extends Console {
                                                         <span>' . $this->name_converter($value['name']) . '</span>
                                                     </div>
                                                 </a>
-                                               
+
                                            </div>';
                         }
                         if ($elementsnumber > 0) {
@@ -119,12 +123,12 @@ class Collection extends Console {
                         </div>
                     </div>
                     <div class="modal-body text-center">
-                        <h4></h4>	
+                        <h4></h4>
                         <p></p>
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
         <?php
     }
 

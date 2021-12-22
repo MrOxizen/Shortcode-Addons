@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Shortcode
  *
@@ -12,7 +16,7 @@ use SHORTCODE_ADDONS\Helper\Database as Database;
 class Shortcode extends Database {
     /*
      * Shortcode Addons file Check.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -46,7 +50,7 @@ class Shortcode extends Database {
         } else {
             $shortcode .= '<div class="oxi-addons-container">
                                 <div class="oxi-addons-error">
-                                    **<strong>Empty</strong> data found. Kindly check shortcode and put right shortcode with id from Shortcode Addons Elements** 
+                                    **<strong>Empty</strong> data found. Kindly check shortcode and put right shortcode with id from Shortcode Addons Elements**
                                 </div>
                             </div>';
         }

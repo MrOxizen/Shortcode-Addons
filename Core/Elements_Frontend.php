@@ -2,6 +2,9 @@
 
 namespace SHORTCODE_ADDONS\Core;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
 /**
  * Description of Elements_Frontend
  *
@@ -84,7 +87,7 @@ class Elements_Frontend extends Database {
      */
     public function rander() {
         ?>
-        <div class="wrap">  
+        <div class="wrap">
             <div class="oxi-addons-wrapper">
                 <?php
                 apply_filters('shortcode-addons/admin_menu', false);
@@ -149,7 +152,7 @@ class Elements_Frontend extends Database {
                                 <a href="' . admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&oxiimport=import") . '">
                                     <div class="oxilab-admin-add-new-item">
                                         <span>
-                                            <i class="fas fa-plus-circle oxi-icons"></i>  
+                                            <i class="fas fa-plus-circle oxi-icons"></i>
                                             Add More Templates
                                         </span>
                                     </div>
@@ -163,7 +166,7 @@ class Elements_Frontend extends Database {
                         <form method="post" id="oxi-addons-style-modal-form">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
-                                    <div class="modal-header">                    
+                                    <div class="modal-header">
                                         <h4 class="modal-title">' . $this->admin_name_validation($this->oxitype) . ' Settings</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
@@ -171,7 +174,7 @@ class Elements_Frontend extends Database {
                                         <div class=" form-group row">
                                             <label for="addons-style-name" class="col-sm-6 col-form-label" oxi-addons-tooltip="Give your Shortcode Name Here">Name</label>
                                             <div class="col-sm-6 addons-dtm-laptop-lock">
-                                                <input class="form-control" type="text" value="" id="addons-style-name"  name="addons-style-name">
+                                                <input class="form-control" type="text" value="" id="addons-style-name"  name="addons-style-name" required>
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +193,7 @@ class Elements_Frontend extends Database {
                         <form method="post" id="oxi-addons-style-export-form">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <div class="modal-header">                    
+                                    <div class="modal-header">
                                         <h4 class="modal-title">Export Data</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>

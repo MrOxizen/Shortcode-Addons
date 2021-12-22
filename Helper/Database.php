@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Helper;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  *
  * @author biplo
@@ -36,11 +40,9 @@ class Database {
      */
     public $child_table;
 
-  
-
     /**
      * Plugins Loader
-     * 
+     *
      * $instance
      *
      * @since 2.0.0
@@ -138,8 +140,6 @@ class Database {
             return @rmdir($str);
         }
     }
-
-   
 
     /**
      * Generate safe path

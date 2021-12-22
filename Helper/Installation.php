@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Helper;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Installation
  *
@@ -13,7 +17,7 @@ class Installation {
 
     /**
      * Plugins Loader
-     * 
+     *
      * $instance
      *
      * @since 2.0.0
@@ -60,7 +64,7 @@ class Installation {
         $this->database->update_database();
         // create upload folder
         $this->database->create_upload_folder();
-     
+
         $this->database->clearolderfiles();
         set_transient('shortcode_adddons_activation_redirect', true, 60);
     }

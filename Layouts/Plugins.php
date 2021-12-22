@@ -7,6 +7,10 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Plugins
  *
@@ -117,11 +121,11 @@ class Plugins {
                                     <img class="oxi-addons-modules-banner" src="<?php echo $value['modules-img']; ?>">
                                     <div class="oxi-addons-modules-action-wrapper">
                                         <span class="oxi-addons-modules-name"><?php echo $value['modules-name']; ?></span>
-                                        <span class="oxi-addons-modules-desc"><?php echo $value['modules-desc']; ?></span>	
+                                        <span class="oxi-addons-modules-desc"><?php echo $value['modules-desc']; ?></span>
                                     </div>
                                     <div class="oxi-addons-modules-action-status">
                                         <span class="oxi-addons-modules-preview"><a href="<?php echo $value['plugin-url']; ?>" class="btn btn-dark">Preview</a></span>
-                                        <span class="oxi-addons-modules-installing"><?php echo $message; ?></span>	
+                                        <span class="oxi-addons-modules-installing"><?php echo $message; ?></span>
                                     </div>
                                 </div>
                             </div>

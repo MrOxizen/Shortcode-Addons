@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Helper;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  *
  * @author biplo
@@ -382,6 +386,11 @@ trait Helper {
             $rawdata = isset($_POST['rawdata']) ? sanitize_post($_POST['rawdata']) : '';
             $optional = isset($_POST['optional']) ? sanitize_post($_POST['optional']) : '';
             $optional2 = isset($_POST['optional2']) ? sanitize_post($_POST['optional2']) : '';
+
+            if (strpos($classname, 'SHORTCODE_ADDONS') === false):
+                return new \WP_REST_Request('Invalid URL', 422);
+            endif;
+
             if (!empty($classname) && !empty($functionname)):
                 $classname::$functionname($rawdata, $optional, $optional2);
             endif;

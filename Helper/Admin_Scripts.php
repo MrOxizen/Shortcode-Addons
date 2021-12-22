@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Helper;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  *
  * @author biplo
@@ -77,8 +81,6 @@ trait Admin_Scripts {
         wp_enqueue_script('shortcode-addons-elements', SA_ADDONS_URL . '/assets/backend/js/elements.js', false, SA_ADDONS_PLUGIN_VERSION);
     }
 
-   
-
     /**
      * Load Frontend Loader
      *
@@ -110,7 +112,7 @@ trait Admin_Scripts {
     /**
      * Admin Media Scripts.
      * Most of time using into Style Editing Page
-     * 
+     *
      * @since 2.0.0
      */
     public function admin_media_scripts() {

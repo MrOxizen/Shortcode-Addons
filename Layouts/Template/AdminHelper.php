@@ -8,6 +8,10 @@
 
 namespace SHORTCODE_ADDONS\Layouts\Template;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use SHORTCODE_ADDONS\Core\Admin\Controls as Controls;
 
 /**

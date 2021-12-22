@@ -2,12 +2,16 @@
 
 namespace SHORTCODE_ADDONS\Layouts\Template;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use SHORTCODE_ADDONS\Core\Admin\Controls as Controls;
 
 trait Sanitization {
 
     /**
-     * font settings sanitize 
+     * font settings sanitize
      * works at layouts page to adding font Settings sanitize
      */
     public function AdminTextSenitize($data) {
@@ -37,7 +41,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel header
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -51,7 +55,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Body
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -67,7 +71,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel end tabs
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -77,7 +81,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Col 6 or Entry devider
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -87,7 +91,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel end Entry Divider
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -96,8 +100,8 @@ trait Sanitization {
     }
 
     /*
-     * Shortcode Addons Style Admin Panel Form Dependency 
-     * 
+     * Shortcode Addons Style Admin Panel Form Dependency
+     *
      * @since 2.0.0
      */
 
@@ -149,7 +153,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Each Tabs
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -167,7 +171,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel end Each Tabs
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -178,7 +182,7 @@ trait Sanitization {
     /*
      * Shortcode Addons Style Admin Panel Section Inner Tabs
      * This Tabs like inner tabs as Normal view and Hover View
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -202,7 +206,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel end Section Inner Tabs
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -212,7 +216,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Section Inner Tabs Child
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -222,7 +226,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel End Section Inner Tabs Child
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -232,7 +236,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel  Section Popover
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -242,22 +246,22 @@ trait Sanitization {
         echo '  <div class="shortcode-form-control shortcode-control-type-popover ' . $separator . '" ' . $condition . '>
                     <div class="shortcode-form-control-content shortcode-form-control-content-popover">
                         <div class="shortcode-form-control-field">
-                            <label for="" class="shortcode-form-control-title">' . $arg['label'] . '</label>  
+                            <label for="" class="shortcode-form-control-title">' . $arg['label'] . '</label>
                             <div class="shortcode-form-control-input-wrapper">
                                 <span class="dashicons popover-set"></span>
                             </div>
                         </div>
                         ' . (array_key_exists('description', $arg) ? '<div class="shortcode-form-control-description">' . $arg['description'] . '</div>' : '') . '
-                        
+
                     </div>
                     <div class="shortcode-form-control-content shortcode-form-control-content-popover-body">
-                        
+
                ';
     }
 
     /*
      * Shortcode Addons Style Admin Panel end Popover
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -267,8 +271,8 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Form Add Control.
-     * Call All Input Control from here Based on Control Name. 
-     * 
+     * Call All Input Control from here Based on Control Name.
+     *
      * @since 2.0.0
      */
 
@@ -312,7 +316,7 @@ trait Sanitization {
         ];
 
         /*
-         * Data Currection while Its comes from group Control 
+         * Data Currection while Its comes from group Control
          */
         if (array_key_exists('selector-value', $arg)) :
             foreach ($arg['selector'] as $key => $value) {
@@ -357,7 +361,7 @@ trait Sanitization {
     /*
      * Shortcode Addons Style Admin Panel Responsive Control.
      * Can Possible to modify any Add control to Responsive Control
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -376,7 +380,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Group Control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -389,7 +393,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Repeater Control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -485,7 +489,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Rearrange Control.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -513,7 +517,7 @@ trait Sanitization {
         }
         echo '          <div class="shortcode-form-control-input-wrapper">
                             <input type="hidden" value="' . $value . '" name="' . $id . '" id="' . $id . '">
-                        </div>      
+                        </div>
                     </div>
                 </div>
             </div>';
@@ -521,7 +525,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Heading Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -531,7 +535,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel separator control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -541,7 +545,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel multiple selector.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -568,14 +572,14 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Switcher Input.
-     * 
+     *
      * @since 2.0.0
      */
 
     public function switcher_admin_control($id, array $data = [], array $arg = []) {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <label class="shortcode-switcher">  
+                    <label class="shortcode-switcher">
                         <input type="checkbox" ' . ($value == $arg['return_value'] ? 'checked ckdflt="true"' : '') . ' value="' . $arg['return_value'] . '"  name="' . $id . '" id="' . $id . '"/>
                         <span data-on="' . $arg['label_on'] . '" data-off="' . $arg['label_off'] . '"></span>
                     </label>
@@ -584,7 +588,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Text Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -604,7 +608,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Password Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -624,7 +628,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Hidden Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -637,7 +641,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Textarea Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -651,34 +655,34 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel WYSIWYG Input.
-     * 
+     *
      * @since 2.0.0
      */
 
     public function wysiwyg_admin_control($id, array $data = [], array $arg = []) {
-        
-        if($this->template_css_render != 'css_render'):
-            
-      
-        $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
-        $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
-        echo ' <div class="shortcode-form-control-input-wrapper"  retundata=\'' . $retunvalue . '\'>';
-        echo wp_editor(
-                $value, $id, $settings = array(
-            'textarea_name' => $id,
-            'wpautop' => false,
-            'textarea_rows' => 7,
-            'force_br_newlines' => true,
-            'force_p_newlines' => false
-                )
-        );
-        echo ' </div>';
-          endif;
+
+        if ($this->template_css_render != 'css_render'):
+
+
+            $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
+            $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
+            echo ' <div class="shortcode-form-control-input-wrapper"  retundata=\'' . $retunvalue . '\'>';
+            echo wp_editor(
+                    $value, $id, $settings = array(
+                'textarea_name' => $id,
+                'wpautop' => false,
+                'textarea_rows' => 7,
+                'force_br_newlines' => true,
+                'force_p_newlines' => false
+                    )
+            );
+            echo ' </div>';
+        endif;
     }
 
     /*
      * Shortcode Addons Style Admin Panel Image Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -713,7 +717,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Number Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -743,7 +747,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Slider Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -792,7 +796,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Select Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -847,7 +851,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Choose Input.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -890,7 +894,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel render conditional control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -934,7 +938,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Color control.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -962,7 +966,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Icon Selector.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -977,7 +981,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Font Selector.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1012,7 +1016,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Date and Time Selector.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1032,7 +1036,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Gradient Selector.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1062,7 +1066,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Dimensions Selector.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1131,7 +1135,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Typography.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1393,7 +1397,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Media Group Control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1457,7 +1461,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel File  Control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1518,7 +1522,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Box Shadow Control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1711,7 +1715,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Text Shadow .
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -1830,7 +1834,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Animation .
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2003,7 +2007,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Border .
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2109,7 +2113,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Background .
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2322,7 +2326,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel URL.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2385,7 +2389,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Column Size.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2461,17 +2465,17 @@ trait Sanitization {
     }
 
     /*
-     * 
-     * 
+     *
+     *
      * Templates Substitute Data
-     * 
-     * 
-     * 
-     * 
+     *
+     *
+     *
+     *
      */
     /*
      * Shortcode Addons Style Admin Panel Template Substitute Control.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2482,7 +2486,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Template Substitute Modal Opener.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2496,7 +2500,7 @@ trait Sanitization {
         /*
          * $arg['title'] = 'Add New Items';
          * $arg['sub-title'] = 'Add New Items 02';
-         * 
+         *
          */
         echo ' <div class = "oxi-addons-item-form shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
                     <div class = "oxi-addons-item-form-heading shortcode-addons-templates-right-panel-heading">
@@ -2514,7 +2518,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Template Shortcode name.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2528,7 +2532,7 @@ trait Sanitization {
         /*
          * $arg['title'] = 'Add New Items';
          * $arg['sub-title'] = 'Add New Items 02';
-         * 
+         *
          */
         echo '  <div class = "oxi-addons-shortcode  shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
                     <div class = "oxi-addons-shortcode-heading  shortcode-addons-templates-right-panel-heading">
@@ -2551,7 +2555,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Template Shortcode Info.
-     * 
+     *
      * @since 2.0.0
      */
 
@@ -2564,7 +2568,7 @@ trait Sanitization {
         /*
          * $arg['title'] = 'Add New Items';
          * $arg['sub-title'] = 'Add New Items 02';
-         * 
+         *
          */
         echo '  <div class = "oxi-addons-shortcode shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
                     <div class = "oxi-addons-shortcode-heading  shortcode-addons-templates-right-panel-heading">
@@ -2588,7 +2592,7 @@ trait Sanitization {
 
     /*
      * Shortcode Addons Style Admin Panel Rearrange.
-     * 
+     *
      * @since 2.1.0
      */
 
@@ -2602,7 +2606,7 @@ trait Sanitization {
         /*
          * $arg['title'] = 'Add New Items';
          * $arg['sub-title'] = 'Add New Items 02';
-         * 
+         *
          */
         echo ' <div class="oxi-addons-item-form shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
             <div class="oxi-addons-item-form-heading shortcode-addons-templates-right-panel-heading">
@@ -2631,14 +2635,14 @@ trait Sanitization {
                             <ul class="col-12 list-group" id="oxi-addons-modal-rearrange">
                             </ul>
                         </div>
-                        <div class="modal-footer">    
+                        <div class="modal-footer">
                             <input type="hidden" id="oxi-addons-list-rearrange-data">
                             <button type="button" id="oxi-addons-list-rearrange-close" class="btn btn-danger" data-dismiss="modal">Close</button>
                             <input type="submit" id="oxi-addons-list-rearrange-submit" class="btn btn-primary" value="Save">
                         </div>
                     </div>
                 </form>
-                <div id="modal-rearrange-store-file">  
+                <div id="modal-rearrange-store-file">
                     ' . $id . '
                 </div>
             </div>

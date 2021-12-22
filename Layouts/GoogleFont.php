@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Description of Settings
  *
@@ -43,7 +47,7 @@ class GoogleFont extends Console {
 
     public function render() {
         ?>
-        <div class="wrap">  
+        <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
             ?>
@@ -82,7 +86,7 @@ class GoogleFont extends Console {
                     <form method="post" id="shortcode-addons-custom-fonts-modal-form">
                         <div class="modal-dialog modal-sm modal-dialog-centered">
                             <div class="modal-content">
-                                <div class="modal-header">                    
+                                <div class="modal-header">
                                     <h5 class="modal-title">Add Custom Font</h5>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>

@@ -2,6 +2,10 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use \SHORTCODE_ADDONS\Core\Console as Console;
 
 class Import extends Console {
@@ -53,7 +57,7 @@ class Import extends Console {
             if (!wp_verify_nonce($nonce, 'oxi-addons-upload-nonce')) {
                 die('You do not have sufficient permissions to access this page.');
             } else {
-                if ($_FILES["validuploaddata"]["name"]) {
+                if ($_FILES["validuploaddata"]["name"] && current_user_can('upload_files')) {
                     $filename = $_FILES["validuploaddata"]["name"];
                     $source = $_FILES["validuploaddata"]["tmp_name"];
                     $type = $_FILES["validuploaddata"]["type"];
@@ -105,11 +109,11 @@ class Import extends Console {
 
     public function render() {
         ?>
-        <div class="wrap">  
+        <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
             ?>
-            <div class="oxi-addons-wrapper">   
+            <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-import-layouts">
                     <h1>Import Elements or Template</h1>
                     <p> The Import Elements allows you to easily Import your Elements or Templates. You can import local Or manually elements if your automatic tools not works properly. Once Imported your Elements will works properly into shortcode home page.</p>
