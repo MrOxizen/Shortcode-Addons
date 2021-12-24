@@ -24,7 +24,7 @@ if (!function_exists('oxi_addons_font_familly')):
         $data = str_replace('+', ' ', $data);
         $data = explode(':', $data);
         $data = $data[0];
-        $data = '"' . $data . '"';
+        $data = '"' . esc_attr($data) . '"';
         return $data;
     }
 
@@ -76,7 +76,7 @@ if (!function_exists('oxi_addons_font_awesome')):
         if ($fadata == 'yes'):
             wp_enqueue_style('font-awesome-' . $faversion[0], $faversion[1]);
         endif;
-        $files = '<i class="' . $data . ' oxi-icons"></i>';
+        $files = '<i class="' . esc_attr($data) . ' oxi-icons"></i>';
         return $files;
     }
 
@@ -100,7 +100,7 @@ endif;
 /**
  * The code that runs during background color image viewing.
  * also works with linear gradient also
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsBGImage')):
@@ -130,7 +130,7 @@ endif;
 
 /**
  * The code that runs during box shadow viewing.
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsBoxShadowSanitize')):
@@ -149,7 +149,7 @@ endif;
 
 /**
  * The code that runs during border, border radius, padding, margin.
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsPaddingMarginSanitize')):
@@ -163,7 +163,7 @@ endif;
 /**
  * The code that runs during animation viewing.
  * works with full animation data
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsAnimation')):
@@ -190,8 +190,8 @@ if (!function_exists('OxiAddonsAnimation')):
             $animation = explode('//', $styledata[($firstvalue + 2)]);
             $data .= 'oxi-addons-animation="oxi-animation-' . $number . '-' . $number2 . ' ' . $styledata[$firstvalue] . '"';
             $loop = $animation[1] == 'infinite' ? ' infinite ' : ' 1 ';
-            $css .= ' .oxi-addons-animation.oxi-animation-' . $number . '-' . $number2 . '{ 
-                             -webkit-animation: ' . $styledata[$firstvalue] . ' ' . $danimation[0] . 's ' . $loop . ' ' . $animation[0] . 's; 
+            $css .= ' .oxi-addons-animation.oxi-animation-' . $number . '-' . $number2 . '{
+                             -webkit-animation: ' . $styledata[$firstvalue] . ' ' . $danimation[0] . 's ' . $loop . ' ' . $animation[0] . 's;
                              -moz-animation:    ' . $styledata[$firstvalue] . ' ' . $danimation[0] . 's ' . $loop . ' ' . $animation[0] . 's;
                              -o-animation:      ' . $styledata[$firstvalue] . ' ' . $danimation[0] . 's ' . $loop . ' ' . $animation[0] . 's;
                              animation:         ' . $styledata[$firstvalue] . ' ' . $danimation[0] . 's ' . $loop . ' ' . $animation[0] . 's;
@@ -209,9 +209,9 @@ if (!function_exists('OxiAddonsAnimation')):
 endif;
 /**
  * The code that runs during font value.
- * 
- * 
- * @since 2.1.0 
+ *
+ *
+ * @since 2.1.0
  */
 if (!function_exists('OxiAddonsAdminDefine')):
 
@@ -224,8 +224,8 @@ endif;
 /**
  * The code that runs during font settings.
  * capable to output font family,font style, line height font style, text shadow, text align
- * 
- * @since 2.0.0 
+ *
+ * @since 2.0.0
  */
 if (!function_exists('OxiAddonsFontSettings')):
 
@@ -265,7 +265,7 @@ endif;
 /**
  * The code that runs during Text Shadow.
  * capable to output Text Shadow
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsTextShadowSettings')):
@@ -283,7 +283,7 @@ endif;
 
 /**
  * The code that runs during output responsive class.
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsItemRows')):
@@ -296,7 +296,7 @@ if (!function_exists('OxiAddonsItemRows')):
 endif;
 /**
  * The code that runs during url or link output.
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsUrlConvert')):
@@ -312,7 +312,7 @@ endif;
 
 /**
  * create unique class from text
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiStringToClassReplacce')):
@@ -326,7 +326,7 @@ if (!function_exists('OxiStringToClassReplacce')):
 endif;
 /**
  * The code that runs during rating.
- * 
+ *
  * @since 2.0.0
  */
 if (!function_exists('OxiAddonsPublicRate')):
@@ -366,15 +366,6 @@ if (!function_exists('OxiAddonsPublicRate')):
             return oxi_addons_font_awesome($ratefull) . oxi_addons_font_awesome($rateO) . oxi_addons_font_awesome($rateO) . oxi_addons_font_awesome($rateO) . oxi_addons_font_awesome($rateO);
         endif;
     }
-
-
-
-
-
-
-
-
-
 
 
 endif;

@@ -34,7 +34,7 @@ trait Validation {
         $check = get_option('oxi_addons_google_font');
         if ($check != 'no'):
             foreach ($data as $value) {
-                wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
+                wp_enqueue_style('' . esc_attr($value) . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
             }
         endif;
     }
@@ -119,7 +119,7 @@ trait Validation {
         if ($fadata == 'yes'):
             wp_enqueue_style('font-awsome.min', SA_ADDONS_URL . '/assets/front/css/font-awsome.min.css', false, SA_ADDONS_PLUGIN_VERSION);
         endif;
-        $files = '<i class="' . $data . ' oxi-icons"></i>';
+        $files = '<i class="' . esc_attr($data) . ' oxi-icons"></i>';
         return $files;
     }
 

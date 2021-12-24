@@ -108,17 +108,17 @@ class Elements_Frontend extends Database {
      * @since 2.1.0
      */
     public function elements_home() {
-        echo _('<div class="oxi-addons-row">
+        echo '<div class="oxi-addons-row">
                     <div class="oxi-addons-wrapper">
                         <div class="oxi-addons-import-layouts">
                             <h1>Shortcode Addons ›
-                                ' . $this->admin_name_validation($this->oxitype) . '
+                                ' . esc_html($this->admin_name_validation($this->oxitype)) . '
                             </h1>
-                            <p> View our  ' . $this->admin_name_validation($this->oxitype) . ' from Demo and select Which one You Want</p>
+                            <p> View our  ' . esc_html($this->admin_name_validation($this->oxitype)) . ' from Demo and select Which one You Want</p>
                         </div>
-                    </div>');
-        echo $this->pre_created_templates();
-        echo _(' </div>');
+                    </div>';
+        $this->pre_created_templates();
+        echo ' </div>';
         ?>
 
         <div class="oxi-addons-row">
@@ -135,7 +135,7 @@ class Elements_Frontend extends Database {
                 $layouts = str_replace('-', '_', ucfirst($settings['style']['style_name']));
                 if (array_key_exists($layouts, $this->pre_active_check())):
                     $i++;
-                    echo $this->template_rendar($settings);
+                    $this->template_rendar($settings);
                 else:
                     $templatenai = true;
                 endif;
@@ -146,10 +146,10 @@ class Elements_Frontend extends Database {
             if ($templatenai):
 
 
-                echo _('<div class="oxi-addons-col-1 oxi-import">
+                echo '<div class="oxi-addons-col-1 oxi-import">
                         <div class="oxi-addons-style-preview">
                             <div class="oxilab-admin-style-preview-top">
-                                <a href="' . admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&oxiimport=import") . '">
+                                <a href="' . esc_url(admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&oxiimport=import")) . '">
                                     <div class="oxilab-admin-add-new-item">
                                         <span>
                                             <i class="fas fa-plus-circle oxi-icons"></i>
@@ -159,15 +159,15 @@ class Elements_Frontend extends Database {
                                 </a>
                             </div>
                         </div>
-                    </div>');
+                    </div>';
 
             endif;
-            echo _('<div class="modal fade" id="oxi-addons-style-create-modal" >
+            echo '<div class="modal fade" id="oxi-addons-style-create-modal" >
                         <form method="post" id="oxi-addons-style-modal-form">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">' . $this->admin_name_validation($this->oxitype) . ' Settings</h4>
+                                        <h4 class="modal-title">' . esc_html($this->admin_name_validation($this->oxitype)) . ' Settings</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
@@ -179,7 +179,7 @@ class Elements_Frontend extends Database {
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <input type="hidden" id="addons-oxi-type" name="addons-oxi-type" value="' . $this->oxitype . '">
+                                        <input type="hidden" id="addons-oxi-type" name="addons-oxi-type" value="' . esc_attr($this->oxitype) . '">
                                         <input type="hidden" id="oxi-addons-data" name="oxi-addons-data" value="">
                                         <input type="hidden" id="oxistyleid" name="oxistyleid" value="">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -207,7 +207,7 @@ class Elements_Frontend extends Database {
                                 </div>
                             </div>
                         </form>
-                    </div>');
+                    </div>';
             ?>
 
         </div>

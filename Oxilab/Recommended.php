@@ -90,7 +90,6 @@ class Recommended {
 
         if (count($recommend) > 2 && $recommend['modules-path'] != ''):
             $plugin = explode('/', $recommend['modules-path'])[0];
-            $massage = '<p>Thank you for using my Shortcode Addons. ' . $recommend['modules-massage'] . '</p>';
 
             $install_url = wp_nonce_url(add_query_arg(array('action' => 'install-plugin', 'plugin' => $plugin), admin_url('update.php')), 'install-plugin' . '_' . $plugin);
             echo '<div class="wrap oxi-addons-admin-notifications" style="width: auto;">
@@ -101,8 +100,8 @@ class Recommended {
                         <p></p>
                         <div class="oxi-addons-admin-notifications-holder">
                             <div class="oxi-addons-admin-notifications-alert">
-                                ' . $massage . '
-                                <p>' . sprintf('<a href="%s" class="button button-large button-primary">%s</a>', $install_url, __('Install Now', SHORTCODE_ADDOONS)) . ' &nbsp;&nbsp;<a href="#" class="button button-large button-secondary oxi-plugins-admin-recommended-dismiss" sup-data="done">No, Thanks</a></p>
+                                <p>Thank you for using my Shortcode Addons. ' . esc_html($recommend['modules-massage']) . '</p>
+                                <p><a href="' . esc_url($install_url) . '" class="button button-large button-primary">' . esc_html__('Install Now', 'shortcode-addons') . '</a>&nbsp;&nbsp;<a href="#" class="button button-large button-secondary oxi-plugins-admin-recommended-dismiss" sup-data="done">No, Thanks</a></p>
                             </div>
                         </div>
                         <p></p>

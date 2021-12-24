@@ -53,7 +53,7 @@ class GoogleFont extends Console {
             ?>
             <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-row">
-                    <h1><?php _e('Google Fonts Manager'); ?> </h1>
+                    <h1>Google Fonts Manager</h1>
                 </div>
 
                 <div class="oxi-addons-row">

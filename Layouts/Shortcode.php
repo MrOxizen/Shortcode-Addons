@@ -38,7 +38,7 @@ class Shortcode extends Database {
         $database = new \SHORTCODE_ADDONS\Helper\Database();
         $styledata = $database->wpdb->get_row($database->wpdb->prepare("SELECT * FROM $database->parent_table WHERE id = %d ", $styleid), ARRAY_A);
         $listdata = $database->wpdb->get_results("SELECT * FROM $database->child_table WHERE styleid= '$styleid'  ORDER by id ASC", ARRAY_A);
-        $shortcode = '';
+
         if (is_array($styledata)) {
             $element = ucfirst(strtolower(str_replace('-', '_', $styledata['type'])));
             $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $element . '\Templates\\' . ucfirst(str_replace('-', '_', $styledata['style_name'])) . '';
@@ -48,13 +48,16 @@ class Shortcode extends Database {
             $CLASS = new $cls;
             $CLASS->__construct($styledata, $listdata, $user);
         } else {
-            $shortcode .= '<div class="oxi-addons-container">
-                                <div class="oxi-addons-error">
-                                    **<strong>Empty</strong> data found. Kindly check shortcode and put right shortcode with id from Shortcode Addons Elements**
-                                </div>
-                            </div>';
+            ?>
+
+            <div class="oxi-addons-container">
+                <div class="oxi-addons-error">
+                    **<strong>Empty</strong> data found. Kindly check shortcode and put right shortcode with id from Shortcode Addons Elements**
+                </div>
+            </div>
+            <?php
         }
-        echo $shortcode;
+
         return ob_get_clean();
     }
 

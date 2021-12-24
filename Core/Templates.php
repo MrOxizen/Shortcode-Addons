@@ -244,7 +244,7 @@ class Templates {
      * @since 2.0.0
      */
     public function render() {
-        echo '<div class="oxi-addons-container ' . $this->WRAPPER . ' ' . get_option('oxi_addons_conflict_class') . '">
+        echo '<div class="oxi-addons-container ' . esc_attr($this->WRAPPER) . ' ' . esc_attr(get_option('oxi_addons_conflict_class')) . '">
                  <div class="oxi-addons-row">';
         $this->default_render($this->style, $this->child, $this->admin);
         echo '   </div>

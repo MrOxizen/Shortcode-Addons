@@ -23,7 +23,7 @@ define('SA_ADDONS_PATH', plugin_dir_path(__FILE__));
 define('SA_ADDONS_URL', plugins_url('/', __FILE__));
 define('SA_ADDONS_PLUGIN_VERSION', '3.1.0');
 define('SA_ADDONS_PLUGIN_ADMIN', 'shortcode-addons/admin_version');
-define('SHORTCODE_ADDOONS', 'SHORTCODE_ADDOONS');
+define('SHORTCODE_ADDOONS', 'shortcode-addons');
 $upload = wp_upload_dir();
 define('SA_ADDONS_UPLOAD_PATH', $upload['basedir'] . '/shortcode-addons/');
 define('SA_ADDONS_UPLOAD_URL', $upload['baseurl'] . '/shortcode-addons/');

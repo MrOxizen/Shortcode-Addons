@@ -77,23 +77,9 @@ trait Helper {
     public function oxilab_admin_menu($agr) {
 
         $bgimage = SA_ADDONS_URL . 'image/sa-logo.png';
-        $sub = '';
-
-        $menu = '<div class="oxi-addons-wrapper">
-                    <div class="oxilab-new-admin-menu">
-                        <div class="oxi-site-logo">
-                            <a href="' . admin_url('admin.php?page=shortcode-addons') . '" class="header-logo" style=" background-image: url(' . $bgimage . ');">
-                            </a>
-                        </div>
-                        <nav class="oxilab-sa-admin-nav">
-                            <ul class="oxilab-sa-admin-menu">';
-
         $GETPage = sanitize_text_field($_GET['page']);
         $oxitype = (!empty($_GET['oxitype']) ? sanitize_text_field($_GET['oxitype']) : '');
 
-        if ($oxitype != '') :
-            $menu .= '<li class="active"><a href="' . admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype) . '">' . $this->name_converter($oxitype) . '</a></li>';
-        endif;
         $response = [
             'Elements' => [
                 'name' => 'Elements',
@@ -104,23 +90,43 @@ trait Helper {
                 'homepage' => 'shortcode-addons-import'
             ]
         ];
-
-        foreach ($response as $key => $value) {
-            $active = ($GETPage == $value['homepage'] ? (empty($oxitype) ? ' class="active" ' : '') : '');
-            $menu .= '<li ' . $active . '><a href="' . admin_url('admin.php?page=' . $value['homepage'] . '') . '">' . $this->name_converter($value['name']) . '</a></li>';
-        }
-        $menu .= '              </ul>
-                            <ul class="oxilab-sa-admin-menu2">
-                               ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE ? ' <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Upgrade</a></li>' : '') . '
-                               <li class="saadmin-doc"><a target="_black" href="https://www.oxilabdemos.com/shortcode-addons/docs/">Docs</a></li>
-                               <li class="saadmin-doc"><a target="_black" href="https://wordpress.org/support/plugin/shortcode-addons/">Support</a></li>
-                               <li class="saadmin-set"><a href="' . admin_url('admin.php?page=shortcode-addons-settings') . '"><span class="dashicons dashicons-admin-generic"></span></a></li>
-                            </ul>
-                        </nav>
-                    </div>
+        ?>
+        <div class="oxi-addons-wrapper">
+            <div class="oxilab-new-admin-menu">
+                <div class="oxi-site-logo">
+                    <a href="<?php echo esc_url(admin_url('admin.php?page=shortcode-addons')); ?>" class="header-logo" style=" background-image: url(<?php echo esc_url($bgimage); ?>);">
+                    </a>
                 </div>
-                ' . $sub;
-        echo __($menu, SHORTCODE_ADDOONS);
+                <nav class="oxilab-sa-admin-nav">
+                    <ul class="oxilab-sa-admin-menu">
+                        <?php
+                        if ($oxitype != '' && $GETPage = 'shortcode-addons') :
+                            echo '<li class="active"><a href="' . esc_url(admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype)) . '">' . esc_html($this->name_converter($oxitype)) . '</a></li>';
+                        endif;
+
+                        foreach ($response as $key => $value) {
+                            $active = ($GETPage == $value['homepage'] ? ' class="active" ' : '');
+
+                            echo'<li ' . esc_attr($active) . '><a href="' . esc_url(admin_url('admin.php?page=' . $value['homepage'] . '')) . '">' . esc_html($this->name_converter($value['name'])) . '</a></li>';
+                        }
+                        ?>
+                    </ul>
+                    <ul class="oxilab-sa-admin-menu2">
+                        <?php
+                        if (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE):
+                            ?>
+                            <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/accordions/pricing">Upgrade</a></li>
+                            <?php
+                        endif;
+                        ?>
+                        <li class="saadmin-doc"><a target="_black" href="https://www.oxilabdemos.com/shortcode-addons/docs/">Docs</a></li>
+                        <li class="saadmin-doc"><a target="_black" href="https://wordpress.org/support/plugin/shortcode-addons/">Support</a></li>
+                        <li class="saadmin-set"><a href="<?php echo esc_url(admin_url('admin.php?page=shortcode-addons-settings')); ?>"><span class="dashicons dashicons-admin-generic"></span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <?php
     }
 
     /**
@@ -240,26 +246,31 @@ trait Helper {
             }
         </style>
         <?php
-
     }
 
     public function supportandcomments($agr) {
-        echo '  <div class="oxi-addons-admin-notifications">
-                    <h3>
-                        <span class="dashicons dashicons-flag"></span>
-                        Notifications
-                    </h3>
+        ?>
+        <div class="oxi-addons-admin-notifications">
+            <h3>
+                <span class="dashicons dashicons-flag"></span>
+                Notifications
+            </h3>
+            <p></p>
+            <div class="oxi-addons-admin-notifications-holder">
+                <div class="oxi-addons-admin-notifications-alert">
+                    <p>Unable to create your desire design or need any help? I Just wanted to see if you have any questions or concerns about my plugins. If you do, Please do not hesitate to <a href="https://wordpress.org/support/plugin/shortcode-addons#new-post">file a bug report or help</a>. Our dedicated team will helps you to solve your issues. </p>
+                    <?php
+                    if (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) != true):
+                        echo '<p>By the way, did you know we also have a <a href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Premium Version</a>? It offers lots of options with automatic update. It also comes with 16/5 personal support.</p>';
+                    endif;
+                    ?>
+                    <p>Thanks Again!</p>
                     <p></p>
-                    <div class="oxi-addons-admin-notifications-holder">
-                        <div class="oxi-addons-admin-notifications-alert">
-                            <p>Unable to create your desire design or need any help? I Just wanted to see if you have any questions or concerns about my plugins. If you do, Please do not hesitate to <a href="https://wordpress.org/support/plugin/shortcode-addons#new-post">file a bug report or help</a>. Our dedicated team will helps you to solve your issues. </p>
-                            ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) ? '' : '<p>By the way, did you know we also have a <a href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Premium Version</a>? It offers lots of options with automatic update. It also comes with 16/5 personal support.</p>') . '
-                            <p>Thanks Again!</p>
-                            <p></p>
-                        </div>
-                    </div>
-                    <p></p>
-                </div>';
+                </div>
+            </div>
+            <p></p>
+        </div>
+        <?php
     }
 
     /**

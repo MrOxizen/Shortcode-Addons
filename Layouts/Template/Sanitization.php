@@ -307,9 +307,9 @@ trait Sanitization {
             'type' => 'text',
             'label' => 'Input Text',
             'default' => '',
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
-            'placeholder' => __('', SHORTCODE_ADDOONS),
+            'label_on' => __('Yes', 'shortcode-addons'),
+            'label_off' => __('No', 'shortcode-addons'),
+            'placeholder' => __('', 'shortcode-addons'),
             'selector-data' => TRUE,
             'render' => TRUE,
             'responsive' => 'laptop'
@@ -328,16 +328,16 @@ trait Sanitization {
         if ($arg['type'] == 'animation'):
             $arg['type'] = 'select';
             $arg['options'] = [
-                '' => __('None', SHORTCODE_ADDOONS),
-                'bounce' => __('Bounce', SHORTCODE_ADDOONS),
-                'flash' => __('Flash', SHORTCODE_ADDOONS),
-                'pulse' => __('Pulse', SHORTCODE_ADDOONS),
-                'rubberBand' => __('RubberBand', SHORTCODE_ADDOONS),
-                'shake' => __('Shake', SHORTCODE_ADDOONS),
-                'swing' => __('Swing', SHORTCODE_ADDOONS),
-                'tada' => __('Tada', SHORTCODE_ADDOONS),
-                'wobble' => __('Wobble', SHORTCODE_ADDOONS),
-                'jello' => __('Jello', SHORTCODE_ADDOONS),
+                '' => __('None', 'shortcode-addons'),
+                'bounce' => __('Bounce', 'shortcode-addons'),
+                'flash' => __('Flash', 'shortcode-addons'),
+                'pulse' => __('Pulse', 'shortcode-addons'),
+                'rubberBand' => __('RubberBand', 'shortcode-addons'),
+                'shake' => __('Shake', 'shortcode-addons'),
+                'swing' => __('Swing', 'shortcode-addons'),
+                'tada' => __('Tada', 'shortcode-addons'),
+                'wobble' => __('Wobble', 'shortcode-addons'),
+                'jello' => __('Jello', 'shortcode-addons'),
             ];
         endif;
         $fun = $arg['type'] . '_admin_control';
@@ -1148,7 +1148,7 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Typography', SHORTCODE_ADDOONS),
+            'label' => __('Typography', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
@@ -1168,7 +1168,7 @@ trait Sanitization {
         endif;
         $this->add_control(
                 $id . '-font', $data, [
-            'label' => __('Font Family', SHORTCODE_ADDOONS),
+            'label' => __('Font Family', 'shortcode-addons'),
             'type' => Controls::FONT,
             $selectorvalue => 'font-family:"{{VALUE}}";',
             $selector_key => $selector,
@@ -1177,7 +1177,7 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-size', $data, [
-            'label' => __('Size', SHORTCODE_ADDOONS),
+            'label' => __('Size', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1212,38 +1212,38 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-weight', $data, [
-            'label' => __('Weight', SHORTCODE_ADDOONS),
+            'label' => __('Weight', 'shortcode-addons'),
             'type' => Controls::SELECT,
             $selectorvalue => 'font-weight: {{VALUE}};',
             $loader => $loadervalue,
             $selector_key => $selector,
             'options' => [
-                '100' => __('100', SHORTCODE_ADDOONS),
-                '200' => __('200', SHORTCODE_ADDOONS),
-                '300' => __('300', SHORTCODE_ADDOONS),
-                '400' => __('400', SHORTCODE_ADDOONS),
-                '500' => __('500', SHORTCODE_ADDOONS),
-                '600' => __('600', SHORTCODE_ADDOONS),
-                '700' => __('700', SHORTCODE_ADDOONS),
-                '800' => __('800', SHORTCODE_ADDOONS),
-                '900' => __('900', SHORTCODE_ADDOONS),
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'normal' => __('Normal', SHORTCODE_ADDOONS),
-                'bold' => __('Bold', SHORTCODE_ADDOONS)
+                '100' => __('100', 'shortcode-addons'),
+                '200' => __('200', 'shortcode-addons'),
+                '300' => __('300', 'shortcode-addons'),
+                '400' => __('400', 'shortcode-addons'),
+                '500' => __('500', 'shortcode-addons'),
+                '600' => __('600', 'shortcode-addons'),
+                '700' => __('700', 'shortcode-addons'),
+                '800' => __('800', 'shortcode-addons'),
+                '900' => __('900', 'shortcode-addons'),
+                '' => __('Default', 'shortcode-addons'),
+                'normal' => __('Normal', 'shortcode-addons'),
+                'bold' => __('Bold', 'shortcode-addons')
             ],
                 ]
         );
         $this->add_control(
                 $id . '-transform', $data, [
-            'label' => __('Transform', SHORTCODE_ADDOONS),
+            'label' => __('Transform', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'uppercase' => __('Uppercase', SHORTCODE_ADDOONS),
-                'lowercase' => __('Lowercase', SHORTCODE_ADDOONS),
-                'capitalize' => __('Capitalize', SHORTCODE_ADDOONS),
-                'none' => __('Normal', SHORTCODE_ADDOONS),
+                '' => __('Default', 'shortcode-addons'),
+                'uppercase' => __('Uppercase', 'shortcode-addons'),
+                'lowercase' => __('Lowercase', 'shortcode-addons'),
+                'capitalize' => __('Capitalize', 'shortcode-addons'),
+                'none' => __('Normal', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'text-transform: {{VALUE}};',
@@ -1252,14 +1252,14 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-style', $data, [
-            'label' => __('Style', SHORTCODE_ADDOONS),
+            'label' => __('Style', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'normal' => __('normal', SHORTCODE_ADDOONS),
-                'italic' => __('Italic', SHORTCODE_ADDOONS),
-                'oblique' => __('Oblique', SHORTCODE_ADDOONS),
+                '' => __('Default', 'shortcode-addons'),
+                'normal' => __('normal', 'shortcode-addons'),
+                'italic' => __('Italic', 'shortcode-addons'),
+                'oblique' => __('Oblique', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'font-style: {{VALUE}};',
@@ -1268,15 +1268,15 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-decoration', $data, [
-            'label' => __('Decoration', SHORTCODE_ADDOONS),
+            'label' => __('Decoration', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'underline' => __('Underline', SHORTCODE_ADDOONS),
-                'overline' => __('Overline', SHORTCODE_ADDOONS),
-                'line-through' => __('Line Through', SHORTCODE_ADDOONS),
-                'none' => __('None', SHORTCODE_ADDOONS),
+                '' => __('Default', 'shortcode-addons'),
+                'underline' => __('Underline', 'shortcode-addons'),
+                'overline' => __('Overline', 'shortcode-addons'),
+                'line-through' => __('Line Through', 'shortcode-addons'),
+                'none' => __('None', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'text-decoration: {{VALUE}};',
@@ -1288,14 +1288,14 @@ trait Sanitization {
             if ($arg['include'] == 'align_normal') :
                 $this->add_responsive_control(
                         $id . '-align', $data, [
-                    'label' => __('Text Align', SHORTCODE_ADDOONS),
+                    'label' => __('Text Align', 'shortcode-addons'),
                     'type' => Controls::SELECT,
                     'default' => '',
                     'options' => [
-                        '' => __('Default', SHORTCODE_ADDOONS),
-                        'left' => __('Left', SHORTCODE_ADDOONS),
-                        'center' => __('Center', SHORTCODE_ADDOONS),
-                        'right' => __('Right', SHORTCODE_ADDOONS),
+                        '' => __('Default', 'shortcode-addons'),
+                        'left' => __('Left', 'shortcode-addons'),
+                        'center' => __('Center', 'shortcode-addons'),
+                        'right' => __('Right', 'shortcode-addons'),
                     ],
                     $loader => $loadervalue,
                     $selectorvalue => 'text-align: {{VALUE}};',
@@ -1305,16 +1305,16 @@ trait Sanitization {
             else :
                 $this->add_responsive_control(
                         $id . '-justify', $data, [
-                    'label' => __('Justify Content', SHORTCODE_ADDOONS),
+                    'label' => __('Justify Content', 'shortcode-addons'),
                     'type' => Controls::SELECT,
                     'default' => '',
                     'options' => [
-                        '' => __('Default', SHORTCODE_ADDOONS),
-                        'flex-start' => __('Flex Start', SHORTCODE_ADDOONS),
-                        'flex-end' => __('Flex End', SHORTCODE_ADDOONS),
-                        'center' => __('Center', SHORTCODE_ADDOONS),
-                        'space-around' => __('Space Around', SHORTCODE_ADDOONS),
-                        'space-between' => __('Space Between', SHORTCODE_ADDOONS),
+                        '' => __('Default', 'shortcode-addons'),
+                        'flex-start' => __('Flex Start', 'shortcode-addons'),
+                        'flex-end' => __('Flex End', 'shortcode-addons'),
+                        'center' => __('Center', 'shortcode-addons'),
+                        'space-around' => __('Space Around', 'shortcode-addons'),
+                        'space-between' => __('Space Between', 'shortcode-addons'),
                     ],
                     $loader => $loadervalue,
                     $selectorvalue => 'justify-content: {{VALUE}};',
@@ -1323,16 +1323,16 @@ trait Sanitization {
                 );
                 $this->add_responsive_control(
                         $id . '-align', $data, [
-                    'label' => __('Align Items', SHORTCODE_ADDOONS),
+                    'label' => __('Align Items', 'shortcode-addons'),
                     'type' => Controls::SELECT,
                     'default' => '',
                     'options' => [
-                        '' => __('Default', SHORTCODE_ADDOONS),
-                        'stretch' => __('Stretch', SHORTCODE_ADDOONS),
-                        'baseline' => __('Baseline', SHORTCODE_ADDOONS),
-                        'center' => __('Center', SHORTCODE_ADDOONS),
-                        'flex-start' => __('Flex Start', SHORTCODE_ADDOONS),
-                        'flex-end' => __('Flex End', SHORTCODE_ADDOONS),
+                        '' => __('Default', 'shortcode-addons'),
+                        'stretch' => __('Stretch', 'shortcode-addons'),
+                        'baseline' => __('Baseline', 'shortcode-addons'),
+                        'center' => __('Center', 'shortcode-addons'),
+                        'flex-start' => __('Flex Start', 'shortcode-addons'),
+                        'flex-end' => __('Flex End', 'shortcode-addons'),
                     ],
                     $loader => $loadervalue,
                     $selectorvalue => 'align-items: {{VALUE}};',
@@ -1344,7 +1344,7 @@ trait Sanitization {
 
         $this->add_responsive_control(
                 $id . '-l-height', $data, [
-            'label' => __('Line Height', SHORTCODE_ADDOONS),
+            'label' => __('Line Height', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1369,7 +1369,7 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-l-spacing', $data, [
-            'label' => __('Letter Spacing', SHORTCODE_ADDOONS),
+            'label' => __('Letter Spacing', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1416,18 +1416,18 @@ trait Sanitization {
         echo '<div class="shortcode-form-control" style="padding: 0;" ' . $this->forms_condition($arg) . '>';
         $this->add_control(
                 $id . '-select', $data, [
-            'label' => __($level, SHORTCODE_ADDOONS),
+            'label' => __($level, 'shortcode-addons'),
             'type' => Controls::CHOOSE,
             'loader' => TRUE,
             'default' => $type,
             'separator' => $separator,
             'options' => [
                 'media-library' => [
-                    'title' => __('Media Library', SHORTCODE_ADDOONS),
+                    'title' => __('Media Library', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'custom-url' => [
-                    'title' => __('Custom URL', SHORTCODE_ADDOONS),
+                    'title' => __('Custom URL', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ]
             ],
@@ -1435,7 +1435,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-image', $data, [
-            'label' => __('Image', SHORTCODE_ADDOONS),
+            'label' => __('Image', 'shortcode-addons'),
             'type' => Controls::IMAGE,
             'loader' => TRUE,
             'default' => $value,
@@ -1446,7 +1446,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __('Image URL', SHORTCODE_ADDOONS),
+            'label' => __('Image URL', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => $value,
             'loader' => TRUE,
@@ -1476,18 +1476,18 @@ trait Sanitization {
         echo '<div class="shortcode-form-control" style="padding: 0;" ' . $this->forms_condition($arg) . '>';
         $this->add_control(
                 $id . '-select', $data, [
-            'label' => __(ucfirst($filetype) . ' Source', SHORTCODE_ADDOONS),
+            'label' => __(ucfirst($filetype) . ' Source', 'shortcode-addons'),
             'type' => Controls::CHOOSE,
             'loader' => TRUE,
             'default' => $type,
             'separator' => $separator,
             'options' => [
                 'media-library' => [
-                    'title' => __('Media', SHORTCODE_ADDOONS),
+                    'title' => __('Media', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'custom-url' => [
-                    'title' => __('Custom', SHORTCODE_ADDOONS),
+                    'title' => __('Custom', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ]
             ],
@@ -1495,7 +1495,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-media', $data, [
-            'label' => __(ucfirst($filetype), SHORTCODE_ADDOONS),
+            'label' => __(ucfirst($filetype), 'shortcode-addons'),
             'type' => Controls::IMAGE,
             'loader' => TRUE,
             'select' => $filetype,
@@ -1507,7 +1507,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __(ucfirst($filetype) . ' URL', SHORTCODE_ADDOONS),
+            'label' => __(ucfirst($filetype) . ' URL', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => $value,
             'loader' => TRUE,
@@ -1570,7 +1570,7 @@ trait Sanitization {
         endif;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Box Shadow', SHORTCODE_ADDOONS),
+            'label' => __('Box Shadow', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
@@ -1579,28 +1579,28 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-shadow', $data, [
-            'label' => __('Shadow', SHORTCODE_ADDOONS),
+            'label' => __('Shadow', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'loader' => TRUE,
             'default' => 'yes',
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('None', SHORTCODE_ADDOONS),
+            'label_on' => __('Yes', 'shortcode-addons'),
+            'label_off' => __('None', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-type', $data, [
-            'label' => __('Type', SHORTCODE_ADDOONS),
+            'label' => __('Type', 'shortcode-addons'),
             'type' => Controls::CHOOSE,
             'loader' => TRUE,
             'default' => '',
             'options' => [
                 '' => [
-                    'title' => __('Outline', SHORTCODE_ADDOONS),
+                    'title' => __('Outline', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'inset' => [
-                    'title' => __('Inset', SHORTCODE_ADDOONS),
+                    'title' => __('Inset', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ],
             ],
@@ -1610,7 +1610,7 @@ trait Sanitization {
 
         $this->add_control(
                 $id . '-horizontal', $data, [
-            'label' => __('Horizontal', SHORTCODE_ADDOONS),
+            'label' => __('Horizontal', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1632,7 +1632,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-vertical', $data, [
-            'label' => __('Vertical', SHORTCODE_ADDOONS),
+            'label' => __('Vertical', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1654,7 +1654,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-blur', $data, [
-            'label' => __('Blur', SHORTCODE_ADDOONS),
+            'label' => __('Blur', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1676,7 +1676,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-spread', $data, [
-            'label' => __('Spread', SHORTCODE_ADDOONS),
+            'label' => __('Spread', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1698,7 +1698,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
+            'label' => __('Color', 'shortcode-addons'),
             'separator' => TRUE,
             'type' => Controls::COLOR,
             'oparetor' => 'RGB',
@@ -1745,7 +1745,7 @@ trait Sanitization {
         endif;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Text Shadow', SHORTCODE_ADDOONS),
+            'label' => __('Text Shadow', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
@@ -1754,7 +1754,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
+            'label' => __('Color', 'shortcode-addons'),
             'type' => Controls::COLOR,
             'oparetor' => 'RGB',
             'default' => '#FFF',
@@ -1766,7 +1766,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-blur', $data, [
-            'label' => __('Blur', SHORTCODE_ADDOONS),
+            'label' => __('Blur', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'separator' => TRUE,
             'custom' => $id . '|||||text-shadow',
@@ -1788,7 +1788,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-horizontal', $data, [
-            'label' => __('Horizontal', SHORTCODE_ADDOONS),
+            'label' => __('Horizontal', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'custom' => $id . '|||||text-shadow',
             'render' => FALSE,
@@ -1809,7 +1809,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-vertical', $data, [
-            'label' => __('Vertical', SHORTCODE_ADDOONS),
+            'label' => __('Vertical', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'custom' => $id . '|||||text-shadow',
             'render' => FALSE,
@@ -1847,7 +1847,7 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Animation', SHORTCODE_ADDOONS),
+            'label' => __('Animation', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
@@ -1856,80 +1856,80 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-type', $data, [
-            'label' => __('Type', SHORTCODE_ADDOONS),
+            'label' => __('Type', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
                 'optgroup0' => [true, 'Attention Seekers'],
-                '' => __('None', SHORTCODE_ADDOONS),
+                '' => __('None', 'shortcode-addons'),
                 'optgroup1' => [false],
                 'optgroup2' => [true, 'Attention Seekers'],
-                'bounce' => __('Bounce', SHORTCODE_ADDOONS),
-                'flash' => __('Flash', SHORTCODE_ADDOONS),
-                'pulse' => __('Pulse', SHORTCODE_ADDOONS),
-                'rubberBand' => __('RubberBand', SHORTCODE_ADDOONS),
-                'shake' => __('Shake', SHORTCODE_ADDOONS),
-                'swing' => __('Swing', SHORTCODE_ADDOONS),
-                'tada' => __('Tada', SHORTCODE_ADDOONS),
-                'wobble' => __('Wobble', SHORTCODE_ADDOONS),
-                'jello' => __('Jello', SHORTCODE_ADDOONS),
+                'bounce' => __('Bounce', 'shortcode-addons'),
+                'flash' => __('Flash', 'shortcode-addons'),
+                'pulse' => __('Pulse', 'shortcode-addons'),
+                'rubberBand' => __('RubberBand', 'shortcode-addons'),
+                'shake' => __('Shake', 'shortcode-addons'),
+                'swing' => __('Swing', 'shortcode-addons'),
+                'tada' => __('Tada', 'shortcode-addons'),
+                'wobble' => __('Wobble', 'shortcode-addons'),
+                'jello' => __('Jello', 'shortcode-addons'),
                 'optgroup3' => [false],
                 'optgroup4' => [true, 'Bouncing Entrances'],
-                'bounceIn' => __('BounceIn', SHORTCODE_ADDOONS),
-                'bounceInDown' => __('BounceInDown', SHORTCODE_ADDOONS),
-                'bounceInLeft' => __('BounceInLeft', SHORTCODE_ADDOONS),
-                'bounceInRight' => __('BounceInRight', SHORTCODE_ADDOONS),
-                'bounceInUp' => __('BounceInUp', SHORTCODE_ADDOONS),
+                'bounceIn' => __('BounceIn', 'shortcode-addons'),
+                'bounceInDown' => __('BounceInDown', 'shortcode-addons'),
+                'bounceInLeft' => __('BounceInLeft', 'shortcode-addons'),
+                'bounceInRight' => __('BounceInRight', 'shortcode-addons'),
+                'bounceInUp' => __('BounceInUp', 'shortcode-addons'),
                 'optgroup5' => [false],
                 'optgroup6' => [true, 'Fading Entrances'],
-                'fadeIn' => __('FadeIn', SHORTCODE_ADDOONS),
-                'fadeInDown' => __('FadeInDown', SHORTCODE_ADDOONS),
-                'fadeInDownBig' => __('FadeInDownBig', SHORTCODE_ADDOONS),
-                'fadeInLeft' => __('FadeInLeft', SHORTCODE_ADDOONS),
-                'fadeInLeftBig' => __('FadeInLeftBig', SHORTCODE_ADDOONS),
-                'fadeInRight' => __('FadeInRight', SHORTCODE_ADDOONS),
-                'fadeInRightBig' => __('FadeInRightBig', SHORTCODE_ADDOONS),
-                'fadeInUp' => __('FadeInUp', SHORTCODE_ADDOONS),
-                'fadeInUpBig' => __('FadeInUpBig', SHORTCODE_ADDOONS),
+                'fadeIn' => __('FadeIn', 'shortcode-addons'),
+                'fadeInDown' => __('FadeInDown', 'shortcode-addons'),
+                'fadeInDownBig' => __('FadeInDownBig', 'shortcode-addons'),
+                'fadeInLeft' => __('FadeInLeft', 'shortcode-addons'),
+                'fadeInLeftBig' => __('FadeInLeftBig', 'shortcode-addons'),
+                'fadeInRight' => __('FadeInRight', 'shortcode-addons'),
+                'fadeInRightBig' => __('FadeInRightBig', 'shortcode-addons'),
+                'fadeInUp' => __('FadeInUp', 'shortcode-addons'),
+                'fadeInUpBig' => __('FadeInUpBig', 'shortcode-addons'),
                 'optgroup7' => [false],
                 'optgroup8' => [true, 'Flippers'],
-                'flip' => __('Flip', SHORTCODE_ADDOONS),
-                'flipInX' => __('FlipInX', SHORTCODE_ADDOONS),
-                'flipInY' => __('FlipInY', SHORTCODE_ADDOONS),
+                'flip' => __('Flip', 'shortcode-addons'),
+                'flipInX' => __('FlipInX', 'shortcode-addons'),
+                'flipInY' => __('FlipInY', 'shortcode-addons'),
                 'optgroup9' => [false],
                 'optgroup10' => [true, 'Lightspeed'],
-                'lightSpeedIn' => __('LightSpeedIn', SHORTCODE_ADDOONS),
+                'lightSpeedIn' => __('LightSpeedIn', 'shortcode-addons'),
                 'optgroup11' => [false],
                 'optgroup12' => [true, 'Rotating Entrances'],
-                'rotateIn' => __('RotateIn', SHORTCODE_ADDOONS),
-                'rotateInDownLeft' => __('RotateInDownLeft', SHORTCODE_ADDOONS),
-                'rotateInDownRight' => __('RotateInDownRight', SHORTCODE_ADDOONS),
-                'rotateInUpLeft' => __('RotateInUpLeft', SHORTCODE_ADDOONS),
-                'rotateInUpRight' => __('RotateInUpRight', SHORTCODE_ADDOONS),
+                'rotateIn' => __('RotateIn', 'shortcode-addons'),
+                'rotateInDownLeft' => __('RotateInDownLeft', 'shortcode-addons'),
+                'rotateInDownRight' => __('RotateInDownRight', 'shortcode-addons'),
+                'rotateInUpLeft' => __('RotateInUpLeft', 'shortcode-addons'),
+                'rotateInUpRight' => __('RotateInUpRight', 'shortcode-addons'),
                 'optgroup13' => [false],
                 'optgroup14' => [true, 'Sliding Entrances'],
-                'slideInUp' => __('SlideInUp', SHORTCODE_ADDOONS),
-                'slideInDown' => __('SlideInDown', SHORTCODE_ADDOONS),
-                'slideInLeft' => __('SlideInLeft', SHORTCODE_ADDOONS),
-                'slideInRight' => __('SlideInRight', SHORTCODE_ADDOONS),
+                'slideInUp' => __('SlideInUp', 'shortcode-addons'),
+                'slideInDown' => __('SlideInDown', 'shortcode-addons'),
+                'slideInLeft' => __('SlideInLeft', 'shortcode-addons'),
+                'slideInRight' => __('SlideInRight', 'shortcode-addons'),
                 'optgroup15' => [false],
                 'optgroup16' => [true, 'Zoom Entrances'],
-                'zoomIn' => __('ZoomIn', SHORTCODE_ADDOONS),
-                'zoomInDown' => __('ZoomInDown', SHORTCODE_ADDOONS),
-                'zoomInLeft' => __('ZoomInLeft', SHORTCODE_ADDOONS),
-                'zoomInRight' => __('ZoomInRight', SHORTCODE_ADDOONS),
-                'zoomInUp' => __('ZoomInUp', SHORTCODE_ADDOONS),
+                'zoomIn' => __('ZoomIn', 'shortcode-addons'),
+                'zoomInDown' => __('ZoomInDown', 'shortcode-addons'),
+                'zoomInLeft' => __('ZoomInLeft', 'shortcode-addons'),
+                'zoomInRight' => __('ZoomInRight', 'shortcode-addons'),
+                'zoomInUp' => __('ZoomInUp', 'shortcode-addons'),
                 'optgroup17' => [false],
                 'optgroup18' => [true, 'Specials'],
-                'hinge' => __('Hinge', SHORTCODE_ADDOONS),
-                'rollIn' => __('RollIn', SHORTCODE_ADDOONS),
+                'hinge' => __('Hinge', 'shortcode-addons'),
+                'rollIn' => __('RollIn', 'shortcode-addons'),
                 'optgroup19' => [false],
             ],
                 ]
         );
         $this->add_control(
                 $id . '-duration', $data, [
-            'label' => __('Duration (ms)', SHORTCODE_ADDOONS),
+            'label' => __('Duration (ms)', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1949,7 +1949,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-delay', $data, [
-            'label' => __('Delay (ms)', SHORTCODE_ADDOONS),
+            'label' => __('Delay (ms)', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1969,7 +1969,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-offset', $data, [
-            'label' => __('Offset', SHORTCODE_ADDOONS),
+            'label' => __('Offset', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1989,12 +1989,12 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-looping', $data, [
-            'label' => __('Looping', SHORTCODE_ADDOONS),
+            'label' => __('Looping', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'default' => '',
             'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
+            'label_on' => __('Yes', 'shortcode-addons'),
+            'label_off' => __('No', 'shortcode-addons'),
             'return_value' => 'yes',
             'condition' => [
                 $id . '-type' => 'EMPTY',
@@ -2021,7 +2021,7 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Border', SHORTCODE_ADDOONS),
+            'label' => __('Border', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
@@ -2045,20 +2045,20 @@ trait Sanitization {
 
         $this->add_control(
                 $id . '-type', $data, [
-            'label' => __('Type', SHORTCODE_ADDOONS),
+            'label' => __('Type', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('None', SHORTCODE_ADDOONS),
-                'solid' => __('Solid', SHORTCODE_ADDOONS),
-                'dotted' => __('Dotted', SHORTCODE_ADDOONS),
-                'dashed' => __('Dashed', SHORTCODE_ADDOONS),
-                'double' => __('Double', SHORTCODE_ADDOONS),
-                'groove' => __('Groove', SHORTCODE_ADDOONS),
-                'ridge' => __('Ridge', SHORTCODE_ADDOONS),
-                'inset' => __('Inset', SHORTCODE_ADDOONS),
-                'outset' => __('Outset', SHORTCODE_ADDOONS),
-                'hidden' => __('Hidden', SHORTCODE_ADDOONS),
+                '' => __('None', 'shortcode-addons'),
+                'solid' => __('Solid', 'shortcode-addons'),
+                'dotted' => __('Dotted', 'shortcode-addons'),
+                'dashed' => __('Dashed', 'shortcode-addons'),
+                'double' => __('Double', 'shortcode-addons'),
+                'groove' => __('Groove', 'shortcode-addons'),
+                'ridge' => __('Ridge', 'shortcode-addons'),
+                'inset' => __('Inset', 'shortcode-addons'),
+                'outset' => __('Outset', 'shortcode-addons'),
+                'hidden' => __('Hidden', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'border-style: {{VALUE}};',
@@ -2067,7 +2067,7 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-width', $data, [
-            'label' => __('Width', SHORTCODE_ADDOONS),
+            'label' => __('Width', 'shortcode-addons'),
             'type' => Controls::DIMENSIONS,
             $render => FALSE,
             'default' => [
@@ -2096,7 +2096,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
+            'label' => __('Color', 'shortcode-addons'),
             'type' => Controls::COLOR,
             $render => FALSE,
             'default' => '',
@@ -2159,7 +2159,7 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Background', SHORTCODE_ADDOONS),
+            'label' => __('Background', 'shortcode-addons'),
             'condition' => array_key_exists('condition', $arg) ? $arg['condition'] : '',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
@@ -2168,7 +2168,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
+            'label' => __('Color', 'shortcode-addons'),
             'type' => Controls::GRADIENT,
             'gradient' => $id,
             'oparetor' => 'RGB',
@@ -2180,28 +2180,28 @@ trait Sanitization {
 
         $this->add_control(
                 $id . '-img', $data, [
-            'label' => __('Image', SHORTCODE_ADDOONS),
+            'label' => __('Image', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
+            'label_on' => __('Yes', 'shortcode-addons'),
+            'label_off' => __('No', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-select', $data, [
-            'label' => __('Photo Source', SHORTCODE_ADDOONS),
+            'label' => __('Photo Source', 'shortcode-addons'),
             'separator' => TRUE,
             'loader' => TRUE,
             'type' => Controls::CHOOSE,
             'default' => 'media-library',
             'options' => [
                 'media-library' => [
-                    'title' => __('Media Library', SHORTCODE_ADDOONS),
+                    'title' => __('Media Library', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'custom-url' => [
-                    'title' => __('Custom URL', SHORTCODE_ADDOONS),
+                    'title' => __('Custom URL', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ]
             ],
@@ -2212,7 +2212,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-image', $data, [
-            'label' => __('Image', SHORTCODE_ADDOONS),
+            'label' => __('Image', 'shortcode-addons'),
             'type' => Controls::IMAGE,
             'default' => '',
             'loader' => TRUE,
@@ -2224,7 +2224,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __('Image URL', SHORTCODE_ADDOONS),
+            'label' => __('Image URL', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => '',
             'loader' => TRUE,
@@ -2237,21 +2237,21 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-position', $data, [
-            'label' => __('Position', SHORTCODE_ADDOONS),
+            'label' => __('Position', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'center center',
             'render' => $render,
             'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'top left' => __('Top Left', SHORTCODE_ADDOONS),
-                'top center' => __('Top Center', SHORTCODE_ADDOONS),
-                'top right' => __('Top Right', SHORTCODE_ADDOONS),
-                'center left' => __('Center Left', SHORTCODE_ADDOONS),
-                'center center' => __('Center Center', SHORTCODE_ADDOONS),
-                'center right' => __('Center Right', SHORTCODE_ADDOONS),
-                'bottom left' => __('Bottom Left', SHORTCODE_ADDOONS),
-                'bottom center' => __('Bottom Center', SHORTCODE_ADDOONS),
-                'bottom right' => __('Bottom Right', SHORTCODE_ADDOONS),
+                '' => __('Default', 'shortcode-addons'),
+                'top left' => __('Top Left', 'shortcode-addons'),
+                'top center' => __('Top Center', 'shortcode-addons'),
+                'top right' => __('Top Right', 'shortcode-addons'),
+                'center left' => __('Center Left', 'shortcode-addons'),
+                'center center' => __('Center Center', 'shortcode-addons'),
+                'center right' => __('Center Right', 'shortcode-addons'),
+                'bottom left' => __('Bottom Left', 'shortcode-addons'),
+                'bottom center' => __('Bottom Center', 'shortcode-addons'),
+                'bottom right' => __('Bottom Right', 'shortcode-addons'),
             ],
             'loader' => TRUE,
             'condition' => [
@@ -2262,14 +2262,14 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-attachment', $data, [
-            'label' => __('Attachment', SHORTCODE_ADDOONS),
+            'label' => __('Attachment', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'render' => $render,
             'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'scroll' => __('Scroll', SHORTCODE_ADDOONS),
-                'fixed' => __('Fixed', SHORTCODE_ADDOONS),
+                '' => __('Default', 'shortcode-addons'),
+                'scroll' => __('Scroll', 'shortcode-addons'),
+                'fixed' => __('Fixed', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'background-attachment: {{VALUE}};',
@@ -2282,16 +2282,16 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-repeat', $data, [
-            'label' => __('Repeat', SHORTCODE_ADDOONS),
+            'label' => __('Repeat', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'no-repeat',
             'render' => $render,
             'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'no-repeat' => __('No-Repeat', SHORTCODE_ADDOONS),
-                'repeat' => __('Repeat', SHORTCODE_ADDOONS),
-                'repeat-x' => __('Repeat-x', SHORTCODE_ADDOONS),
-                'repeat-y' => __('Repeat-y', SHORTCODE_ADDOONS),
+                '' => __('Default', 'shortcode-addons'),
+                'no-repeat' => __('No-Repeat', 'shortcode-addons'),
+                'repeat' => __('Repeat', 'shortcode-addons'),
+                'repeat-x' => __('Repeat-x', 'shortcode-addons'),
+                'repeat-y' => __('Repeat-y', 'shortcode-addons'),
             ],
             'loader' => TRUE,
             'condition' => [
@@ -2302,15 +2302,15 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-size', $data, [
-            'label' => __('Size', SHORTCODE_ADDOONS),
+            'label' => __('Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'cover',
             'render' => $render,
             'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'auto' => __('Auto', SHORTCODE_ADDOONS),
-                'cover' => __('Cover', SHORTCODE_ADDOONS),
-                'contain' => __('Contain', SHORTCODE_ADDOONS),
+                '' => __('Default', 'shortcode-addons'),
+                'auto' => __('Auto', 'shortcode-addons'),
+                'cover' => __('Cover', 'shortcode-addons'),
+                'contain' => __('Contain', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'background-size: {{VALUE}};',
@@ -2341,7 +2341,7 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __('Link', SHORTCODE_ADDOONS),
+            'label' => __('Link', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => '',
             'link' => TRUE,
@@ -2356,29 +2356,29 @@ trait Sanitization {
 
         $this->add_control(
                 $id . '-target', $data, [
-            'label' => __('New Window?', SHORTCODE_ADDOONS),
+            'label' => __('New Window?', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'default' => '',
             'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
+            'label_on' => __('Yes', 'shortcode-addons'),
+            'label_off' => __('No', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-follow', $data, [
-            'label' => __('No Follow', SHORTCODE_ADDOONS),
+            'label' => __('No Follow', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'default' => 'yes',
             'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
+            'label_on' => __('Yes', 'shortcode-addons'),
+            'label_off' => __('No', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-id', $data, [
-            'label' => __('CSS ID', SHORTCODE_ADDOONS),
+            'label' => __('CSS ID', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => '',
             'placeholder' => 'abcd-css-id',
@@ -2404,17 +2404,17 @@ trait Sanitization {
 
         $this->add_control(
                 $lap = $id . '-lap', $data, [
-            'label' => __('Column Size', SHORTCODE_ADDOONS),
+            'label' => __('Column Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'responsive' => 'laptop',
             'default' => 'oxi-bt-col-lg-12',
             'options' => [
-                'oxi-bt-col-lg-12' => __('Col 1', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-6' => __('Col 2', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-4' => __('Col 3', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-3' => __('Col 4', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-2' => __('Col 6', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-1' => __('Col 12', SHORTCODE_ADDOONS),
+                'oxi-bt-col-lg-12' => __('Col 1', 'shortcode-addons'),
+                'oxi-bt-col-lg-6' => __('Col 2', 'shortcode-addons'),
+                'oxi-bt-col-lg-4' => __('Col 3', 'shortcode-addons'),
+                'oxi-bt-col-lg-3' => __('Col 4', 'shortcode-addons'),
+                'oxi-bt-col-lg-2' => __('Col 6', 'shortcode-addons'),
+                'oxi-bt-col-lg-1' => __('Col 12', 'shortcode-addons'),
             ],
             $select => $selector,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
@@ -2424,17 +2424,17 @@ trait Sanitization {
         );
         $this->add_control(
                 $tab = $id . '-tab', $data, [
-            'label' => __('Column Size', SHORTCODE_ADDOONS),
+            'label' => __('Column Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'responsive' => 'tab',
             'default' => 'oxi-bt-col-md-12',
             'options' => [
-                'oxi-bt-col-md-12' => __('Col 1', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-6' => __('Col 2', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-4' => __('Col 3', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-3' => __('Col 4', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-2' => __('Col 6', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-1' => __('Col 12', SHORTCODE_ADDOONS),
+                'oxi-bt-col-md-12' => __('Col 1', 'shortcode-addons'),
+                'oxi-bt-col-md-6' => __('Col 2', 'shortcode-addons'),
+                'oxi-bt-col-md-4' => __('Col 3', 'shortcode-addons'),
+                'oxi-bt-col-md-3' => __('Col 4', 'shortcode-addons'),
+                'oxi-bt-col-md-2' => __('Col 6', 'shortcode-addons'),
+                'oxi-bt-col-md-1' => __('Col 12', 'shortcode-addons'),
             ],
             $select => $selector,
             'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
@@ -2444,17 +2444,17 @@ trait Sanitization {
         );
         $this->add_control(
                 $mob = $id . '-mob', $data, [
-            'label' => __('Column Size', SHORTCODE_ADDOONS),
+            'label' => __('Column Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'oxi-bt-col-lg-12',
             'responsive' => 'mobile',
             'options' => [
-                'oxi-bt-col-sm-12' => __('Col 1', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-6' => __('Col 2', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-4' => __('Col 3', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-3' => __('Col 4', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-2' => __('Col 6', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-1' => __('Col 12', SHORTCODE_ADDOONS),
+                'oxi-bt-col-sm-12' => __('Col 1', 'shortcode-addons'),
+                'oxi-bt-col-sm-6' => __('Col 2', 'shortcode-addons'),
+                'oxi-bt-col-sm-4' => __('Col 3', 'shortcode-addons'),
+                'oxi-bt-col-sm-3' => __('Col 4', 'shortcode-addons'),
+                'oxi-bt-col-sm-2' => __('Col 6', 'shortcode-addons'),
+                'oxi-bt-col-sm-1' => __('Col 12', 'shortcode-addons'),
             ],
             $select => $selector,
             'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',

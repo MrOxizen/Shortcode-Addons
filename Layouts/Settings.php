@@ -59,12 +59,12 @@ class Settings {
                                     <fieldset>
                                         <select name="oxi_addons_user_permission">
                                             <?php foreach ($this->roles as $key => $role) { ?>
-                                                <option value="<?php echo $key; ?>" <?php selected($this->saved_role, $key); ?>><?php echo $role; ?></option>
-        <?php } ?>
+                                                <option value="<?php echo esc_attr($key); ?>" <?php selected($this->saved_role, $key); ?>><?php echo esc_html($role); ?></option>
+                                            <?php } ?>
                                         </select>
                                         <span class="oxi-addons-settings-connfirmation oxi_addons_user_permission"></span>
                                         <br>
-                                        <p class="description"><?php _e('Select the Role who can manage This Plugins.'); ?> <a target="_blank" href="https://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table">Help</a></p>
+                                        <p class="description">Select the Role who can manage This Plugins.<a target="_blank" href="https://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table">Help</a></p>
                                     </fieldset>
                                 </td>
                             </tr>
@@ -150,7 +150,7 @@ class Settings {
                                 <td>
                                     <fieldset>
                                         <label for="oxi_addons_conflict_class">
-                                            <input type="text" name="oxi_addons_conflict_class" value="<?php echo get_option('oxi_addons_conflict_class'); ?>">
+                                            <input type="text" name="oxi_addons_conflict_class" value="<?php echo esc_attr(get_option('oxi_addons_conflict_class')); ?>">
                                         </label>
                                         <span class="oxi-addons-settings-connfirmation oxi_addons_conflict_class"></span>
                                         <br>
@@ -171,7 +171,7 @@ class Settings {
                                     <label for="shortcode_addons_license_key">License Key</label>
                                 </th>
                                 <td class="valid">
-                                    <input type="text" class="regular-text" id="shortcode_addons_license_key" name="shortcode_addons_license_key" value="<?php echo $this->license; ?>">
+                                    <input type="text" class="regular-text" id="shortcode_addons_license_key" name="shortcode_addons_license_key" value="<?php echo esc_attr($this->license); ?>">
                                     <span class="oxi-addons-settings-connfirmation shortcode_addons_license_massage">
                                         <?php
                                         if ($this->status == 'valid' && empty($this->license)):
@@ -192,7 +192,7 @@ class Settings {
                                         elseif ($this->status == 'valid' && !empty($this->license)):
                                             echo '<span class="oxi-addons-settings-massage">Active</span>';
                                         elseif (!empty($this->license)):
-                                            echo '<span class="oxi-addons-settings-massage">' . $this->status . '</span>';
+                                            echo '<span class="oxi-addons-settings-massage">' . esc_attr($this->status) . '</span>';
                                         else:
                                             echo '<span class="oxi-addons-settings-massage"></span>';
                                         endif;

@@ -58,11 +58,15 @@ class Import extends Console {
                 die('You do not have sufficient permissions to access this page.');
             } else {
                 if ($_FILES["validuploaddata"]["name"] && current_user_can('upload_files')) {
+
+                    if (!current_user_can('upload_files')):
+                        wp_die(esc_html('You do not have permission to upload files.'));
+                    endif;
+
                     $filename = $_FILES["validuploaddata"]["name"];
                     $source = $_FILES["validuploaddata"]["tmp_name"];
                     $type = $_FILES["validuploaddata"]["type"];
                     if ($type == 'application/json') {
-
                         $folder = $this->safe_path(SA_ADDONS_PATH . 'assets/export/');
                         if (is_file($folder . $filename)):
                             unlink($folder . $filename); // delete file
