@@ -155,6 +155,7 @@ trait Helper {
         $style = (!empty($_GET['styleid']) ? (int) $_GET['styleid'] : '');
         if (!empty($oxitype) && empty($style)):
             $clsss = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\\' . $oxitype . '';
+
             if (class_exists($clsss)):
                 $elements = new $clsss();
                 $elements->elements();
@@ -174,6 +175,7 @@ trait Helper {
             if (array_key_exists('style_name', $query)):
                 $StyleName = ucfirst(str_replace('-', "_", $query['style_name']));
                 $clsss = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . $StyleName . '';
+
                 if (class_exists($clsss)):
                     new $clsss();
                 else:

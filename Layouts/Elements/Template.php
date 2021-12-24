@@ -74,7 +74,7 @@ trait Template {
     public function template_name_optimize($data) {
         $data = str_replace('-', ' ', $data);
         $data = str_replace('_', ' ', $data);
-        return ucfirst($data);
+        return esc_html(ucfirst($data));
     }
 
     public function template_rendar($data = array()) {
@@ -84,13 +84,13 @@ trait Template {
         <div class="oxi-addons-col-1" id="<?php echo esc_attr($layouts); ?>">
             <div class="oxi-addons-style-preview">
                 <div class="oxi-addons-style-preview-top oxi-addons-center">
-                    <?php $this->Shortcode($data); ?>
+                    <?php echo $this->Shortcode($data); ?>
                 </div>
                 <div class="oxi-addons-style-preview-bottom">
                     <div class="oxi-addons-style-preview-bottom-left">
-                        <?php $this->template_name_optimize($data['style']['style_name']); ?>
+                        <?php echo $this->template_name_optimize($data['style']['style_name']); ?>
                     </div>
-                    <?php $this->ShortcodeControl($data); ?>
+                    <?php echo $this->ShortcodeControl($data); ?>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@ trait Template {
                     <div class="oxi-addons-style-preview-bottom-right">
                         <form method="post" class="shortcode-addons-template-active" style=" display: inline-block; ">
                             <input type="hidden" id="oxitype" name="oxitype" value="<?php echo esc_attr($this->oxitype); ?>">
-                            <input type="hidden" name="oxiactivestyle" value="<?php echo $layouts; ?>">
+                            <input type="hidden" name="oxiactivestyle" value="<?php echo esc_attr($layouts); ?>">
                             <button class="btn btn-success" title="Active"  type="submit" value="Active" name="addonsstyleactive">Import Style</button>
                         </form>
                     </div>');
@@ -135,7 +135,7 @@ trait Template {
                     <input type="hidden" name="oxideletestyle" value="<?php echo esc_attr($layouts); ?>">
                     <button class="btn btn-warning oxi-addons-addons-style-btn-warning" title="Delete"  type="submit" value="Deactive" name="addonsstyledelete">Deactive</button>
                 </form>
-                <textarea style="display:none" id="oxistyle<?php echo esc_attr($number); ?>data"  value=""><?php echo esc_textarea(htmlentities(json_encode($data))); ?></textarea>
+                <textarea style="display:none" id="oxistyle<?php echo esc_attr($number); ?>data"  value=""><?php echo htmlentities(json_encode($data)); ?></textarea>
                 <button type="button" class="btn btn-success oxi-addons-addons-template-create" data-toggle="modal" addons-data="oxistyle<?php echo esc_attr($number); ?>data">Create Style</button>
             </div>
         <?php
@@ -147,9 +147,9 @@ trait Template {
             <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-import-layouts">
                     <h1>Shortcode Addons ›
-                        ' . $this->admin_name_validation($this->oxitype) . '
+                        <?php echo esc_html($this->admin_name_validation($this->oxitype)); ?>
                     </h1>
-                    <p> View our  ' . $this->admin_name_validation($this->oxitype) . ' from Demo and select Which one You Want</p>
+                    <p> View our   <?php echo esc_html($this->admin_name_validation($this->oxitype)); ?> from Demo and select Which one You Want</p>
                 </div>
             </div><?php
             echo $this->pre_created_templates();

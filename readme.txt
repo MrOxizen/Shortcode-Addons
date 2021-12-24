@@ -4,7 +4,7 @@ Donate link: https://www.oxilab.org
 Tags: shortcode, visual composer, divi, siteorgin, addons, shortcode addons
 Requires at least: 4.5
 Tested up to: 5.8.2
-Stable tag: 3.1.0
+Stable tag: 3.2.0
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -367,7 +367,7 @@ Its too easy Chose your style from Elements List and click at Clone.
 * responsive layout
 
 == Upgrade Notice ==
-= 3.1.0 = 
+= 3.2.0 = 
 Update Security Issues
 Modify Admin Modules
 
