@@ -185,8 +185,8 @@ class AdminStyle {
     public function modal_opener() {
         $this->add_substitute_control('', [], [
             'type' => Controls::MODALOPENER,
-            'title' => __('Add New Data', 'shortcode-addons'),
-            'sub-title' => __('Open Data Form', 'shortcode-addons'),
+            'title' => esc_html__('Add New Data', 'shortcode-addons'),
+            'sub-title' => esc_html__('Open Data Form', 'shortcode-addons'),
             'showing' => TRUE,
         ]);
     }
@@ -200,8 +200,8 @@ class AdminStyle {
     public function shortcode_name() {
         $this->add_substitute_control('', $this->dbdata, [
             'type' => Controls::SHORTCODENAME,
-            'title' => __('Shortcode Name', 'shortcode-addons'),
-            'placeholder' => __('Set Your Shortcode Name', 'shortcode-addons'),
+            'title' => esc_html__('Shortcode Name', 'shortcode-addons'),
+            'placeholder' => esc_html__('Set Your Shortcode Name', 'shortcode-addons'),
             'showing' => TRUE,
         ]);
     }
@@ -215,7 +215,7 @@ class AdminStyle {
     public function shortcode_info() {
         $this->add_substitute_control($this->oxiid, $this->dbdata, [
             'type' => Controls::SHORTCODEINFO,
-            'title' => __('Shortcode', 'shortcode-addons'),
+            'title' => esc_html__('Shortcode', 'shortcode-addons'),
             'showing' => TRUE,
         ]);
     }

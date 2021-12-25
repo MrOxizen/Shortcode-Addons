@@ -393,28 +393,6 @@ class RestApi extends Console {
         endif;
     }
 
-    public function get_shortcode_export() {
-        $styleid = (int) $this->styleid;
-
-        if ($styleid):
-            $style = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM {$this->parent_table} WHERE id = %d", $styleid), ARRAY_A);
-            $child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM {$this->child_table} WHERE styleid = %d ORDER by id ASC", $styleid), ARRAY_A);
-            $filename = 'shortcode-addons-template-' . $styleid . '.json';
-            $files = [
-                'style' => $style,
-                'child' => $child,
-            ];
-            $finalfiles = json_encode($files);
-            $this->send_file_headers($filename, strlen($finalfiles));
-            @ob_end_clean();
-            flush();
-            echo $finalfiles;
-            die;
-        else:
-            return 'Silence is Golden';
-        endif;
-    }
-
     /**
      * Send file headers.
      *
@@ -503,7 +481,7 @@ class RestApi extends Console {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = __('An error occurred, please try again.');
+                $message = esc_html('An error occurred, please try again.');
             }
         } else {
             $license_data = json_decode(wp_remote_retrieve_body($response));
@@ -514,25 +492,23 @@ class RestApi extends Console {
 
                     case 'expired' :
 
-                        $message = sprintf(
-                                __('Your license key expired on %s.'), date_i18n(get_option('date_format'), strtotime($license_data->expires, current_time('timestamp')))
-                        );
+                        $message = 'Your license key expired';
                         break;
 
                     case 'revoked' :
 
-                        $message = __('Your license key has been disabled.');
+                        $message = esc_html('Your license key has been disabled.');
                         break;
 
                     case 'missing' :
 
-                        $message = __('Invalid license.');
+                        $message = esc_html('Invalid license.');
                         break;
 
                     case 'invalid' :
                     case 'site_inactive' :
 
-                        $message = __('Your license is not active for this URL.');
+                        $message = esc_html('Your license is not active for this URL.');
                         break;
 
                     case 'item_name_mismatch' :
@@ -542,12 +518,12 @@ class RestApi extends Console {
 
                     case 'no_activations_left':
 
-                        $message = __('Your license key has reached its activation limit.');
+                        $message = esc_html('Your license key has reached its activation limit.');
                         break;
 
                     default :
 
-                        $message = __('An error occurred, please try again.');
+                        $message = esc_html('An error occurred, please try again.');
                         break;
                 }
             }
@@ -573,7 +549,7 @@ class RestApi extends Console {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = __('An error occurred, please try again.');
+                $message = esc_html('An error occurred, please try again.');
             }
             return $message;
         }

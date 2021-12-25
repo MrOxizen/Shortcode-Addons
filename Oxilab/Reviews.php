@@ -40,7 +40,7 @@ class Reviews {
             else:
                 update_option('shortcode_addons_no_bug', $notice);
             endif;
-            echo $notice;
+            echo esc_html($notice);
         else:
             return;
         endif;

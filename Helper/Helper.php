@@ -115,7 +115,7 @@ trait Helper {
                         <?php
                         if (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE):
                             ?>
-                            <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/accordions/pricing">Upgrade</a></li>
+                            <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/pricing">Upgrade</a></li>
                             <?php
                         endif;
                         ?>
@@ -151,6 +151,11 @@ trait Helper {
      * @since 2.0.0
      */
     public function addons_elements() {
+        $permission = $this->menu_permission();
+        if (!current_user_can($permission)):
+            die();
+        endif;
+
         $oxitype = ucfirst(strtolower(!empty($_GET['oxitype']) ? sanitize_text_field($_GET['oxitype']) : ''));
         $style = (!empty($_GET['styleid']) ? (int) $_GET['styleid'] : '');
         if (!empty($oxitype) && empty($style)):
@@ -160,34 +165,24 @@ trait Helper {
                 $elements = new $clsss();
                 $elements->elements();
             else:
-                $url = admin_url('admin.php?page=shortcode-addons');
-                echo '<script type="text/javascript"> document.location.href = "' . $url . '"; </script>';
-                exit;
+                die();
             endif;
         elseif (!empty($oxitype) && !empty($style)):
             $database = new \SHORTCODE_ADDONS\Helper\Database();
             $query = $database->wpdb->get_row($database->wpdb->prepare("SELECT style_name, type, id FROM $database->parent_table WHERE id = %d ", $style), ARRAY_A);
             if (array_key_exists('style_name', $query) && strtolower($oxitype) != strtolower($query['type'])):
-                $url = admin_url('admin.php?page=shortcode-addons&oxitype=' . $query['type'] . '&styleid=' . $style);
-                echo '<script type="text/javascript"> document.location.href = "' . $url . '"; </script>';
-                exit;
+                die();
             endif;
             if (array_key_exists('style_name', $query)):
                 $StyleName = ucfirst(str_replace('-', "_", $query['style_name']));
                 $clsss = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . $StyleName . '';
-
                 if (class_exists($clsss)):
                     new $clsss();
                 else:
-                    $this->file_check($oxitype);
-                    $url = admin_url('admin.php?page=shortcode-addons');
-                    echo '<script type="text/javascript"> document.location.href = "' . $url . '"; </script>';
-                    exit;
+                    die();
                 endif;
             else:
-                $url = admin_url('admin.php?page=shortcode-addons');
-                echo '<script type="text/javascript"> document.location.href = "' . $url . '"; </script>';
-                exit;
+                die();
             endif;
         else:
             $elements = new \SHORTCODE_ADDONS\Layouts\Collection();

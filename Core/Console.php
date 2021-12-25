@@ -18,7 +18,6 @@ class Console extends Database {
     const SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS = 'shortcode_addons_available_elements';
     const SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS = 'shortcode_addons_installed_elements';
     const SHORTCODE_TRANSIENT_GOOGLE_FONT = 'shortcode_addons_google_font';
-    const DOWNLOAD_SHORTCODE_ELEMENTS = 'https://www.oxilabdemos.com/shortcode-addons/Shortcode-Addons/Elements/';
 
     public $request;
     public $rawdata;
@@ -155,23 +154,8 @@ class Console extends Database {
         if (!empty($elements)):
             $this->rawdata = $elements;
         endif;
-        if (is_dir(SA_ADDONS_UPLOAD_PATH . $this->rawdata)):
-            $this->empty_dir(SA_ADDONS_UPLOAD_PATH . $this->rawdata);
-        endif;
 
-        require_once(ABSPATH . 'wp-admin/includes/file.php');
-        $tmpfile = download_url(self::DOWNLOAD_SHORTCODE_ELEMENTS . $this->rawdata . '.zip', $timeout = 500);
-        if (is_string($tmpfile)):
-            $permfile = 'oxilab.zip';
-            $zip = new \ZipArchive();
-            if ($zip->open($tmpfile) !== TRUE):
-                return 'Problem 2';
-            endif;
-            $zip->extractTo(SA_ADDONS_UPLOAD_PATH);
-            $zip->close();
-            $this->installed_elements(true);
-            return 'Done';
-        endif;
+        return $this->installed_elements();
     }
 
     /**

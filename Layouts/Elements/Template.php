@@ -33,7 +33,7 @@ trait Template {
                     foreach ($this->database_data() as $value) {
                         $id = $value['id'];
                         echo '<tr>';
-                        echo '<td>' . $id . '</td>';
+                        echo '<td>' . esc_attr($id) . '</td>';
                         echo '<td>' . esc_html($this->admin_name_validation($value['name'])) . '</td>';
                         echo '<td>' . esc_html($this->admin_name_validation($value['style_name'])) . '</td>';
                         echo'<td><span>Shortcode &nbsp;&nbsp;<input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="[oxi_addons id=&quot;' . esc_attr($id) . '&quot;]"></span> <br>'
@@ -60,21 +60,13 @@ trait Template {
     }
 
     public function Shortcode($rawdata) {
-        $rt = '';
-        $oxitype = $rawdata['style']['type'];
-        $StyleName = $rawdata['style']['style_name'];
-        $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . ucfirst($oxitype) . '\Templates\\' . ucfirst(str_replace('-', '_', $StyleName)) . '';
-        ob_start();
-        $CLASS = new $cls;
-        $CLASS->__construct($rawdata['style'], $rawdata['child'], '');
-        $rt .= ob_get_clean();
-        return $rt;
+        return '';
     }
 
     public function template_name_optimize($data) {
         $data = str_replace('-', ' ', $data);
         $data = str_replace('_', ' ', $data);
-        return esc_html(ucfirst($data));
+        echo esc_html(ucfirst($data));
     }
 
     public function template_rendar($data = array()) {
@@ -84,13 +76,13 @@ trait Template {
         <div class="oxi-addons-col-1" id="<?php echo esc_attr($layouts); ?>">
             <div class="oxi-addons-style-preview">
                 <div class="oxi-addons-style-preview-top oxi-addons-center">
-                    <?php echo $this->Shortcode($data); ?>
+
                 </div>
                 <div class="oxi-addons-style-preview-bottom">
                     <div class="oxi-addons-style-preview-bottom-left">
-                        <?php echo $this->template_name_optimize($data['style']['style_name']); ?>
+                        <?php $this->template_name_optimize($data['style']['style_name']); ?>
                     </div>
-                    <?php echo $this->ShortcodeControl($data); ?>
+                    <?php $this->ShortcodeControl($data); ?>
                 </div>
             </div>
         </div>
@@ -135,7 +127,7 @@ trait Template {
                     <input type="hidden" name="oxideletestyle" value="<?php echo esc_attr($layouts); ?>">
                     <button class="btn btn-warning oxi-addons-addons-style-btn-warning" title="Delete"  type="submit" value="Deactive" name="addonsstyledelete">Deactive</button>
                 </form>
-                <textarea style="display:none" id="oxistyle<?php echo esc_attr($number); ?>data"  value=""><?php echo htmlentities(json_encode($data)); ?></textarea>
+                <textarea style="display:none" id="oxistyle<?php echo esc_attr($number); ?>data"  value=""><?php echo esc_textarea(htmlentities(json_encode($data))); ?></textarea>
                 <button type="button" class="btn btn-success oxi-addons-addons-template-create" data-toggle="modal" addons-data="oxistyle<?php echo esc_attr($number); ?>data">Create Style</button>
             </div>
         <?php
@@ -152,7 +144,7 @@ trait Template {
                     <p> View our   <?php echo esc_html($this->admin_name_validation($this->oxitype)); ?> from Demo and select Which one You Want</p>
                 </div>
             </div><?php
-            echo $this->pre_created_templates();
+            $this->pre_created_templates();
             ?>
         </div>
 
@@ -239,7 +231,7 @@ trait Template {
                 $settings = json_decode($value, true);
                 $layouts = str_replace('-', '_', ucfirst($settings['style']['style_name']));
                 if ((array_key_exists($layouts, $this->pre_active_check())) == FALSE):
-                    echo $this->template_rendar($settings);
+                    $this->template_rendar($settings);
                 endif;
             }
             ?>

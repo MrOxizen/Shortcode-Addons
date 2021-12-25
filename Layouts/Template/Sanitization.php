@@ -48,7 +48,7 @@ trait Sanitization {
     public function start_section_header($id, array $arg = []) {
         echo '<ul class="oxi-addons-tabs-ul">   ';
         foreach ($arg['options'] as $key => $value) {
-            echo '<li ref="#shortcode-addons-section-' . $key . '">' . $value . '</li>';
+            echo '<li ref="#shortcode-addons-section-' . esc_attr($key) . '">' . esc_attr($value) . '</li>';
         }
         echo '</ul>';
     }
@@ -63,7 +63,7 @@ trait Sanitization {
         echo '<div class="oxi-addons-tabs-content-tabs" id="shortcode-addons-section-';
         if (array_key_exists('condition', $arg)) :
             foreach ($arg['condition'] as $value) {
-                echo $value;
+                echo esc_html($value);
             }
         endif;
         echo '">';
@@ -109,7 +109,7 @@ trait Sanitization {
 
         if (array_key_exists('condition', $arg)) :
             $i = $arg['condition'] != '' ? count($arg['condition']) : 0;
-// echo $i;
+
             $data = '';
             $s = 1;
             $form_condition = array_key_exists('form_condition', $arg) ? $arg['form_condition'] : '';
@@ -161,9 +161,9 @@ trait Sanitization {
         $defualt = ['showing' => FALSE];
         $arg = array_merge($defualt, $arg);
         $condition = $this->forms_condition($arg);
-        echo '<div class="oxi-addons-content-div ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '" ' . $condition . '>
+        echo '<div class="oxi-addons-content-div ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '" ' . esc_attr($condition) . '>
                     <div class="oxi-head">
-                    ' . $arg['label'] . '
+                    ' . esc_html($arg['label']) . '
                     <div class="oxi-head-toggle"></div>
                     </div>
                     <div class="oxi-addons-content-div-body">';
@@ -195,7 +195,7 @@ trait Sanitization {
         foreach ($arg['options'] as $key => $value) {
             echo '  <div class="shortcode-control-type-control-tab-child">
 			<div class="shortcode-control-content">
-				' . $value . '
+				' . esc_html($value) . '
                         </div>
                     </div>';
         }
@@ -243,15 +243,15 @@ trait Sanitization {
     public function start_popover_control($id, array $arg = []) {
         $condition = $this->forms_condition($arg);
         $separator = (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '');
-        echo '  <div class="shortcode-form-control shortcode-control-type-popover ' . $separator . '" ' . $condition . '>
+        echo '  <div class="shortcode-form-control shortcode-control-type-popover ' . esc_attr($separator) . '" ' . esc_attr($condition) . '>
                     <div class="shortcode-form-control-content shortcode-form-control-content-popover">
                         <div class="shortcode-form-control-field">
-                            <label for="" class="shortcode-form-control-title">' . $arg['label'] . '</label>
+                            <label for="" class="shortcode-form-control-title">' . esc_html($arg['label']) . '</label>
                             <div class="shortcode-form-control-input-wrapper">
                                 <span class="dashicons popover-set"></span>
                             </div>
                         </div>
-                        ' . (array_key_exists('description', $arg) ? '<div class="shortcode-form-control-description">' . $arg['description'] . '</div>' : '') . '
+                        ' . (array_key_exists('description', $arg) ? '<div class="shortcode-form-control-description">' . esc_html($arg['description']) . '</div>' : '') . '
 
                     </div>
                     <div class="shortcode-form-control-content shortcode-form-control-content-popover-body">
@@ -290,26 +290,15 @@ trait Sanitization {
             elseif ($arg['responsive'] == 'mobile') :
                 $responsiveclass = 'shortcode-addons-form-responsive-mobile';
             endif;
-            $responsive = '<div class="shortcode-form-control-responsive-switchers">
-                                <a class="shortcode-form-responsive-switcher shortcode-form-responsive-switcher-desktop" data-device="desktop">
-                                    <span class="dashicons dashicons-desktop"></span>
-                                </a>
-                                <a class="shortcode-form-responsive-switcher shortcode-form-responsive-switcher-tablet" data-device="tablet">
-                                    <span class="dashicons dashicons-tablet"></span>
-                                </a>
-                                <a class="shortcode-form-responsive-switcher shortcode-form-responsive-switcher-mobile" data-device="mobile">
-                                    <span class="dashicons dashicons-smartphone"></span>
-                                </a>
-                            </div>';
 
         endif;
         $defualt = [
             'type' => 'text',
             'label' => 'Input Text',
             'default' => '',
-            'label_on' => __('Yes', 'shortcode-addons'),
-            'label_off' => __('No', 'shortcode-addons'),
-            'placeholder' => __('', 'shortcode-addons'),
+            'label_on' => esc_html__('Yes', 'shortcode-addons'),
+            'label_off' => esc_html__('No', 'shortcode-addons'),
+            'placeholder' => esc_html__('', 'shortcode-addons'),
             'selector-data' => TRUE,
             'render' => TRUE,
             'responsive' => 'laptop'
@@ -328,16 +317,16 @@ trait Sanitization {
         if ($arg['type'] == 'animation'):
             $arg['type'] = 'select';
             $arg['options'] = [
-                '' => __('None', 'shortcode-addons'),
-                'bounce' => __('Bounce', 'shortcode-addons'),
-                'flash' => __('Flash', 'shortcode-addons'),
-                'pulse' => __('Pulse', 'shortcode-addons'),
-                'rubberBand' => __('RubberBand', 'shortcode-addons'),
-                'shake' => __('Shake', 'shortcode-addons'),
-                'swing' => __('Swing', 'shortcode-addons'),
-                'tada' => __('Tada', 'shortcode-addons'),
-                'wobble' => __('Wobble', 'shortcode-addons'),
-                'jello' => __('Jello', 'shortcode-addons'),
+                '' => esc_html__('None', 'shortcode-addons'),
+                'bounce' => esc_html__('Bounce', 'shortcode-addons'),
+                'flash' => esc_html__('Flash', 'shortcode-addons'),
+                'pulse' => esc_html__('Pulse', 'shortcode-addons'),
+                'rubberBand' => esc_html__('RubberBand', 'shortcode-addons'),
+                'shake' => esc_html__('Shake', 'shortcode-addons'),
+                'swing' => esc_html__('Swing', 'shortcode-addons'),
+                'tada' => esc_html__('Tada', 'shortcode-addons'),
+                'wobble' => esc_html__('Wobble', 'shortcode-addons'),
+                'jello' => esc_html__('Jello', 'shortcode-addons'),
             ];
         endif;
         $fun = $arg['type'] . '_admin_control';
@@ -346,14 +335,28 @@ trait Sanitization {
         $separator = (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '');
 
         $loader = (array_key_exists('loader', $arg) ? $arg['loader'] == TRUE ? ' shortcode-addons-control-loader ' : '' : '');
-        echo '<div class="shortcode-form-control shortcode-control-type-' . $arg['type'] . ' ' . $separator . ' ' . $toggle . ' ' . $responsiveclass . ' ' . $loader . '" ' . $condition . '>
+        echo '<div class="shortcode-form-control shortcode-control-type-' . esc_attr($arg['type']) . ' ' . esc_attr($separator) . ' ' . esc_attr($toggle) . ' ' . esc_attr($responsiveclass) . ' ' . esc_attr($loader) . '" ' . esc_attr($condition) . '>
                 <div class="shortcode-form-control-content">
                     <div class="shortcode-form-control-field">
-                    <label for="" class="shortcode-form-control-title">' . $arg['label'] . '</label>';
-        echo $responsive;
-        echo $this->$fun($id, $data, $arg);
+                    <label for="" class="shortcode-form-control-title">' . esc_html($arg['label']) . '</label>';
+        if (array_key_exists('responsive', $arg)) :
+
+            echo '<div class="shortcode-form-control-responsive-switchers">
+                                <a class="shortcode-form-responsive-switcher shortcode-form-responsive-switcher-desktop" data-device="desktop">
+                                    <span class="dashicons dashicons-desktop"></span>
+                                </a>
+                                <a class="shortcode-form-responsive-switcher shortcode-form-responsive-switcher-tablet" data-device="tablet">
+                                    <span class="dashicons dashicons-tablet"></span>
+                                </a>
+                                <a class="shortcode-form-responsive-switcher shortcode-form-responsive-switcher-mobile" data-device="mobile">
+                                    <span class="dashicons dashicons-smartphone"></span>
+                                </a>
+                            </div>';
+
+        endif;
+        $this->$fun($id, $data, $arg);
         echo '      </div>
-                ' . (array_key_exists('description', $arg) ? '<div class="shortcode-form-control-description">' . $arg['description'] . '</div>' : '') . '
+                ' . (array_key_exists('description', $arg) ? '<div class="shortcode-form-control-description">' . esc_html($arg['description']) . '</div>' : '') . '
                 </div>
         </div>';
     }
@@ -388,7 +391,7 @@ trait Sanitization {
         $defualt = ['type' => 'text', 'label' => 'Input Text'];
         $arg = array_merge($defualt, $arg);
         $fun = $arg['type'] . '_admin_group_control';
-        echo $this->$fun($id, $data, $arg);
+        $this->$fun($id, $data, $arg);
     }
 
     /*
@@ -401,10 +404,10 @@ trait Sanitization {
         $condition = $this->forms_condition($arg);
         $separator = (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '');
         $buttontext = (array_key_exists('button', $arg) ? $arg['button'] : 'Add Item');
-        echo '<div class="shortcode-form-control shortcode-control-type-' . $arg['type'] . ' ' . $separator . '" ' . $condition . ' id="' . $id . '">
+        echo '<div class="shortcode-form-control shortcode-control-type-' . esc_attr($arg['type']) . ' ' . esc_attr($separator) . '" ' . esc_attr($condition) . ' id="' . esc_attr($id) . '">
                 <div class="shortcode-form-control-content">
                     <div class="shortcode-form-control-field">
-                        <label for="" class="shortcode-form-control-title">' . $arg['label'] . '</label>
+                        <label for="" class="shortcode-form-control-title">' . esc_html($arg['label']) . '</label>
                     </div>
                     <div class="shortcode-form-repeater-fields-wrapper">';
         if (array_key_exists($id, $data)) :
@@ -413,10 +416,10 @@ trait Sanitization {
                 foreach ($vl as $c => $v) {
                     $style[$id . 'saarsa' . $k . 'saarsa' . $c] = $v;
                 }
-                echo '  <div class="shortcode-form-repeater-fields" tab-title="' . $arg['title_field'] . '">
+                echo '  <div class="shortcode-form-repeater-fields" tab-title="' . esc_html($arg['title_field']) . '">
                             <div class="shortcode-form-repeater-controls">
                                 <div class="shortcode-form-repeater-controls-title">
-                                    ' . ($vl[$arg['title_field']]) . '
+                                    ' . esc_html($vl[$arg['title_field']]) . '
                                 </div>
                                 <div class="shortcode-form-repeater-controls-duplicate">
                                     <span class="dashicons dashicons-admin-page"></span>
@@ -428,9 +431,9 @@ trait Sanitization {
                             <div class="shortcode-form-repeater-content">';
                 foreach ($arg['fields'] as $key => $value) {
                     $controller = (array_key_exists('controller', $value) ? $value['controller'] : 'add_control');
-                    $child = $id . 'saarsa' . $k . 'saarsa' . $key;
+                    $child = esc_attr($id) . 'saarsa' . $k . 'saarsa' . $key;
                     $value['conditional'] = (array_key_exists('conditional', $value) ? ($value['conditional'] == 'outside') ? 'outside' : 'inside' : '');
-                    $value['form_condition'] = (array_key_exists('conditional', $value) ? ($value['conditional'] == 'inside') ? $id . 'saarsa' . $k . 'saarsa' : '' : '');
+                    $value['form_condition'] = (array_key_exists('conditional', $value) ? ($value['conditional'] == 'inside') ? esc_attr($id) . 'saarsa' . $k . 'saarsa' : '' : '');
 
                     if ($controller == 'add_control' || $controller == 'add_group_control' || $controller == 'add_responsive_control') :
                         $this->$controller($child, $style, $value);
@@ -448,13 +451,13 @@ trait Sanitization {
         $this->add_control(
                 $id . 'nm', $data, ['type' => Controls::HIDDEN, 'default' => '0',]
         );
-        echo '      <div class="shortcode-form-repeater-button-wrapper"><a href="#" parent-id="' . $id . '" class="shortcode-form-repeater-button"><span class="dashicons dashicons-plus"></span> ' . $buttontext . '</a></div>';
+        echo '      <div class="shortcode-form-repeater-button-wrapper"><a href="#" parent-id="' . esc_attr($id) . '" class="shortcode-form-repeater-button"><span class="dashicons dashicons-plus"></span> ' . esc_html($buttontext) . '</a></div>';
 
         echo '  </div>
              </div>';
 
-        $this->repeater .= '<div id="repeater-' . $id . '-initial-data">
-                                <div class="shortcode-form-repeater-fields" tab-title="' . $arg['title_field'] . '">
+        $this->repeater .= '<div id="repeater-' . esc_attr($id) . '-initial-data">
+                                <div class="shortcode-form-repeater-fields" tab-title="' . esc_html($arg['title_field']) . '">
                                     <div class="shortcode-form-repeater-controls">
                                         <div class="shortcode-form-repeater-controls-title">
                                             Title Goes Here
@@ -474,7 +477,6 @@ trait Sanitization {
             $value['form_condition'] = (array_key_exists('conditional', $value) ? ($value['conditional'] == 'inside') ? $id . 'saarsarepidrepsaarsa' : '' : '');
             ob_start();
             if ($controller == 'add_control' || $controller == 'add_group_control' || $controller == 'add_responsive_control') :
-
                 $this->$controller($child, [], $value);
             else :
                 $this->$controller($child, $value);
@@ -497,26 +499,26 @@ trait Sanitization {
         $condition = $this->forms_condition($arg);
         $separator = (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '');
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
-        echo '<div class="shortcode-form-control shortcode-control-type-' . $arg['type'] . ' ' . $separator . '" ' . $condition . '>
+        echo '<div class="shortcode-form-control shortcode-control-type-' . esc_attr($arg['type']) . ' ' . esc_attr($separator) . '" ' . esc_attr($condition) . '>
                 <div class="shortcode-form-control-content">
                     <div class="shortcode-form-control-field">
-                        <label for="" class="shortcode-form-control-title">' . $arg['label'] . '</label>
+                        <label for="" class="shortcode-form-control-title">' . esc_html($arg['label']) . '</label>
                     </div>
-                    <div class="shortcode-form-rearrange-fields-wrapper" vlid="#' . $id . '">';
+                    <div class="shortcode-form-rearrange-fields-wrapper" vlid="#' . esc_attr($id) . '">';
         $rearrange = explode(',', $value);
         foreach ($rearrange as $k => $vl) {
             if ($vl != ''):
-                echo '  <div class="shortcode-form-repeater-fields" id="' . $vl . '">
+                echo '  <div class="shortcode-form-repeater-fields" id="' . esc_attr($vl) . '">
                             <div class="shortcode-form-repeater-controls">
                                 <div class="shortcode-form-repeater-controls-title">
-                                    ' . ($arg['fields'][$vl]['label']) . '
+                                    ' . esc_html($arg['fields'][$vl]['label']) . '
                                 </div>
                             </div>
                         </div>';
             endif;
         }
         echo '          <div class="shortcode-form-control-input-wrapper">
-                            <input type="hidden" value="' . $value . '" name="' . $id . '" id="' . $id . '">
+                            <input type="hidden" value="' . esc_attr($value) . '" name="' . esc_attr($id) . '" id="' . esc_attr($id) . '">
                         </div>
                     </div>
                 </div>
@@ -580,8 +582,8 @@ trait Sanitization {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         echo '  <div class="shortcode-form-control-input-wrapper">
                     <label class="shortcode-switcher">
-                        <input type="checkbox" ' . ($value == $arg['return_value'] ? 'checked ckdflt="true"' : '') . ' value="' . $arg['return_value'] . '"  name="' . $id . '" id="' . $id . '"/>
-                        <span data-on="' . $arg['label_on'] . '" data-off="' . $arg['label_off'] . '"></span>
+                        <input type="checkbox" ' . ($value == $arg['return_value'] ? 'checked ckdflt="true"' : '') . ' value="' . esc_attr($arg['return_value']) . '"  name="' . esc_attr($id) . '" id="' . esc_attr($id) . '"/>
+                        <span data-on="' . esc_attr($arg['label_on']) . '" data-off="' . esc_attr($arg['label_off']) . '"></span>
                     </label>
                 </div>';
     }
@@ -597,11 +599,11 @@ trait Sanitization {
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
         if (array_key_exists('link', $arg)) :
             echo '<div class="shortcode-form-control-input-wrapper shortcode-form-control-input-link">
-                     <input type="text"  name="' . $id . '" id="' . $id . '" value="' . htmlspecialchars($value) . '" placeholder="' . $arg['placeholder'] . '" retundata=\'' . $retunvalue . '\'>
+                     <input type="text"  name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" placeholder="' . esc_html($arg['placeholder']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
                      <span class="dashicons dashicons-admin-generic"></span>';
         else :
             echo '<div class="shortcode-form-control-input-wrapper">
-                <input type="text"  name="' . $id . '" id="' . $id . '" value="' . htmlspecialchars($value) . '" placeholder="' . $arg['placeholder'] . '" retundata=\'' . $retunvalue . '\'>
+                <input type="text"  name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="' . esc_attr(esc_attr($retunvalue)) . '" placeholder="' . esc_html($arg['placeholder']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
             </div>';
         endif;
     }
@@ -617,11 +619,11 @@ trait Sanitization {
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
         if (array_key_exists('link', $arg)) :
             echo '<div class="shortcode-form-control-input-wrapper shortcode-form-control-input-link">
-                     <input type="password"  name="' . $id . '" id="' . $id . '" value="' . htmlspecialchars($value) . '" placeholder="' . $arg['placeholder'] . '" retundata=\'' . $retunvalue . '\'>
+                     <input type="password"  name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" placeholder="' . esc_html($arg['placeholder']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
                      <span class="dashicons dashicons-admin-generic"></span>';
         else :
             echo '<div class="shortcode-form-control-input-wrapper">
-                <input type="password"  name="' . $id . '" id="' . $id . '" value="' . htmlspecialchars($value) . '" placeholder="' . $arg['placeholder'] . '" retundata=\'' . $retunvalue . '\'>
+                <input type="password"  name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" placeholder="' . esc_html($arg['placeholder']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
             </div>';
         endif;
     }
@@ -635,7 +637,7 @@ trait Sanitization {
     public function hidden_admin_control($id, array $data = [], array $arg = []) {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         echo ' <div class="shortcode-form-control-input-wrapper">
-                   <input type="hidden" value="' . $value . '" name="' . $id . '" id="' . $id . '">
+                   <input type="hidden" value="' . esc_attr($value) . '" name="' . esc_attr($id) . '" id="' . esc_attr($id) . '">
                </div>';
     }
 
@@ -649,7 +651,7 @@ trait Sanitization {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
         echo '<div class="shortcode-form-control-input-wrapper">
-                 <textarea  name="' . $id . '" id="' . $id . '" retundata=\'' . $retunvalue . '\' class="shortcode-form-control-tag-area" rows="' . (int) ((strlen($value) / 50) + 2) . '" placeholder="' . $arg['placeholder'] . '">' . str_replace('&nbsp;', '  ', str_replace('<br>', '&#13;&#10;', $value)) . '</textarea>
+                 <textarea  name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" retundata=\'' . esc_attr($retunvalue) . '\' class="shortcode-form-control-tag-area" rows="' . (int) ((strlen($value) / 50) + 2) . '" placeholder="' . esc_html($arg['placeholder']) . '">' . str_replace('&nbsp;', '  ', str_replace('<br>', '&#13;&#10;', esc_attr($value))) . '</textarea>
               </div>';
     }
 
@@ -666,8 +668,8 @@ trait Sanitization {
 
             $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
             $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
-            echo ' <div class="shortcode-form-control-input-wrapper"  retundata=\'' . $retunvalue . '\'>';
-            echo wp_editor(
+            echo ' <div class="shortcode-form-control-input-wrapper"  retundata=\'' . esc_attr($retunvalue) . '\'>';
+            wp_editor(
                     $value, $id, $settings = array(
                 'textarea_name' => $id,
                 'wpautop' => false,
@@ -694,24 +696,24 @@ trait Sanitization {
             $type = ($arg['select'] != 'file') ? $arg['select'] : 'file';
             $altfile = '';
         else:
-            $img = 'style="background-image: url(' . $value . ');" ckdflt="background-image: url(' . $value . ');"';
+            $img = 'style="background-image: url(' . esc_url($value) . ');" ckdflt="background-image: url(' . esc_url($value) . ');"';
             $type = '';
-            $altfile = '<input type="hidden" class="shortcode-addons-media-control-link-alt" id="' . $id . '-alt" name="' . $id . '-alt" value="' . $alt . '" >';
+            $altfile = '<input type="hidden" class="shortcode-addons-media-control-link-alt" id="' . esc_attr($id) . '-alt" name="' . esc_attr($id) . '-alt" value="' . esc_attr($alt) . '" >';
         endif;
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <div class="shortcode-addons-media-control ' . (empty($value) ? 'shortcode-addons-media-control-hidden-button' : '') . ' shortcode-addons-media-control-type-' . $type . '">
+                    <div class="shortcode-addons-media-control ' . (empty($value) ? 'shortcode-addons-media-control-hidden-button' : '') . ' shortcode-addons-media-control-type-' . esc_attr($type) . '">
                         <div class="shortcode-addons-media-control-pre-load">
                         </div>
-                        <div class="shortcode-addons-media-control-image-load" ' . $img . '>
+                        <div class="shortcode-addons-media-control-image-load" ' . esc_attr($img) . '>
                             <div class="shortcode-addons-media-control-image-load-delete-button">
                             </div>
                         </div>
                         <div class="shortcode-addons-media-control-choose-image">
-                            Choose ' . (isset($arg['select']) ? ucfirst($arg['select']) : 'Image') . '
+                            Choose ' . (isset($arg['select']) ? esc_html(ucfirst($arg['select'])) : 'Image') . '
                         </div>
                     </div>
-                    <input type="hidden" data-type="' . $type . '" class="shortcode-addons-media-control-link" id="' . $id . '" name="' . $id . '" value="' . $value . '" >
-                    ' . $altfile . '
+                    <input type="hidden" data-type="' . esc_attr($type) . '" class="shortcode-addons-media-control-link" id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '" >
+                    ' . esc_html($altfile) . '
                 </div>';
     }
 
@@ -741,7 +743,7 @@ trait Sanitization {
         $defualt = ['min' => 0, 'max' => 1000, 'step' => 1,];
         $arg = array_merge($defualt, $arg);
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <input id="' . $id . '" name="' . $id . '" type="number" min="' . $arg['min'] . '" max="' . $arg['max'] . '" step="' . $arg['step'] . '" value="' . $value . '"  responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
+                    <input id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" type="number" min="' . esc_attr($arg['min']) . '" max="' . esc_attr($arg['max']) . '" step="' . esc_attr($arg['step']) . '" value="' . esc_attr($value) . '"  responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
                 </div>';
     }
 
@@ -779,17 +781,17 @@ trait Sanitization {
                 echo ' <div class="shortcode-form-units-choices">';
                 foreach ($arg['range'] as $key => $val) {
                     $rand = rand(10000, 233333333);
-                    echo '<input id="' . $id . '-choices-' . $rand . '" type="radio" name="' . $id . '-choices' . '"  value="' . $key . '" ' . ($key == $unit ? 'checked' : '') . '  min="' . $val['min'] . '" max="' . $val['max'] . '" step="' . $val['step'] . '">
-                      <label class="shortcode-form-units-choices-label" for="' . $id . '-choices-' . $rand . '">' . $key . '</label>';
+                    echo '<input id="' . esc_attr($id) . '-choices-' . esc_attr($rand) . '" type="radio" name="' . esc_attr($id) . '-choices' . '"  value="' . esc_attr($key) . '" ' . ($key == $unit ? 'checked' : '') . '  min="' . esc_attr($val['min']) . '" max="' . esc_attr($val['max']) . '" step="' . esc_attr($val['step']) . '">
+                      <label class="shortcode-form-units-choices-label" for="' . esc_attr($id) . '-choices-' . esc_attr($rand) . '">' . esc_html($key) . '</label>';
                 }
                 echo '</div>';
             endif;
         endif;
         $unitvalue = array_key_exists($id . '-choices', $data) ? 'unit="' . $data[$id . '-choices'] . '"' : '';
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <div class="shortcode-form-slider" id="' . $id . '-slider' . '"></div>
+                    <div class="shortcode-form-slider" id="' . esc_attr($id) . '-slider' . '"></div>
                     <div class="shortcode-form-slider-input">
-                        <input name="' . $id . '-size' . '" custom="' . (array_key_exists('custom', $arg) ? '' . $arg['custom'] . '' : '') . '" id="' . $id . '-size' . '" type="number" min="' . $arg['range'][$unit]['min'] . '" max="' . $arg['range'][$unit]['max'] . '" step="' . $arg['range'][$unit]['step'] . '" value="' . $size . '" default-value="' . $size . '" ' . $unitvalue . ' responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
+                        <input name="' . esc_attr($id) . '-size' . '" custom="' . (array_key_exists('custom', $arg) ? esc_attr($arg['custom']) : '') . '" id="' . esc_attr($id) . '-size' . '" type="number" min="' . esc_attr($arg['range'][$unit]['min']) . '" max="' . esc_attr($arg['range'][$unit]['max']) . '" step="' . esc_attr($arg['range'][$unit]['step']) . '" value="' . esc_attr($size) . '" default-value="' . esc_attr($size) . '" ' . esc_attr($unitvalue) . ' responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
                     </div>
                 </div>';
     }
@@ -827,20 +829,20 @@ trait Sanitization {
 
         echo '<div class="shortcode-form-control-input-wrapper">
                 <div class="shortcode-form-control-input-select-wrapper">
-                <select id="' . $id . '" class="shortcode-addons-select-input ' . ($multiple ? 'js-example-basic-multiple' : '' ) . '" ' . ($multiple ? 'multiple' : '' ) . ' name="' . $id . '' . ($multiple ? '[]' : '' ) . '"  responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>';
+                <select id="' . esc_attr($id) . '" class="shortcode-addons-select-input ' . ($multiple ? 'js-example-basic-multiple' : '' ) . '" ' . ($multiple ? 'multiple' : '' ) . ' name="' . esc_attr($id) . '' . ($multiple ? '[]' : '' ) . '"  responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>';
         foreach ($arg['options'] as $key => $val) {
             if (is_array($val)):
                 if (isset($val[0]) && $val[0] == true):
-                    echo '<optgroup label="' . $val[1] . '">';
+                    echo '<optgroup label="' . esc_attr($val[1]) . '">';
                 else:
                     echo '</optgroup>';
                 endif;
             else:
                 if (is_array($value)):
                     $new = array_flip($value);
-                    echo ' <option value="' . $key . '" ' . (array_key_exists($key, $new) ? 'selected' : '') . '>' . $val . '</option>';
+                    echo ' <option value="' . esc_attr($key) . '" ' . (array_key_exists($key, $new) ? 'selected' : '') . '>' . esc_html($val) . '</option>';
                 else:
-                    echo ' <option value="' . $key . '" ' . ($value == $key ? 'selected' : '') . '>' . $val . '</option>';
+                    echo ' <option value="' . esc_attr($key) . '" ' . ($value == $key ? 'selected' : '') . '>' . esc_html($val) . '</option>';
                 endif;
             endif;
         }
@@ -881,11 +883,11 @@ trait Sanitization {
         }
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($retun)) : '';
         echo '<div class="shortcode-form-control-input-wrapper">
-                <div class="shortcode-form-choices" responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>';
+                <div class="shortcode-form-choices" responsive="' . $arg['responsive'] . '" retundata=\'' . esc_attr($retunvalue) . '\'>';
         foreach ($arg['options'] as $key => $val) {
-            echo '  <input id="' . $id . '-' . $key . '" type="radio" name="' . $id . '" value="' . $key . '" ' . ($value == $key ? 'checked  ckdflt="true"' : '') . '>
-                                    <label class="shortcode-form-choices-label" for="' . $id . '-' . $key . '" tooltip="' . $val['title'] . '">
-                                        ' . (($operator == 'text') ? $val['title'] : '<i class="' . $val['icon'] . '" aria-hidden="true"></i>') . '
+            echo '  <input id="' . esc_attr($id) . '-' . esc_attr($key) . '" type="radio" name="' . esc_attr($id) . '" value="' . esc_attr($key) . '" ' . ($value == $key ? 'checked  ckdflt="true"' : '') . '>
+                                    <label class="shortcode-form-choices-label" for="' . esc_attr($id) . '-' . esc_attr($key) . '" tooltip="' . esc_html($val['title']) . '">
+                                        ' . (($operator == 'text') ? esc_html($val['title']) : '<i class="' . esc_attr($val['icon']) . '" aria-hidden="true"></i>') . '
                                     </label>';
         }
         echo '</div>
@@ -921,7 +923,7 @@ trait Sanitization {
                                 $t = true;
                             endif;
                         }
-                        echo $t;
+                        return $t;
                     endif;
                     if ($value == 'EMPTY' && $data[$key] != '0'):
                         return true;
@@ -960,7 +962,7 @@ trait Sanitization {
         }
         $type = array_key_exists('oparetor', $arg) ? 'data-format="rgb" data-opacity="TRUE"' : '';
         echo '<div class="shortcode-form-control-input-wrapper">
-                <input ' . $type . ' type="text"  class="oxi-addons-minicolor" id="' . $id . '" name="' . $id . '" value="' . $value . '" responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\' custom="' . (array_key_exists('custom', $arg) ? '' . $arg['custom'] . '' : '') . '">
+                <input ' . esc_attr($type) . ' type="text"  class="oxi-addons-minicolor" id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '" responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\' custom="' . (array_key_exists('custom', $arg) ? '' . esc_attr($arg['custom']) . '' : '') . '">
              </div>';
     }
 
@@ -974,7 +976,7 @@ trait Sanitization {
         $id = (array_key_exists('repeater', $arg) ? $id . ']' : $id);
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <input type="text"  class="oxi-admin-icon-selector" id="' . $id . '" name="' . $id . '" value="' . $value . '">
+                    <input type="text"  class="oxi-admin-icon-selector" id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '">
                     <span class="input-group-addon"></span>
                 </div>';
     }
@@ -1010,7 +1012,7 @@ trait Sanitization {
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
 
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <input type="text"  class="shortcode-addons-family" id="' . $id . '" name="' . $id . '" value="' . $value . '" responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
+                    <input type="text"  class="shortcode-addons-family" id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '" responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
                 </div>';
     }
 
@@ -1030,7 +1032,7 @@ trait Sanitization {
             endif;
         endif;
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <input type="' . $format . '"  id="' . $id . '" name="' . $id . '" value="' . $value . '">
+                    <input type="' . esc_attr($format) . '"  id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '">
                 </div>';
     }
 
@@ -1060,7 +1062,7 @@ trait Sanitization {
         }
         $background = (array_key_exists('gradient', $arg) ? $arg['gradient'] : '');
         echo '  <div class="shortcode-form-control-input-wrapper">
-                    <input type="text" background="' . $background . '"  class="shortcode-addons-gradient-color" id="' . $id . '" name="' . $id . '" value="' . $value . '" responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
+                    <input type="text" background="' . esc_attr($background) . '"  class="shortcode-addons-gradient-color" id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '" responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
                 </div>';
     }
 
@@ -1101,8 +1103,8 @@ trait Sanitization {
                 echo ' <div class="shortcode-form-units-choices">';
                 foreach ($arg['range'] as $key => $val) {
                     $rand = rand(10000, 233333333);
-                    echo '<input id="' . $id . '-choices-' . $rand . '" type="radio" name="' . $id . '-choices"  value="' . $key . '" ' . ($key == $unit ? 'checked' : '') . '  min="' . $val['min'] . '" max="' . $val['max'] . '" step="' . $val['step'] . '">
-                      <label class="shortcode-form-units-choices-label" for="' . $id . '-choices-' . $rand . '">' . $key . '</label>';
+                    echo '<input id="' . esc_attr($id) . '-choices-' . esc_attr($rand) . '" type="radio" name="' . esc_attr($id) . '-choices"  value="' . esc_attr($key) . '" ' . ($key == $unit ? 'checked' : '') . '  min="' . esc_attr($val['min']) . '" max="' . esc_attr($val['max']) . '" step="' . esc_attr($val['step']) . '">
+                      <label class="shortcode-form-units-choices-label" for="' . esc_attr($id) . '-choices-' . esc_attr($rand) . '">' . esc_html($key) . '</label>';
                 }
                 echo '</div>';
             endif;
@@ -1111,23 +1113,23 @@ trait Sanitization {
         echo '<div class="shortcode-form-control-input-wrapper">
                 <ul class="shortcode-form-control-dimensions">
                     <li class="shortcode-form-control-dimension">
-                        <input id="' . $id . '-top" input-id="' . $id . '" name="' . $id . '-top" type="number"  min="' . $arg['range'][$unit]['min'] . '" max="' . $arg['range'][$unit]['max'] . '" step="' . $arg['range'][$unit]['step'] . '" value="' . $top . '" default-value="' . $top . '" ' . $unitvalue . ' responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
-                        <label for="' . $id . '-top" class="shortcode-form-control-dimension-label">Top</label>
+                        <input id="' . esc_attr($id) . '-top" input-id="' . esc_attr($id) . '" name="' . esc_attr($id) . '-top" type="number"  min="' . esc_attr($arg['range'][$unit]['min']) . '" max="' . esc_attr($arg['range'][$unit]['min']) . '" step="' . esc_attr($arg['range'][$unit]['step']) . '" value="' . esc_attr($top) . '" default-value="' . esc_attr($top) . '" ' . esc_attr($unitvalue) . ' responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
+                        <label for="' . esc_attr($id) . '-top" class="shortcode-form-control-dimension-label">Top</label>
                     </li>
                     <li class="shortcode-form-control-dimension">
-                       <input id="' . $id . '-right" input-id="' . $id . '" name="' . $id . '-right" type="number"  min="' . $arg['range'][$unit]['min'] . '" max="' . $arg['range'][$unit]['max'] . '" step="' . $arg['range'][$unit]['step'] . '" value="' . $right . '" default-value="' . $right . '" ' . $unitvalue . ' responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
-                         <label for="' . $id . '-right" class="shortcode-form-control-dimension-label">Right</label>
+                       <input id="' . esc_attr($id) . '-right" input-id="' . esc_attr($id) . '" name="' . esc_attr($id) . '-right" type="number"  min="' . esc_attr($arg['range'][$unit]['min']) . '" max="' . esc_attr($arg['range'][$unit]['min']) . '" step="' . esc_attr($arg['range'][$unit]['step']) . '" value="' . esc_attr($right) . '" default-value="' . esc_attr($right) . '" ' . esc_attr($unitvalue) . ' responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
+                         <label for="' . esc_attr($id) . '-right" class="shortcode-form-control-dimension-label">Right</label>
                     </li>
                     <li class="shortcode-form-control-dimension">
-                       <input id="' . $id . '-bottom" input-id="' . $id . '" name="' . $id . '-bottom" type="number"  min="' . $arg['range'][$unit]['min'] . '" max="' . $arg['range'][$unit]['max'] . '" step="' . $arg['range'][$unit]['step'] . '" value="' . $bottom . '" default-value="' . $bottom . '" ' . $unitvalue . ' responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
-                       <label for="' . $id . '-bottom" class="shortcode-form-control-dimension-label">Bottom</label>
+                       <input id="' . esc_attr($id) . '-bottom" input-id="' . esc_attr($id) . '" name="' . esc_attr($id) . '-bottom" type="number"  min="' . esc_attr($arg['range'][$unit]['min']) . '" max="' . esc_attr($arg['range'][$unit]['min']) . '" step="' . esc_attr($arg['range'][$unit]['step']) . '" value="' . esc_attr($bottom) . '" default-value="' . esc_attr($bottom) . '" ' . esc_attr($unitvalue) . ' responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
+                       <label for="' . esc_attr($id) . '-bottom" class="shortcode-form-control-dimension-label">Bottom</label>
                     </li>
                     <li class="shortcode-form-control-dimension">
-                        <input id="' . $id . '-left" input-id="' . $id . '" name="' . $id . '-left" type="number"  min="' . $arg['range'][$unit]['min'] . '" max="' . $arg['range'][$unit]['max'] . '" step="' . $arg['range'][$unit]['step'] . '" value="' . $left . '" default-value="' . $left . '" ' . $unitvalue . ' responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>
-                         <label for="' . $id . '-left" class="shortcode-form-control-dimension-label">Left</label>
+                        <input id="' . esc_attr($id) . '-left" input-id="' . esc_attr($id) . '" name="' . esc_attr($id) . '-left" type="number"  min="' . esc_attr($arg['range'][$unit]['min']) . '" max="' . esc_attr($arg['range'][$unit]['max']) . '" step="' . esc_attr($arg['range'][$unit]['step']) . '" value="' . esc_attr($left) . '" default-value="' . esc_attr($left) . '" ' . esc_attr($unitvalue) . ' responsive="' . esc_attr($arg['responsive']) . '" retundata=\'' . esc_attr($retunvalue) . '\'>
+                         <label for="' . esc_attr($id) . '-left" class="shortcode-form-control-dimension-label">Left</label>
                     </li>
                     <li class="shortcode-form-control-dimension">
-                        <button type="button" class="shortcode-form-link-dimensions ' . $unlink . '"  data-tooltip="Link values together"></button>
+                        <button type="button" class="shortcode-form-link-dimensions ' . esc_attr($unlink) . '"  data-tooltip="Link values together"></button>
                     </li>
                 </ul>
             </div>';
@@ -1148,11 +1150,11 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Typography', 'shortcode-addons'),
+            'label' => esc_html__('Typography', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            'description' => (array_key_exists('description', $arg) ? esc_html($arg['description']) : ''),
                 ]
         );
 
@@ -1168,7 +1170,7 @@ trait Sanitization {
         endif;
         $this->add_control(
                 $id . '-font', $data, [
-            'label' => __('Font Family', 'shortcode-addons'),
+            'label' => esc_html__('Font Family', 'shortcode-addons'),
             'type' => Controls::FONT,
             $selectorvalue => 'font-family:"{{VALUE}}";',
             $selector_key => $selector,
@@ -1177,7 +1179,7 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-size', $data, [
-            'label' => __('Size', 'shortcode-addons'),
+            'label' => esc_html__('Size', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1212,38 +1214,38 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-weight', $data, [
-            'label' => __('Weight', 'shortcode-addons'),
+            'label' => esc_html__('Weight', 'shortcode-addons'),
             'type' => Controls::SELECT,
             $selectorvalue => 'font-weight: {{VALUE}};',
             $loader => $loadervalue,
             $selector_key => $selector,
             'options' => [
-                '100' => __('100', 'shortcode-addons'),
-                '200' => __('200', 'shortcode-addons'),
-                '300' => __('300', 'shortcode-addons'),
-                '400' => __('400', 'shortcode-addons'),
-                '500' => __('500', 'shortcode-addons'),
-                '600' => __('600', 'shortcode-addons'),
-                '700' => __('700', 'shortcode-addons'),
-                '800' => __('800', 'shortcode-addons'),
-                '900' => __('900', 'shortcode-addons'),
-                '' => __('Default', 'shortcode-addons'),
-                'normal' => __('Normal', 'shortcode-addons'),
-                'bold' => __('Bold', 'shortcode-addons')
+                '100' => esc_html__('100', 'shortcode-addons'),
+                '200' => esc_html__('200', 'shortcode-addons'),
+                '300' => esc_html__('300', 'shortcode-addons'),
+                '400' => esc_html__('400', 'shortcode-addons'),
+                '500' => esc_html__('500', 'shortcode-addons'),
+                '600' => esc_html__('600', 'shortcode-addons'),
+                '700' => esc_html__('700', 'shortcode-addons'),
+                '800' => esc_html__('800', 'shortcode-addons'),
+                '900' => esc_html__('900', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'normal' => esc_html__('Normal', 'shortcode-addons'),
+                'bold' => esc_html__('Bold', 'shortcode-addons')
             ],
                 ]
         );
         $this->add_control(
                 $id . '-transform', $data, [
-            'label' => __('Transform', 'shortcode-addons'),
+            'label' => esc_html__('Transform', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('Default', 'shortcode-addons'),
-                'uppercase' => __('Uppercase', 'shortcode-addons'),
-                'lowercase' => __('Lowercase', 'shortcode-addons'),
-                'capitalize' => __('Capitalize', 'shortcode-addons'),
-                'none' => __('Normal', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'uppercase' => esc_html__('Uppercase', 'shortcode-addons'),
+                'lowercase' => esc_html__('Lowercase', 'shortcode-addons'),
+                'capitalize' => esc_html__('Capitalize', 'shortcode-addons'),
+                'none' => esc_html__('Normal', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'text-transform: {{VALUE}};',
@@ -1252,14 +1254,14 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-style', $data, [
-            'label' => __('Style', 'shortcode-addons'),
+            'label' => esc_html__('Style', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('Default', 'shortcode-addons'),
-                'normal' => __('normal', 'shortcode-addons'),
-                'italic' => __('Italic', 'shortcode-addons'),
-                'oblique' => __('Oblique', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'normal' => esc_html__('normal', 'shortcode-addons'),
+                'italic' => esc_html__('Italic', 'shortcode-addons'),
+                'oblique' => esc_html__('Oblique', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'font-style: {{VALUE}};',
@@ -1268,15 +1270,15 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-decoration', $data, [
-            'label' => __('Decoration', 'shortcode-addons'),
+            'label' => esc_html__('Decoration', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('Default', 'shortcode-addons'),
-                'underline' => __('Underline', 'shortcode-addons'),
-                'overline' => __('Overline', 'shortcode-addons'),
-                'line-through' => __('Line Through', 'shortcode-addons'),
-                'none' => __('None', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'underline' => esc_html__('Underline', 'shortcode-addons'),
+                'overline' => esc_html__('Overline', 'shortcode-addons'),
+                'line-through' => esc_html__('Line Through', 'shortcode-addons'),
+                'none' => esc_html__('None', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'text-decoration: {{VALUE}};',
@@ -1288,14 +1290,14 @@ trait Sanitization {
             if ($arg['include'] == 'align_normal') :
                 $this->add_responsive_control(
                         $id . '-align', $data, [
-                    'label' => __('Text Align', 'shortcode-addons'),
+                    'label' => esc_html__('Text Align', 'shortcode-addons'),
                     'type' => Controls::SELECT,
                     'default' => '',
                     'options' => [
-                        '' => __('Default', 'shortcode-addons'),
-                        'left' => __('Left', 'shortcode-addons'),
-                        'center' => __('Center', 'shortcode-addons'),
-                        'right' => __('Right', 'shortcode-addons'),
+                        '' => esc_html__('Default', 'shortcode-addons'),
+                        'left' => esc_html__('Left', 'shortcode-addons'),
+                        'center' => esc_html__('Center', 'shortcode-addons'),
+                        'right' => esc_html__('Right', 'shortcode-addons'),
                     ],
                     $loader => $loadervalue,
                     $selectorvalue => 'text-align: {{VALUE}};',
@@ -1305,16 +1307,16 @@ trait Sanitization {
             else :
                 $this->add_responsive_control(
                         $id . '-justify', $data, [
-                    'label' => __('Justify Content', 'shortcode-addons'),
+                    'label' => esc_html__('Justify Content', 'shortcode-addons'),
                     'type' => Controls::SELECT,
                     'default' => '',
                     'options' => [
-                        '' => __('Default', 'shortcode-addons'),
-                        'flex-start' => __('Flex Start', 'shortcode-addons'),
-                        'flex-end' => __('Flex End', 'shortcode-addons'),
-                        'center' => __('Center', 'shortcode-addons'),
-                        'space-around' => __('Space Around', 'shortcode-addons'),
-                        'space-between' => __('Space Between', 'shortcode-addons'),
+                        '' => esc_html__('Default', 'shortcode-addons'),
+                        'flex-start' => esc_html__('Flex Start', 'shortcode-addons'),
+                        'flex-end' => esc_html__('Flex End', 'shortcode-addons'),
+                        'center' => esc_html__('Center', 'shortcode-addons'),
+                        'space-around' => esc_html__('Space Around', 'shortcode-addons'),
+                        'space-between' => esc_html__('Space Between', 'shortcode-addons'),
                     ],
                     $loader => $loadervalue,
                     $selectorvalue => 'justify-content: {{VALUE}};',
@@ -1323,16 +1325,16 @@ trait Sanitization {
                 );
                 $this->add_responsive_control(
                         $id . '-align', $data, [
-                    'label' => __('Align Items', 'shortcode-addons'),
+                    'label' => esc_html__('Align Items', 'shortcode-addons'),
                     'type' => Controls::SELECT,
                     'default' => '',
                     'options' => [
-                        '' => __('Default', 'shortcode-addons'),
-                        'stretch' => __('Stretch', 'shortcode-addons'),
-                        'baseline' => __('Baseline', 'shortcode-addons'),
-                        'center' => __('Center', 'shortcode-addons'),
-                        'flex-start' => __('Flex Start', 'shortcode-addons'),
-                        'flex-end' => __('Flex End', 'shortcode-addons'),
+                        '' => esc_html__('Default', 'shortcode-addons'),
+                        'stretch' => esc_html__('Stretch', 'shortcode-addons'),
+                        'baseline' => esc_html__('Baseline', 'shortcode-addons'),
+                        'center' => esc_html__('Center', 'shortcode-addons'),
+                        'flex-start' => esc_html__('Flex Start', 'shortcode-addons'),
+                        'flex-end' => esc_html__('Flex End', 'shortcode-addons'),
                     ],
                     $loader => $loadervalue,
                     $selectorvalue => 'align-items: {{VALUE}};',
@@ -1344,7 +1346,7 @@ trait Sanitization {
 
         $this->add_responsive_control(
                 $id . '-l-height', $data, [
-            'label' => __('Line Height', 'shortcode-addons'),
+            'label' => esc_html__('Line Height', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1369,7 +1371,7 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-l-spacing', $data, [
-            'label' => __('Letter Spacing', 'shortcode-addons'),
+            'label' => esc_html__('Letter Spacing', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1410,24 +1412,24 @@ trait Sanitization {
 
         $type = array_key_exists('default', $arg) ? $arg['default']['type'] : 'media-library';
         $value = array_key_exists('default', $arg) ? $arg['default']['link'] : '';
-        $level = array_key_exists('label', $arg) ? $arg['label'] : 'Photo Source';
+        $level = array_key_exists('label', $arg) ? esc_html($arg['label']) : 'Photo Source';
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
 
-        echo '<div class="shortcode-form-control" style="padding: 0;" ' . $this->forms_condition($arg) . '>';
+        echo '<div class="shortcode-form-control" style="padding: 0;" ' . esc_attr($this->forms_condition($arg)) . '>';
         $this->add_control(
                 $id . '-select', $data, [
-            'label' => __($level, 'shortcode-addons'),
+            'label' => esc_html__($level, 'shortcode-addons'),
             'type' => Controls::CHOOSE,
             'loader' => TRUE,
             'default' => $type,
             'separator' => $separator,
             'options' => [
                 'media-library' => [
-                    'title' => __('Media Library', 'shortcode-addons'),
+                    'title' => esc_html__('Media Library', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'custom-url' => [
-                    'title' => __('Custom URL', 'shortcode-addons'),
+                    'title' => esc_html__('Custom URL', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ]
             ],
@@ -1435,7 +1437,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-image', $data, [
-            'label' => __('Image', 'shortcode-addons'),
+            'label' => esc_html__('Image', 'shortcode-addons'),
             'type' => Controls::IMAGE,
             'loader' => TRUE,
             'default' => $value,
@@ -1446,7 +1448,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __('Image URL', 'shortcode-addons'),
+            'label' => esc_html__('Image URL', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => $value,
             'loader' => TRUE,
@@ -1473,21 +1475,21 @@ trait Sanitization {
         $filetype = array_key_exists('select', $arg) ? $arg['select'] : 'file';
         $placeholder = array_key_exists('placeholder', $arg) ? $arg['placeholder'] : '';
 
-        echo '<div class="shortcode-form-control" style="padding: 0;" ' . $this->forms_condition($arg) . '>';
+        echo '<div class="shortcode-form-control" style="padding: 0;" ' . esc_attr($this->forms_condition($arg)) . '>';
         $this->add_control(
                 $id . '-select', $data, [
-            'label' => __(ucfirst($filetype) . ' Source', 'shortcode-addons'),
+            'label' => esc_html__(ucfirst($filetype) . ' Source', 'shortcode-addons'),
             'type' => Controls::CHOOSE,
             'loader' => TRUE,
             'default' => $type,
             'separator' => $separator,
             'options' => [
                 'media-library' => [
-                    'title' => __('Media', 'shortcode-addons'),
+                    'title' => esc_html__('Media', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'custom-url' => [
-                    'title' => __('Custom', 'shortcode-addons'),
+                    'title' => esc_html__('Custom', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ]
             ],
@@ -1495,7 +1497,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-media', $data, [
-            'label' => __(ucfirst($filetype), 'shortcode-addons'),
+            'label' => esc_html__(ucfirst($filetype), 'shortcode-addons'),
             'type' => Controls::IMAGE,
             'loader' => TRUE,
             'select' => $filetype,
@@ -1507,7 +1509,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __(ucfirst($filetype) . ' URL', 'shortcode-addons'),
+            'label' => esc_html__(ucfirst($filetype) . ' URL', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => $value,
             'loader' => TRUE,
@@ -1570,37 +1572,37 @@ trait Sanitization {
         endif;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Box Shadow', 'shortcode-addons'),
+            'label' => esc_html__('Box Shadow', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            'description' => (array_key_exists('description', $arg) ? esc_html($arg['description']) : ''),
                 ]
         );
         $this->add_control(
                 $id . '-shadow', $data, [
-            'label' => __('Shadow', 'shortcode-addons'),
+            'label' => esc_html__('Shadow', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'loader' => TRUE,
             'default' => 'yes',
-            'label_on' => __('Yes', 'shortcode-addons'),
-            'label_off' => __('None', 'shortcode-addons'),
+            'label_on' => esc_html__('Yes', 'shortcode-addons'),
+            'label_off' => esc_html__('None', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-type', $data, [
-            'label' => __('Type', 'shortcode-addons'),
+            'label' => esc_html__('Type', 'shortcode-addons'),
             'type' => Controls::CHOOSE,
             'loader' => TRUE,
             'default' => '',
             'options' => [
                 '' => [
-                    'title' => __('Outline', 'shortcode-addons'),
+                    'title' => esc_html__('Outline', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'inset' => [
-                    'title' => __('Inset', 'shortcode-addons'),
+                    'title' => esc_html__('Inset', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ],
             ],
@@ -1610,7 +1612,7 @@ trait Sanitization {
 
         $this->add_control(
                 $id . '-horizontal', $data, [
-            'label' => __('Horizontal', 'shortcode-addons'),
+            'label' => esc_html__('Horizontal', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1632,7 +1634,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-vertical', $data, [
-            'label' => __('Vertical', 'shortcode-addons'),
+            'label' => esc_html__('Vertical', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1654,7 +1656,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-blur', $data, [
-            'label' => __('Blur', 'shortcode-addons'),
+            'label' => esc_html__('Blur', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1676,7 +1678,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-spread', $data, [
-            'label' => __('Spread', 'shortcode-addons'),
+            'label' => esc_html__('Spread', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1698,7 +1700,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', 'shortcode-addons'),
+            'label' => esc_html__('Color', 'shortcode-addons'),
             'separator' => TRUE,
             'type' => Controls::COLOR,
             'oparetor' => 'RGB',
@@ -1745,16 +1747,16 @@ trait Sanitization {
         endif;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Text Shadow', 'shortcode-addons'),
+            'label' => esc_html__('Text Shadow', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            'description' => (array_key_exists('description', $arg) ? esc_html($separator) : ''),
                 ]
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', 'shortcode-addons'),
+            'label' => esc_html__('Color', 'shortcode-addons'),
             'type' => Controls::COLOR,
             'oparetor' => 'RGB',
             'default' => '#FFF',
@@ -1766,7 +1768,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-blur', $data, [
-            'label' => __('Blur', 'shortcode-addons'),
+            'label' => esc_html__('Blur', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'separator' => TRUE,
             'custom' => $id . '|||||text-shadow',
@@ -1788,7 +1790,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-horizontal', $data, [
-            'label' => __('Horizontal', 'shortcode-addons'),
+            'label' => esc_html__('Horizontal', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'custom' => $id . '|||||text-shadow',
             'render' => FALSE,
@@ -1809,7 +1811,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-vertical', $data, [
-            'label' => __('Vertical', 'shortcode-addons'),
+            'label' => esc_html__('Vertical', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'custom' => $id . '|||||text-shadow',
             'render' => FALSE,
@@ -1847,7 +1849,7 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Animation', 'shortcode-addons'),
+            'label' => esc_html__('Animation', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
@@ -1856,80 +1858,80 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-type', $data, [
-            'label' => __('Type', 'shortcode-addons'),
+            'label' => esc_html__('Type', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
                 'optgroup0' => [true, 'Attention Seekers'],
-                '' => __('None', 'shortcode-addons'),
+                '' => esc_html__('None', 'shortcode-addons'),
                 'optgroup1' => [false],
                 'optgroup2' => [true, 'Attention Seekers'],
-                'bounce' => __('Bounce', 'shortcode-addons'),
-                'flash' => __('Flash', 'shortcode-addons'),
-                'pulse' => __('Pulse', 'shortcode-addons'),
-                'rubberBand' => __('RubberBand', 'shortcode-addons'),
-                'shake' => __('Shake', 'shortcode-addons'),
-                'swing' => __('Swing', 'shortcode-addons'),
-                'tada' => __('Tada', 'shortcode-addons'),
-                'wobble' => __('Wobble', 'shortcode-addons'),
-                'jello' => __('Jello', 'shortcode-addons'),
+                'bounce' => esc_html__('Bounce', 'shortcode-addons'),
+                'flash' => esc_html__('Flash', 'shortcode-addons'),
+                'pulse' => esc_html__('Pulse', 'shortcode-addons'),
+                'rubberBand' => esc_html__('RubberBand', 'shortcode-addons'),
+                'shake' => esc_html__('Shake', 'shortcode-addons'),
+                'swing' => esc_html__('Swing', 'shortcode-addons'),
+                'tada' => esc_html__('Tada', 'shortcode-addons'),
+                'wobble' => esc_html__('Wobble', 'shortcode-addons'),
+                'jello' => esc_html__('Jello', 'shortcode-addons'),
                 'optgroup3' => [false],
                 'optgroup4' => [true, 'Bouncing Entrances'],
-                'bounceIn' => __('BounceIn', 'shortcode-addons'),
-                'bounceInDown' => __('BounceInDown', 'shortcode-addons'),
-                'bounceInLeft' => __('BounceInLeft', 'shortcode-addons'),
-                'bounceInRight' => __('BounceInRight', 'shortcode-addons'),
-                'bounceInUp' => __('BounceInUp', 'shortcode-addons'),
+                'bounceIn' => esc_html__('BounceIn', 'shortcode-addons'),
+                'bounceInDown' => esc_html__('BounceInDown', 'shortcode-addons'),
+                'bounceInLeft' => esc_html__('BounceInLeft', 'shortcode-addons'),
+                'bounceInRight' => esc_html__('BounceInRight', 'shortcode-addons'),
+                'bounceInUp' => esc_html__('BounceInUp', 'shortcode-addons'),
                 'optgroup5' => [false],
                 'optgroup6' => [true, 'Fading Entrances'],
-                'fadeIn' => __('FadeIn', 'shortcode-addons'),
-                'fadeInDown' => __('FadeInDown', 'shortcode-addons'),
-                'fadeInDownBig' => __('FadeInDownBig', 'shortcode-addons'),
-                'fadeInLeft' => __('FadeInLeft', 'shortcode-addons'),
-                'fadeInLeftBig' => __('FadeInLeftBig', 'shortcode-addons'),
-                'fadeInRight' => __('FadeInRight', 'shortcode-addons'),
-                'fadeInRightBig' => __('FadeInRightBig', 'shortcode-addons'),
-                'fadeInUp' => __('FadeInUp', 'shortcode-addons'),
-                'fadeInUpBig' => __('FadeInUpBig', 'shortcode-addons'),
+                'fadeIn' => esc_html__('FadeIn', 'shortcode-addons'),
+                'fadeInDown' => esc_html__('FadeInDown', 'shortcode-addons'),
+                'fadeInDownBig' => esc_html__('FadeInDownBig', 'shortcode-addons'),
+                'fadeInLeft' => esc_html__('FadeInLeft', 'shortcode-addons'),
+                'fadeInLeftBig' => esc_html__('FadeInLeftBig', 'shortcode-addons'),
+                'fadeInRight' => esc_html__('FadeInRight', 'shortcode-addons'),
+                'fadeInRightBig' => esc_html__('FadeInRightBig', 'shortcode-addons'),
+                'fadeInUp' => esc_html__('FadeInUp', 'shortcode-addons'),
+                'fadeInUpBig' => esc_html__('FadeInUpBig', 'shortcode-addons'),
                 'optgroup7' => [false],
                 'optgroup8' => [true, 'Flippers'],
-                'flip' => __('Flip', 'shortcode-addons'),
-                'flipInX' => __('FlipInX', 'shortcode-addons'),
-                'flipInY' => __('FlipInY', 'shortcode-addons'),
+                'flip' => esc_html__('Flip', 'shortcode-addons'),
+                'flipInX' => esc_html__('FlipInX', 'shortcode-addons'),
+                'flipInY' => esc_html__('FlipInY', 'shortcode-addons'),
                 'optgroup9' => [false],
                 'optgroup10' => [true, 'Lightspeed'],
-                'lightSpeedIn' => __('LightSpeedIn', 'shortcode-addons'),
+                'lightSpeedIn' => esc_html__('LightSpeedIn', 'shortcode-addons'),
                 'optgroup11' => [false],
                 'optgroup12' => [true, 'Rotating Entrances'],
-                'rotateIn' => __('RotateIn', 'shortcode-addons'),
-                'rotateInDownLeft' => __('RotateInDownLeft', 'shortcode-addons'),
-                'rotateInDownRight' => __('RotateInDownRight', 'shortcode-addons'),
-                'rotateInUpLeft' => __('RotateInUpLeft', 'shortcode-addons'),
-                'rotateInUpRight' => __('RotateInUpRight', 'shortcode-addons'),
+                'rotateIn' => esc_html__('RotateIn', 'shortcode-addons'),
+                'rotateInDownLeft' => esc_html__('RotateInDownLeft', 'shortcode-addons'),
+                'rotateInDownRight' => esc_html__('RotateInDownRight', 'shortcode-addons'),
+                'rotateInUpLeft' => esc_html__('RotateInUpLeft', 'shortcode-addons'),
+                'rotateInUpRight' => esc_html__('RotateInUpRight', 'shortcode-addons'),
                 'optgroup13' => [false],
                 'optgroup14' => [true, 'Sliding Entrances'],
-                'slideInUp' => __('SlideInUp', 'shortcode-addons'),
-                'slideInDown' => __('SlideInDown', 'shortcode-addons'),
-                'slideInLeft' => __('SlideInLeft', 'shortcode-addons'),
-                'slideInRight' => __('SlideInRight', 'shortcode-addons'),
+                'slideInUp' => esc_html__('SlideInUp', 'shortcode-addons'),
+                'slideInDown' => esc_html__('SlideInDown', 'shortcode-addons'),
+                'slideInLeft' => esc_html__('SlideInLeft', 'shortcode-addons'),
+                'slideInRight' => esc_html__('SlideInRight', 'shortcode-addons'),
                 'optgroup15' => [false],
                 'optgroup16' => [true, 'Zoom Entrances'],
-                'zoomIn' => __('ZoomIn', 'shortcode-addons'),
-                'zoomInDown' => __('ZoomInDown', 'shortcode-addons'),
-                'zoomInLeft' => __('ZoomInLeft', 'shortcode-addons'),
-                'zoomInRight' => __('ZoomInRight', 'shortcode-addons'),
-                'zoomInUp' => __('ZoomInUp', 'shortcode-addons'),
+                'zoomIn' => esc_html__('ZoomIn', 'shortcode-addons'),
+                'zoomInDown' => esc_html__('ZoomInDown', 'shortcode-addons'),
+                'zoomInLeft' => esc_html__('ZoomInLeft', 'shortcode-addons'),
+                'zoomInRight' => esc_html__('ZoomInRight', 'shortcode-addons'),
+                'zoomInUp' => esc_html__('ZoomInUp', 'shortcode-addons'),
                 'optgroup17' => [false],
                 'optgroup18' => [true, 'Specials'],
-                'hinge' => __('Hinge', 'shortcode-addons'),
-                'rollIn' => __('RollIn', 'shortcode-addons'),
+                'hinge' => esc_html__('Hinge', 'shortcode-addons'),
+                'rollIn' => esc_html__('RollIn', 'shortcode-addons'),
                 'optgroup19' => [false],
             ],
                 ]
         );
         $this->add_control(
                 $id . '-duration', $data, [
-            'label' => __('Duration (ms)', 'shortcode-addons'),
+            'label' => esc_html__('Duration (ms)', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1949,7 +1951,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-delay', $data, [
-            'label' => __('Delay (ms)', 'shortcode-addons'),
+            'label' => esc_html__('Delay (ms)', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1969,7 +1971,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-offset', $data, [
-            'label' => __('Offset', 'shortcode-addons'),
+            'label' => esc_html__('Offset', 'shortcode-addons'),
             'type' => Controls::SLIDER,
             'default' => [
                 'unit' => 'px',
@@ -1989,12 +1991,12 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-looping', $data, [
-            'label' => __('Looping', 'shortcode-addons'),
+            'label' => esc_html__('Looping', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'default' => '',
             'loader' => TRUE,
-            'label_on' => __('Yes', 'shortcode-addons'),
-            'label_off' => __('No', 'shortcode-addons'),
+            'label_on' => esc_html__('Yes', 'shortcode-addons'),
+            'label_off' => esc_html__('No', 'shortcode-addons'),
             'return_value' => 'yes',
             'condition' => [
                 $id . '-type' => 'EMPTY',
@@ -2021,11 +2023,11 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Border', 'shortcode-addons'),
+            'label' => esc_html__('Border', 'shortcode-addons'),
             $cond => $condition,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            'description' => (array_key_exists('description', $arg) ? esc_html($arg['description']) : ''),
                 ]
         );
 
@@ -2045,20 +2047,20 @@ trait Sanitization {
 
         $this->add_control(
                 $id . '-type', $data, [
-            'label' => __('Type', 'shortcode-addons'),
+            'label' => esc_html__('Type', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'options' => [
-                '' => __('None', 'shortcode-addons'),
-                'solid' => __('Solid', 'shortcode-addons'),
-                'dotted' => __('Dotted', 'shortcode-addons'),
-                'dashed' => __('Dashed', 'shortcode-addons'),
-                'double' => __('Double', 'shortcode-addons'),
-                'groove' => __('Groove', 'shortcode-addons'),
-                'ridge' => __('Ridge', 'shortcode-addons'),
-                'inset' => __('Inset', 'shortcode-addons'),
-                'outset' => __('Outset', 'shortcode-addons'),
-                'hidden' => __('Hidden', 'shortcode-addons'),
+                '' => esc_html__('None', 'shortcode-addons'),
+                'solid' => esc_html__('Solid', 'shortcode-addons'),
+                'dotted' => esc_html__('Dotted', 'shortcode-addons'),
+                'dashed' => esc_html__('Dashed', 'shortcode-addons'),
+                'double' => esc_html__('Double', 'shortcode-addons'),
+                'groove' => esc_html__('Groove', 'shortcode-addons'),
+                'ridge' => esc_html__('Ridge', 'shortcode-addons'),
+                'inset' => esc_html__('Inset', 'shortcode-addons'),
+                'outset' => esc_html__('Outset', 'shortcode-addons'),
+                'hidden' => esc_html__('Hidden', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'border-style: {{VALUE}};',
@@ -2067,7 +2069,7 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-width', $data, [
-            'label' => __('Width', 'shortcode-addons'),
+            'label' => esc_html__('Width', 'shortcode-addons'),
             'type' => Controls::DIMENSIONS,
             $render => FALSE,
             'default' => [
@@ -2096,7 +2098,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', 'shortcode-addons'),
+            'label' => esc_html__('Color', 'shortcode-addons'),
             'type' => Controls::COLOR,
             $render => FALSE,
             'default' => '',
@@ -2159,16 +2161,16 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
                 $id, [
-            'label' => __('Background', 'shortcode-addons'),
+            'label' => esc_html__('Background', 'shortcode-addons'),
             'condition' => array_key_exists('condition', $arg) ? $arg['condition'] : '',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            'description' => (array_key_exists('description', $arg) ? esc_html($arg['description']) : ''),
                 ]
         );
         $this->add_control(
                 $id . '-color', $data, [
-            'label' => __('Color', 'shortcode-addons'),
+            'label' => esc_html__('Color', 'shortcode-addons'),
             'type' => Controls::GRADIENT,
             'gradient' => $id,
             'oparetor' => 'RGB',
@@ -2180,28 +2182,28 @@ trait Sanitization {
 
         $this->add_control(
                 $id . '-img', $data, [
-            'label' => __('Image', 'shortcode-addons'),
+            'label' => esc_html__('Image', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'loader' => TRUE,
-            'label_on' => __('Yes', 'shortcode-addons'),
-            'label_off' => __('No', 'shortcode-addons'),
+            'label_on' => esc_html__('Yes', 'shortcode-addons'),
+            'label_off' => esc_html__('No', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-select', $data, [
-            'label' => __('Photo Source', 'shortcode-addons'),
+            'label' => esc_html__('Photo Source', 'shortcode-addons'),
             'separator' => TRUE,
             'loader' => TRUE,
             'type' => Controls::CHOOSE,
             'default' => 'media-library',
             'options' => [
                 'media-library' => [
-                    'title' => __('Media Library', 'shortcode-addons'),
+                    'title' => esc_html__('Media Library', 'shortcode-addons'),
                     'icon' => 'fa fa-align-left',
                 ],
                 'custom-url' => [
-                    'title' => __('Custom URL', 'shortcode-addons'),
+                    'title' => esc_html__('Custom URL', 'shortcode-addons'),
                     'icon' => 'fa fa-align-center',
                 ]
             ],
@@ -2212,7 +2214,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-image', $data, [
-            'label' => __('Image', 'shortcode-addons'),
+            'label' => esc_html__('Image', 'shortcode-addons'),
             'type' => Controls::IMAGE,
             'default' => '',
             'loader' => TRUE,
@@ -2224,7 +2226,7 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __('Image URL', 'shortcode-addons'),
+            'label' => esc_html__('Image URL', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => '',
             'loader' => TRUE,
@@ -2237,21 +2239,21 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-position', $data, [
-            'label' => __('Position', 'shortcode-addons'),
+            'label' => esc_html__('Position', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'center center',
             'render' => $render,
             'options' => [
-                '' => __('Default', 'shortcode-addons'),
-                'top left' => __('Top Left', 'shortcode-addons'),
-                'top center' => __('Top Center', 'shortcode-addons'),
-                'top right' => __('Top Right', 'shortcode-addons'),
-                'center left' => __('Center Left', 'shortcode-addons'),
-                'center center' => __('Center Center', 'shortcode-addons'),
-                'center right' => __('Center Right', 'shortcode-addons'),
-                'bottom left' => __('Bottom Left', 'shortcode-addons'),
-                'bottom center' => __('Bottom Center', 'shortcode-addons'),
-                'bottom right' => __('Bottom Right', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'top left' => esc_html__('Top Left', 'shortcode-addons'),
+                'top center' => esc_html__('Top Center', 'shortcode-addons'),
+                'top right' => esc_html__('Top Right', 'shortcode-addons'),
+                'center left' => esc_html__('Center Left', 'shortcode-addons'),
+                'center center' => esc_html__('Center Center', 'shortcode-addons'),
+                'center right' => esc_html__('Center Right', 'shortcode-addons'),
+                'bottom left' => esc_html__('Bottom Left', 'shortcode-addons'),
+                'bottom center' => esc_html__('Bottom Center', 'shortcode-addons'),
+                'bottom right' => esc_html__('Bottom Right', 'shortcode-addons'),
             ],
             'loader' => TRUE,
             'condition' => [
@@ -2262,14 +2264,14 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-attachment', $data, [
-            'label' => __('Attachment', 'shortcode-addons'),
+            'label' => esc_html__('Attachment', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => '',
             'render' => $render,
             'options' => [
-                '' => __('Default', 'shortcode-addons'),
-                'scroll' => __('Scroll', 'shortcode-addons'),
-                'fixed' => __('Fixed', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'scroll' => esc_html__('Scroll', 'shortcode-addons'),
+                'fixed' => esc_html__('Fixed', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'background-attachment: {{VALUE}};',
@@ -2282,16 +2284,16 @@ trait Sanitization {
         );
         $this->add_control(
                 $id . '-repeat', $data, [
-            'label' => __('Repeat', 'shortcode-addons'),
+            'label' => esc_html__('Repeat', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'no-repeat',
             'render' => $render,
             'options' => [
-                '' => __('Default', 'shortcode-addons'),
-                'no-repeat' => __('No-Repeat', 'shortcode-addons'),
-                'repeat' => __('Repeat', 'shortcode-addons'),
-                'repeat-x' => __('Repeat-x', 'shortcode-addons'),
-                'repeat-y' => __('Repeat-y', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'no-repeat' => esc_html__('No-Repeat', 'shortcode-addons'),
+                'repeat' => esc_html__('Repeat', 'shortcode-addons'),
+                'repeat-x' => esc_html__('Repeat-x', 'shortcode-addons'),
+                'repeat-y' => esc_html__('Repeat-y', 'shortcode-addons'),
             ],
             'loader' => TRUE,
             'condition' => [
@@ -2302,15 +2304,15 @@ trait Sanitization {
         );
         $this->add_responsive_control(
                 $id . '-size', $data, [
-            'label' => __('Size', 'shortcode-addons'),
+            'label' => esc_html__('Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'cover',
             'render' => $render,
             'options' => [
-                '' => __('Default', 'shortcode-addons'),
-                'auto' => __('Auto', 'shortcode-addons'),
-                'cover' => __('Cover', 'shortcode-addons'),
-                'contain' => __('Contain', 'shortcode-addons'),
+                '' => esc_html__('Default', 'shortcode-addons'),
+                'auto' => esc_html__('Auto', 'shortcode-addons'),
+                'cover' => esc_html__('Cover', 'shortcode-addons'),
+                'contain' => esc_html__('Contain', 'shortcode-addons'),
             ],
             $loader => $loadervalue,
             $selectorvalue => 'background-size: {{VALUE}};',
@@ -2341,7 +2343,7 @@ trait Sanitization {
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->add_control(
                 $id . '-url', $data, [
-            'label' => __('Link', 'shortcode-addons'),
+            'label' => esc_html__('Link', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => '',
             'link' => TRUE,
@@ -2349,36 +2351,36 @@ trait Sanitization {
             'placeholder' => 'www.example.com/',
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
             $cond => $condition,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            'description' => (array_key_exists('description', $arg) ? esc_html($arg['description']) : ''),
                 ]
         );
         echo '<div class="shortcode-form-control-content shortcode-form-control-content-popover-body">';
 
         $this->add_control(
                 $id . '-target', $data, [
-            'label' => __('New Window?', 'shortcode-addons'),
+            'label' => esc_html__('New Window?', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'default' => '',
             'loader' => TRUE,
-            'label_on' => __('Yes', 'shortcode-addons'),
-            'label_off' => __('No', 'shortcode-addons'),
+            'label_on' => esc_html__('Yes', 'shortcode-addons'),
+            'label_off' => esc_html__('No', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-follow', $data, [
-            'label' => __('No Follow', 'shortcode-addons'),
+            'label' => esc_html__('No Follow', 'shortcode-addons'),
             'type' => Controls::SWITCHER,
             'default' => 'yes',
             'loader' => TRUE,
-            'label_on' => __('Yes', 'shortcode-addons'),
-            'label_off' => __('No', 'shortcode-addons'),
+            'label_on' => esc_html__('Yes', 'shortcode-addons'),
+            'label_off' => esc_html__('No', 'shortcode-addons'),
             'return_value' => 'yes',
                 ]
         );
         $this->add_control(
                 $id . '-id', $data, [
-            'label' => __('CSS ID', 'shortcode-addons'),
+            'label' => esc_html__('CSS ID', 'shortcode-addons'),
             'type' => Controls::TEXT,
             'default' => '',
             'placeholder' => 'abcd-css-id',
@@ -2404,17 +2406,17 @@ trait Sanitization {
 
         $this->add_control(
                 $lap = $id . '-lap', $data, [
-            'label' => __('Column Size', 'shortcode-addons'),
+            'label' => esc_html__('Column Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'responsive' => 'laptop',
             'default' => 'oxi-bt-col-lg-12',
             'options' => [
-                'oxi-bt-col-lg-12' => __('Col 1', 'shortcode-addons'),
-                'oxi-bt-col-lg-6' => __('Col 2', 'shortcode-addons'),
-                'oxi-bt-col-lg-4' => __('Col 3', 'shortcode-addons'),
-                'oxi-bt-col-lg-3' => __('Col 4', 'shortcode-addons'),
-                'oxi-bt-col-lg-2' => __('Col 6', 'shortcode-addons'),
-                'oxi-bt-col-lg-1' => __('Col 12', 'shortcode-addons'),
+                'oxi-bt-col-lg-12' => esc_html__('Col 1', 'shortcode-addons'),
+                'oxi-bt-col-lg-6' => esc_html__('Col 2', 'shortcode-addons'),
+                'oxi-bt-col-lg-4' => esc_html__('Col 3', 'shortcode-addons'),
+                'oxi-bt-col-lg-3' => esc_html__('Col 4', 'shortcode-addons'),
+                'oxi-bt-col-lg-2' => esc_html__('Col 6', 'shortcode-addons'),
+                'oxi-bt-col-lg-1' => esc_html__('Col 12', 'shortcode-addons'),
             ],
             $select => $selector,
             'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
@@ -2424,17 +2426,17 @@ trait Sanitization {
         );
         $this->add_control(
                 $tab = $id . '-tab', $data, [
-            'label' => __('Column Size', 'shortcode-addons'),
+            'label' => esc_html__('Column Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'responsive' => 'tab',
             'default' => 'oxi-bt-col-md-12',
             'options' => [
-                'oxi-bt-col-md-12' => __('Col 1', 'shortcode-addons'),
-                'oxi-bt-col-md-6' => __('Col 2', 'shortcode-addons'),
-                'oxi-bt-col-md-4' => __('Col 3', 'shortcode-addons'),
-                'oxi-bt-col-md-3' => __('Col 4', 'shortcode-addons'),
-                'oxi-bt-col-md-2' => __('Col 6', 'shortcode-addons'),
-                'oxi-bt-col-md-1' => __('Col 12', 'shortcode-addons'),
+                'oxi-bt-col-md-12' => esc_html__('Col 1', 'shortcode-addons'),
+                'oxi-bt-col-md-6' => esc_html__('Col 2', 'shortcode-addons'),
+                'oxi-bt-col-md-4' => esc_html__('Col 3', 'shortcode-addons'),
+                'oxi-bt-col-md-3' => esc_html__('Col 4', 'shortcode-addons'),
+                'oxi-bt-col-md-2' => esc_html__('Col 6', 'shortcode-addons'),
+                'oxi-bt-col-md-1' => esc_html__('Col 12', 'shortcode-addons'),
             ],
             $select => $selector,
             'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
@@ -2444,17 +2446,17 @@ trait Sanitization {
         );
         $this->add_control(
                 $mob = $id . '-mob', $data, [
-            'label' => __('Column Size', 'shortcode-addons'),
+            'label' => esc_html__('Column Size', 'shortcode-addons'),
             'type' => Controls::SELECT,
             'default' => 'oxi-bt-col-lg-12',
             'responsive' => 'mobile',
             'options' => [
-                'oxi-bt-col-sm-12' => __('Col 1', 'shortcode-addons'),
-                'oxi-bt-col-sm-6' => __('Col 2', 'shortcode-addons'),
-                'oxi-bt-col-sm-4' => __('Col 3', 'shortcode-addons'),
-                'oxi-bt-col-sm-3' => __('Col 4', 'shortcode-addons'),
-                'oxi-bt-col-sm-2' => __('Col 6', 'shortcode-addons'),
-                'oxi-bt-col-sm-1' => __('Col 12', 'shortcode-addons'),
+                'oxi-bt-col-sm-12' => esc_html__('Col 1', 'shortcode-addons'),
+                'oxi-bt-col-sm-6' => esc_html__('Col 2', 'shortcode-addons'),
+                'oxi-bt-col-sm-4' => esc_html__('Col 3', 'shortcode-addons'),
+                'oxi-bt-col-sm-3' => esc_html__('Col 4', 'shortcode-addons'),
+                'oxi-bt-col-sm-2' => esc_html__('Col 6', 'shortcode-addons'),
+                'oxi-bt-col-sm-1' => esc_html__('Col 12', 'shortcode-addons'),
             ],
             $select => $selector,
             'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
@@ -2481,7 +2483,7 @@ trait Sanitization {
 
     public function add_substitute_control($id, array $data = [], array $arg = []) {
         $fun = $arg['type'] . '_substitute_control';
-        echo $this->$fun($id, $data, $arg);
+        $this->$fun($id, $data, $arg);
     }
 
     /*
@@ -2504,13 +2506,13 @@ trait Sanitization {
          */
         echo ' <div class = "oxi-addons-item-form shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
                     <div class = "oxi-addons-item-form-heading shortcode-addons-templates-right-panel-heading">
-                        ' . $arg['title'] . '
+                        ' . esc_html($arg['title']) . '
                          <div class = "oxi-head-toggle"></div>
                          </div>
                     <div class = "oxi-addons-item-form-item shortcode-addons-templates-right-panel-body" id = "oxi-addons-list-data-modal-open">
                         <span>
                             <i class = "dashicons dashicons-plus-alt oxi-icons"></i>
-                            ' . $arg['sub-title'] . '
+                            ' . esc_html($arg['sub-title']) . '
                         </span>
                     </div>
                 </div>';
@@ -2536,14 +2538,14 @@ trait Sanitization {
          */
         echo '  <div class = "oxi-addons-shortcode  shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
                     <div class = "oxi-addons-shortcode-heading  shortcode-addons-templates-right-panel-heading">
-                        ' . $arg['title'] . '
+                        ' . esc_html($arg['title']) . '
                         <div class = "oxi-head-toggle"></div>
                     </div>
                     <div class = "oxi-addons-shortcode-body  shortcode-addons-templates-right-panel-body">
                         <form method = "post" id = "shortcode-addons-name-change-submit">
                             <div class = "input-group my-2">
-                                <input type = "hidden" class = "form-control" name = "addonsstylenameid" value = "' . $data['id'] . '">
-                                <input type = "text" class = "form-control" name = "addonsstylename" placeholder = " ' . $arg['placeholder'] . '" value = "' . $data['name'] . '">
+                                <input type = "hidden" class = "form-control" name = "addonsstylenameid" value = "' . esc_attr($data['id']) . '">
+                                <input type = "text" class = "form-control" name = "addonsstylename" placeholder = " ' . esc_html($arg['placeholder']) . '" value = "' . esc_attr($data['name']) . '">
                                 <div class = "input-group-append">
                                    <button type = "button" class = "btn btn-success" id = "addonsstylenamechange">Save</button>
                                 </div>
@@ -2572,19 +2574,19 @@ trait Sanitization {
          */
         echo '  <div class = "oxi-addons-shortcode shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
                     <div class = "oxi-addons-shortcode-heading  shortcode-addons-templates-right-panel-heading">
-                        ' . $arg['title'] . '
+                        ' . esc_html($arg['title']) . '
                         <div class = "oxi-head-toggle"></div>
                     </div>
                     <div class = "oxi-addons-shortcode-body shortcode-addons-templates-right-panel-body">
                         <em>Shortcode for posts/pages/plugins</em>
                         <p>Copy &amp;
                         paste the shortcode directly into any WordPress post, page or Page Builder.</p>
-                        <input type = "text" class = "form-control" onclick = "this.setSelectionRange(0, this.value.length)" value = "[oxi_addons id=&quot;' . $id . '&quot;]">
+                        <input type = "text" class = "form-control" onclick = "this.setSelectionRange(0, this.value.length)" value = "[oxi_addons id=&quot;' . esc_attr($id) . '&quot;]">
                         <span></span>
                         <em>Shortcode for templates/themes</em>
                         <p>Copy &amp;
                         paste this code into a template file to include the slideshow within your theme.</p>
-                        <input type = "text" class = "form-control" onclick = "this.setSelectionRange(0, this.value.length)" value = "<?php echo do_shortcode(\'[oxi_addons  id=&quot;' . $id . '&quot;]\'); ?>">
+                        <input type = "text" class = "form-control" onclick = "this.setSelectionRange(0, this.value.length)" value = "<?php echo do_shortcode(\'[oxi_addons  id=&quot;' . esc_attr($id) . '&quot;]\'); ?>">
                         <span></span>
                     </div>
                 </div>';
@@ -2610,13 +2612,13 @@ trait Sanitization {
          */
         echo ' <div class="oxi-addons-item-form shortcode-addons-templates-right-panel ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '">
             <div class="oxi-addons-item-form-heading shortcode-addons-templates-right-panel-heading">
-                ' . $arg['title'] . '
+                ' . esc_html($arg['title']) . '
                  <div class="oxi-head-toggle"></div>
             </div>
             <div class="oxi-addons-item-form-item shortcode-addons-templates-right-panel-body" id="oxi-addons-rearrange-data-modal-open">
                 <span>
                     <i class="dashicons dashicons-plus-alt oxi-icons"></i>
-                    ' . $arg['sub-title'] . '
+                    ' . esc_html($arg['sub-title']) . '
                 </span>
             </div>
         </div>
@@ -2643,7 +2645,7 @@ trait Sanitization {
                     </div>
                 </form>
                 <div id="modal-rearrange-store-file">
-                    ' . $id . '
+                    ' . esc_attr($id) . '
                 </div>
             </div>
          </div>';
