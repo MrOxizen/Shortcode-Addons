@@ -37,7 +37,7 @@ class Widget extends \WP_Widget {
         if (isset($instance['title'])) {
             $title = $instance['title'];
         } else {
-            $title = esc_html__('1', 'shortcode-addons');
+            $title = __('1', 'shortcode-addons');
         }
         ?>
         <p>

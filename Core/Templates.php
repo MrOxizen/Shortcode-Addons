@@ -162,18 +162,36 @@ class Templates {
         } else {
             $inlinecss .= $this->CSSDATA;
         }
-        $this->font_familly_validation(json_decode(($this->dbdata['font_family'] != '' ? $this->dbdata['font_family'] : "[]"), true));
+        echo $this->font_familly_validation(json_decode(($this->dbdata['font_family'] != '' ? $this->dbdata['font_family'] : "[]"), true));
 
         if ($inlinejs != ''):
-
-            $jquery = '(function ($) {var $ = jQuery; ' . $inlinejs . '})(jQuery);';
-            wp_add_inline_script($this->JSHANDLE, $jquery);
+            if ($this->admin == 'admin'):
+                //only load while ajax called
+                echo _('<script>
+                        (function ($) {
+                            setTimeout(function () {');
+                echo $inlinejs;
+                echo _('    }, 1000);
+                        })(jQuery)</script>');
+            else:
+                $jquery = '(function ($) {var $ = jQuery; ' . $inlinejs . '})(jQuery);';
+                wp_add_inline_script($this->JSHANDLE, $jquery);
+            endif;
 
         endif;
 
         if ($inlinecss != ''):
-            wp_add_inline_style('shortcode-addons-style', $inlinecss);
 
+            $inlinecss = html_entity_decode($inlinecss);
+            if ($this->admin == 'admin'):
+                //only load while ajax called
+                echo _('<style>');
+                echo $inlinecss;
+                echo _('</style>');
+            else:
+
+                wp_add_inline_style('shortcode-addons-style', $inlinecss);
+            endif;
         endif;
     }
 

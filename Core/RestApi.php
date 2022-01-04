@@ -211,39 +211,33 @@ class RestApi extends Console {
         return;
     }
 
-    public function import_json_template($folder, $filename, $name = 'truee') {
+    public function import_json_template($params) {
 
-        if (is_file($folder . $filename)) {
-            $this->rawdata = file_get_contents($folder . $filename);
 
-            $params = json_decode($this->rawdata, true);
-            $style = $params['style'];
-            $child = $params['child'];
-            if ($name != 'truee'):
-                $style['name'] = $name;
-            endif;
-            $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($style['name'], $style['type'], $style['style_name'], $style['rawdata'])));
-            $redirect_id = $this->wpdb->insert_id;
-            if ($redirect_id > 0):
-                $oxitype = ucfirst(strtolower($style['type']));
-                $rawdata = json_decode(stripslashes($style['rawdata']), true);
-                $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
-                $rawdata['shortcode-addons-elements-id'] = $redirect_id;
-                $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $stylename)) . '';
-                if (!class_exists($cls)) {
-                    $return = $this->post_get_elements($oxitype);
-                    if ($return != 'Done') {
-                        echo 'Error';
-                    }
+        $style = $params['style'];
+        $child = $params['child'];
+
+        $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($style['name'], $style['type'], $style['style_name'], $style['rawdata'])));
+        $redirect_id = $this->wpdb->insert_id;
+        if ($redirect_id > 0):
+            $oxitype = ucfirst(strtolower($style['type']));
+            $rawdata = json_decode(stripslashes($style['rawdata']), true);
+            $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
+            $rawdata['shortcode-addons-elements-id'] = $redirect_id;
+            $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $stylename)) . '';
+            if (!class_exists($cls)) {
+                $return = $this->post_get_elements($oxitype);
+                if ($return != 'Done') {
+                    echo 'Error';
                 }
-                $CLASS = new $cls('admin');
-                $cssgenera = $CLASS->template_css_render($rawdata);
-                foreach ($child as $value) {
-                    $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, $value['type'], $value['rawdata'])));
-                }
-                return admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($style['type']) . "&styleid=$redirect_id");
-            endif;
-        }
+            }
+            $CLASS = new $cls('admin');
+            $cssgenera = $CLASS->template_css_render($rawdata);
+            foreach ($child as $value) {
+                $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, $value['type'], $value['rawdata'])));
+            }
+            return admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($style['type']) . "&styleid=$redirect_id");
+        endif;
     }
 
     public function get_get_template_data() {
@@ -393,6 +387,29 @@ class RestApi extends Console {
         endif;
     }
 
+    public function get_shortcode_export() {
+        $styleid = (int) $this->styleid;
+
+        if ($styleid):
+            $style = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM {$this->parent_table} WHERE id = %d", $styleid), ARRAY_A);
+            $child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM {$this->child_table} WHERE styleid = %d ORDER by id ASC", $styleid), ARRAY_A);
+            $filename = 'shortcode-addons-template-' . $styleid . '.json';
+            $files = [
+                'style' => $style,
+                'child' => $child,
+                'type' => 'shortcode-addons',
+            ];
+            $finalfiles = json_encode($files);
+            $this->send_file_headers($filename, strlen($finalfiles));
+            @ob_end_clean();
+            flush();
+            echo $finalfiles;
+            die;
+        else:
+            return 'Silence is Golden';
+        endif;
+    }
+
     /**
      * Send file headers.
      *
@@ -414,6 +431,11 @@ class RestApi extends Console {
      * @return void
      */
     public function post_addons_settings() {
+
+        if (!current_user_can('manage_options')):
+            return 'Go to Hell';
+        endif;
+
         $rawdata = json_decode(stripslashes($this->rawdata), true);
         $name = sanitize_text_field($rawdata['name']);
         $value = sanitize_text_field($rawdata['value']);
@@ -481,7 +503,7 @@ class RestApi extends Console {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = esc_html('An error occurred, please try again.');
+                $message = __('An error occurred, please try again.');
             }
         } else {
             $license_data = json_decode(wp_remote_retrieve_body($response));
@@ -492,23 +514,25 @@ class RestApi extends Console {
 
                     case 'expired' :
 
-                        $message = 'Your license key expired';
+                        $message = sprintf(
+                                __('Your license key expired on %s.'), date_i18n(get_option('date_format'), strtotime($license_data->expires, current_time('timestamp')))
+                        );
                         break;
 
                     case 'revoked' :
 
-                        $message = esc_html('Your license key has been disabled.');
+                        $message = __('Your license key has been disabled.');
                         break;
 
                     case 'missing' :
 
-                        $message = esc_html('Invalid license.');
+                        $message = __('Invalid license.');
                         break;
 
                     case 'invalid' :
                     case 'site_inactive' :
 
-                        $message = esc_html('Your license is not active for this URL.');
+                        $message = __('Your license is not active for this URL.');
                         break;
 
                     case 'item_name_mismatch' :
@@ -518,12 +542,12 @@ class RestApi extends Console {
 
                     case 'no_activations_left':
 
-                        $message = esc_html('Your license key has reached its activation limit.');
+                        $message = __('Your license key has reached its activation limit.');
                         break;
 
                     default :
 
-                        $message = esc_html('An error occurred, please try again.');
+                        $message = __('An error occurred, please try again.');
                         break;
                 }
             }
@@ -549,7 +573,7 @@ class RestApi extends Console {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = esc_html('An error occurred, please try again.');
+                $message = __('An error occurred, please try again.');
             }
             return $message;
         }

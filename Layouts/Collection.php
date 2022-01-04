@@ -53,10 +53,6 @@ class Collection extends Console {
         return $files;
     }
 
-    public function _admin_font_awesome_render($data) {
-        echo'<i class="' . esc_attr($data) . ' oxi-icons"></i>';
-    }
-
     /*
      * Shortcode Addons name converter.
      *
@@ -108,7 +104,7 @@ class Collection extends Console {
                             <div class="oxi-addons-shortcode-import" id="<?php echo esc_attr($value['name']); ?>" oxi-addons-search="<?php echo esc_attr(strtolower($value['name'])); ?>">
                                 <a class="addons-pre-check <?php echo ((array_key_exists('premium', $value) && $value['premium'] == true && apply_filters('shortcode-addons/admin_version', false) == FALSE) ? 'addons-pre-check-pro' : ''); ?>" href="<?php echo esc_url(admin_url($oxilink)); ?>" sub-name="<?php echo esc_attr($value['name']); ?>" sub-type="<?php echo (array_key_exists($key, $this->installed_elements) ? array_key_exists($value['name'], $this->installed_elements[$key]) ? (version_compare($this->installed_elements[$key][$value['name']]['version'], $value['version']) >= 0) ? '' : 'update' : 'install' : 'install'); ?>">
                                     <div class="oxi-addons-shortcode-import-top">
-                                        <?php $this->_admin_font_awesome_render((array_key_exists('icon', $value) ? $value['icon'] : 'fas fa-cloud-download-alt')); ?>
+                                        <?php echo $this->font_awesome_render((array_key_exists('icon', $value) ? $value['icon'] : 'fas fa-cloud-download-alt')); ?>
                                     </div>
                                     <div class="oxi-addons-shortcode-import-bottom">
                                         <span><?php echo esc_html($this->name_converter($value['name'])); ?></span>
