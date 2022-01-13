@@ -181,7 +181,7 @@ class Console extends Database {
      */
     public function post_elements_template_deactive() {
 
-        $settings = json_decode(stripslashes($this->rawdata), true);
+        $settings = $this->validate_post();
         $type = sanitize_title($settings['oxitype']);
         $name = sanitize_text_field($settings['oxideletestyle']);
         $this->wpdb->query($this->wpdb->prepare("DELETE FROM $this->import_table WHERE type = %s and name = %s", $type, $name));
@@ -195,7 +195,7 @@ class Console extends Database {
      * @since 2.0.0
      */
     public function post_elements_template_active($data = '') {
-        $settings = json_decode(stripslashes($this->rawdata), true);
+        $settings = $this->validate_post();
         $type = sanitize_title($settings['oxitype']);
         $name = sanitize_text_field($settings['oxiactivestyle']);
         $d = $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} (type, name) VALUES (%s, %s)", array($type, $name)));
@@ -286,7 +286,7 @@ class Console extends Database {
      */
     public function post_add_google_font() {
         if ($this->rawdata != '' && !empty($this->rawdata)) {
-            $data = sanitize_text_field($this->rawdata);
+            $data = $this->validate_post();
             $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
             if (is_array($font)):
                 return 'Someone already Saved it';
@@ -303,7 +303,7 @@ class Console extends Database {
      * @since 2.1.0
      */
     public function post_remove_google_font() {
-        $data = sanitize_text_field($this->rawdata);
+        $data = $this->validate_post();
         $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
         if (is_array($font)):
             $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->import_table} WHERE id = %d ", $font['id']));
@@ -318,7 +318,7 @@ class Console extends Database {
      */
     public function post_add_custom_font() {
         if ($this->rawdata != '' && !empty($this->rawdata)) {
-            $data = sanitize_text_field($this->rawdata);
+            $data = $this->validate_post();
             $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s AND  name = %s ", 'shortcode-addons', $data, 'custom'), ARRAY_A);
             if (is_array($font)):
                 return 'Someone already Saved it';

@@ -40,14 +40,10 @@ class RestApi extends Console {
             return new \WP_REST_Request('Invalid URL', 422);
         endif;
 
-        $rawdata = json_decode($request['rawdata'], true);
-        if (is_array($rawdata)):
-            $this->validate_post($rawdata);
-        else:
-            $this->rawdata = sanitize_text_field($request['rawdata']);
-        endif;
-        $this->styleid = isset($request['styleid']) ? $request['styleid'] : '';
-        $this->childid = isset($request['childid']) ? $request['childid'] : '';
+        $this->rawdata = addslashes($request['rawdata']);
+
+        $this->styleid = isset($request['styleid']) ? (int) $request['styleid'] : '';
+        $this->childid = isset($request['childid']) ? (int) $request['childid'] : '';
         $action_class = strtolower($request->get_method()) . '_' . sanitize_key($request['action']);
         if (method_exists($this, $action_class)) {
             return $this->{$action_class}();
@@ -149,12 +145,19 @@ class RestApi extends Console {
         endif;
     }
 
-    public function validate_post($rawdata) {
-        if (is_array($rawdata)):
-            $rawdata = array_map(array($this, 'allowed_html'), $rawdata);
-            $this->rawdata = addslashes(json_encode($rawdata));
+    public function validate_post($data = '') {
+        $rawdata = [];
+        if (!empty($data)):
+            $arrfiles = json_decode(stripslashes($data), true);
+        else:
+            $arrfiles = json_decode(stripslashes($this->rawdata), true);
         endif;
-        return;
+        if (is_array($arrfiles)):
+            $rawdata = array_map(array($this, 'allowed_html'), $arrfiles);
+        else:
+            $rawdata = $this->allowed_html($data);
+        endif;
+        return $rawdata;
     }
 
     /**
@@ -164,8 +167,10 @@ class RestApi extends Console {
      */
     public function post_elements_template_create() {
         $settings = json_decode(stripslashes($this->rawdata), true);
-        $elements = sanitize_text_field($settings['addons-oxi-type']);
+        $elements = $this->validate_post($settings['addons-oxi-type']);
         $row = json_decode($settings['oxi-addons-data'], true);
+        $settings['addons-style-name'] = $this->validate_post($settings['addons-style-name']);
+        
         $styleid = (int) $settings['oxistyleid'];
         if ($styleid != ''):
             $newdata = $this->wpdb->get_row($this->wpdb->prepare('SELECT * FROM ' . $this->parent_table . ' WHERE id = %d ', $styleid), ARRAY_A);
@@ -251,7 +256,7 @@ class RestApi extends Console {
      * @since 2.0.0
      */
     public function post_elements_template_change_name() {
-        $settings = json_decode(stripslashes($this->rawdata), true);
+        $settings = $this->validate_post();
         $name = sanitize_text_field($settings['addonsstylename']);
         $id = $settings['addonsstylenameid'];
         if ((int) $id):
@@ -436,7 +441,7 @@ class RestApi extends Console {
             return 'Go to Hell';
         endif;
 
-        $rawdata = json_decode(stripslashes($this->rawdata), true);
+        $rawdata = $this->validate_post();
         $name = sanitize_text_field($rawdata['name']);
         $value = sanitize_text_field($rawdata['value']);
         if ($name === 'oxi_addons_user_permission'):
@@ -466,7 +471,7 @@ class RestApi extends Console {
      * @return void
      */
     public function post_oxi_license() {
-        $rawdata = json_decode(stripslashes($this->rawdata), true);
+        $rawdata = $this->validate_post();
         $new = $rawdata['license'];
         $old = get_option('shortcode_addons_license_key');
         $status = get_option('oxi_addons_license_status');

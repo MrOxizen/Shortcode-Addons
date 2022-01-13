@@ -55,8 +55,8 @@ class Elements_Frontend extends Database {
     public function elements() {
 
         do_action('shortcode-addons/before_init');
-        $this->oxitype = (!empty($_GET['oxitype']) ? ucfirst(sanitize_text_field($_GET['oxitype'])) : '');
-        $this->oxiimport = (!empty($_GET['oxiimport']) ? sanitize_text_field($_GET['oxiimport']) : '');
+        $this->oxitype = (!empty($_GET['oxitype']) ? ucfirst($this->validate_post($_GET['oxitype'])) : '');
+        $this->oxiimport = (!empty($_GET['oxiimport']) ? $this->validate_post($_GET['oxiimport']) : '');
         $this->admin();
         $this->rander();
     }

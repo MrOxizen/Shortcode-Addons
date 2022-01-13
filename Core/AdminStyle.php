@@ -150,7 +150,7 @@ class AdminStyle {
         $this->parent_table = $this->wpdb->prefix . 'oxi_div_style';
         $this->child_table = $this->wpdb->prefix . 'oxi_div_list';
         $this->import_table = $this->wpdb->prefix . 'oxi_div_import';
-        $this->oxiid = (!empty($_GET['styleid']) ? sanitize_text_field($_GET['styleid']) : '');
+        $this->oxiid = (!empty($_GET['styleid']) ? (int)$_GET['styleid'] : '');
         $this->WRAPPER = '.shortcode-addons-wrapper-' . $this->oxiid;
         if ($type != 'admin') {
             $this->hooks();
@@ -467,7 +467,7 @@ class AdminStyle {
                     </div>
                     <div class="shortcode-addons-form-repeater-store" style="display: none">
                         <?php
-                        $this->repeater;
+                         echo $this->repeater;
                         ?>
                     </div>
                     <div id="OXIAADDONSCHANGEDPOPUP" class="modal fade">
