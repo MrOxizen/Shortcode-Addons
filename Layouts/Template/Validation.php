@@ -2,10 +2,6 @@
 
 namespace SHORTCODE_ADDONS\Layouts\Template;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
 /**
  *
  * @author biplob018
@@ -13,7 +9,7 @@ if (!defined('ABSPATH')) {
 trait Validation {
     /*
      * Shortcode Addons name converter.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -26,7 +22,7 @@ trait Validation {
 
     /*
      * Shortcode Addons font family validation.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -34,14 +30,14 @@ trait Validation {
         $check = get_option('oxi_addons_google_font');
         if ($check != 'no'):
             foreach ($data as $value) {
-                wp_enqueue_style('' . esc_attr($value) . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
+                wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
             }
         endif;
     }
 
     /*
      * Shortcode Addons admin name Validation.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -54,7 +50,7 @@ trait Validation {
 
     /*
      * Shortcode Addons Array render.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -100,7 +96,7 @@ trait Validation {
 
     /*
      * Shortcode Addons text render.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -110,7 +106,7 @@ trait Validation {
 
     /*
      * Shortcode Addons fontawesome Icon Render.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -119,13 +115,13 @@ trait Validation {
         if ($fadata == 'yes'):
             wp_enqueue_style('font-awsome.min', SA_ADDONS_URL . '/assets/front/css/font-awsome.min.css', false, SA_ADDONS_PLUGIN_VERSION);
         endif;
-        $files = '<i class="' . esc_attr($data) . ' oxi-icons"></i>';
+        $files = '<i class="' . $data . ' oxi-icons"></i>';
         return $files;
     }
 
     /*
      * Shortcode Addons column Render.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -138,7 +134,7 @@ trait Validation {
 
     /*
      * Shortcode Addons url render.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -162,7 +158,7 @@ trait Validation {
 
     /*
      * Shortcode Addons Animation render.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -178,7 +174,7 @@ trait Validation {
 
     /*
      * Shortcode Addons Background render.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -201,7 +197,7 @@ trait Validation {
                     $backround .= $class . '{background-size:  ' . $style[$id . '-size-mob'] . ';}';
                     $backround .= '}';
                 else:
-                    $backround .= $class . '{background: ' . $color . ', url(\'' . $style[$id . '-url'] . '\') ' . $style[$id . '-repeat'] . ' ' . $style[$id . '-position'] . ';
+                    $backround .= $class . '{background: ' . $color . ', url(\'' . $style[$id . '-url'] . '\') ' . $style[$id . '-repeat'] . ' ' . $style[$id . '-position'] . '; 
                                            background-attachment: ' . $style[$id . '-attachment'] . ';
                                            background-size:  ' . $style[$id . '-size-lap'] . ';}';
                     $backround .= '@media only screen and (min-width : 669px) and (max-width : 993px){';
@@ -220,7 +216,7 @@ trait Validation {
 
     /*
      * Shortcode Addons replace category stirng to calss.
-     *
+     * 
      * @since 2.1.0
      */
 

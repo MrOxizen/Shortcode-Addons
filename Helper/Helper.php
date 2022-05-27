@@ -2,124 +2,11 @@
 
 namespace SHORTCODE_ADDONS\Helper;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
 /**
  *
  * @author biplo
  */
 trait Helper {
-
-    public function allowed_html($rawdata) {
-        $allowed_tags = array(
-            'a' => array(
-                'class' => array(),
-                'href' => array(),
-                'rel' => array(),
-                'title' => array(),
-            ),
-            'abbr' => array(
-                'title' => array(),
-            ),
-            'b' => array(),
-            'br' => array(),
-            'blockquote' => array(
-                'cite' => array(),
-            ),
-            'cite' => array(
-                'title' => array(),
-            ),
-            'code' => array(),
-            'del' => array(
-                'datetime' => array(),
-                'title' => array(),
-            ),
-            'dd' => array(),
-            'div' => array(
-                'class' => array(),
-                'title' => array(),
-                'style' => array(),
-                'id' => array(),
-            ),
-            'table' => array(
-                'class' => array(),
-                'id' => array(),
-                'style' => array(),
-            ),
-            'button' => array(
-                'class' => array(),
-                'type' => array(),
-                'value' => array(),
-            ),
-            'thead' => array(),
-            'tbody' => array(),
-            'tr' => array(),
-            'td' => array(),
-            'dt' => array(),
-            'em' => array(),
-            'h1' => array(),
-            'h2' => array(),
-            'h3' => array(),
-            'h4' => array(),
-            'h5' => array(),
-            'h6' => array(),
-            'i' => array(
-                'class' => array(),
-            ),
-            'img' => array(
-                'alt' => array(),
-                'class' => array(),
-                'height' => array(),
-                'src' => array(),
-                'width' => array(),
-            ),
-            'li' => array(
-                'class' => array(),
-            ),
-            'ol' => array(
-                'class' => array(),
-            ),
-            'p' => array(
-                'class' => array(),
-            ),
-            'q' => array(
-                'cite' => array(),
-                'title' => array(),
-            ),
-            'span' => array(
-                'class' => array(),
-                'title' => array(),
-                'style' => array(),
-            ),
-            'strike' => array(),
-            'strong' => array(),
-            'ul' => array(
-                'class' => array(),
-            ),
-        );
-        if (is_array($rawdata)):
-            return $rawdata = array_map(array($this, 'allowed_html'), $rawdata);
-        else:
-            return wp_kses($rawdata, $allowed_tags);
-        endif;
-    }
-
-    public function validate_post($files = '') {
-
-        $rawdata = [];
-        if (!empty($files) && !is_array($files)):
-            $data = json_decode(stripslashes($files), true);
-        endif;
-        if (is_array($data)):
-            $rawdata = array_map(array($this, 'allowed_html'), $data);
-        else:
-            $rawdata = $this->allowed_html($files);
-        endif;
-
-        return $rawdata;
-    }
 
     /**
      * Plugin fixed
@@ -186,9 +73,23 @@ trait Helper {
     public function oxilab_admin_menu($agr) {
 
         $bgimage = SA_ADDONS_URL . 'image/sa-logo.png';
-        $GETPage = $this->validate_post($_GET['page']);
-        $oxitype = (!empty($_GET['oxitype']) ? $this->validate_post($_GET['oxitype']) : '');
+        $sub = '';
 
+        $menu = '<div class="oxi-addons-wrapper">
+                    <div class="oxilab-new-admin-menu">
+                        <div class="oxi-site-logo">
+                            <a href="' . admin_url('admin.php?page=shortcode-addons') . '" class="header-logo" style=" background-image: url(' . $bgimage . ');">
+                            </a>
+                        </div>
+                        <nav class="oxilab-sa-admin-nav">
+                            <ul class="oxilab-sa-admin-menu">';
+
+        $GETPage = sanitize_text_field($_GET['page']);
+        $oxitype = (!empty($_GET['oxitype']) ? sanitize_text_field($_GET['oxitype']) : '');
+
+        if ($oxitype != '') :
+            $menu .= '<li class="active"><a href="' . admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype) . '">' . $this->name_converter($oxitype) . '</a></li>';
+        endif;
         $response = [
             'Elements' => [
                 'name' => 'Elements',
@@ -199,43 +100,23 @@ trait Helper {
                 'homepage' => 'shortcode-addons-import'
             ]
         ];
-        ?>
-        <div class="oxi-addons-wrapper">
-            <div class="oxilab-new-admin-menu">
-                <div class="oxi-site-logo">
-                    <a href="<?php echo esc_url(admin_url('admin.php?page=shortcode-addons')); ?>" class="header-logo" style=" background-image: url(<?php echo esc_url($bgimage); ?>);">
-                    </a>
+
+        foreach ($response as $key => $value) {
+            $active = ($GETPage == $value['homepage'] ? (empty($oxitype) ? ' class="active" ' : '') : '');
+            $menu .= '<li ' . $active . '><a href="' . admin_url('admin.php?page=' . $value['homepage'] . '') . '">' . $this->name_converter($value['name']) . '</a></li>';
+        }
+        $menu .= '              </ul>
+                            <ul class="oxilab-sa-admin-menu2">
+                               ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE ? ' <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Upgrade</a></li>' : '') . '
+                               <li class="saadmin-doc"><a target="_black" href="https://www.oxilabdemos.com/shortcode-addons/docs/">Docs</a></li>
+                               <li class="saadmin-doc"><a target="_black" href="https://wordpress.org/support/plugin/shortcode-addons/">Support</a></li>
+                               <li class="saadmin-set"><a href="' . admin_url('admin.php?page=shortcode-addons-settings') . '"><span class="dashicons dashicons-admin-generic"></span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-                <nav class="oxilab-sa-admin-nav">
-                    <ul class="oxilab-sa-admin-menu">
-                        <?php
-                        if ($oxitype != '' && $GETPage = 'shortcode-addons') :
-                            echo '<li class="active"><a href="' . esc_url(admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype)) . '">' . esc_html($this->name_converter($oxitype)) . '</a></li>';
-                        endif;
-
-                        foreach ($response as $key => $value) {
-                            $active = ($GETPage == $value['homepage'] ? ' class="active" ' : '');
-
-                            echo'<li ' . esc_attr($active) . '><a href="' . esc_url(admin_url('admin.php?page=' . $value['homepage'] . '')) . '">' . esc_html($this->name_converter($value['name'])) . '</a></li>';
-                        }
-                        ?>
-                    </ul>
-                    <ul class="oxilab-sa-admin-menu2">
-                        <?php
-                        if (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE):
-                            ?>
-                            <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/accordions/pricing">Upgrade</a></li>
-                            <?php
-                        endif;
-                        ?>
-                        <li class="saadmin-doc"><a target="_black" href="https://www.oxilabdemos.com/shortcode-addons/docs/">Docs</a></li>
-                        <li class="saadmin-doc"><a target="_black" href="https://wordpress.org/support/plugin/shortcode-addons/">Support</a></li>
-                        <li class="saadmin-set"><a href="<?php echo esc_url(admin_url('admin.php?page=shortcode-addons-settings')); ?>"><span class="dashicons dashicons-admin-generic"></span></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <?php
+                ' . $sub;
+        echo __($menu, SHORTCODE_ADDOONS);
     }
 
     /**
@@ -260,11 +141,10 @@ trait Helper {
      * @since 2.0.0
      */
     public function addons_elements() {
-        $oxitype = ucfirst(strtolower(!empty($_GET['oxitype']) ? $this->validate_post($_GET['oxitype']) : ''));
+        $oxitype = ucfirst(strtolower(!empty($_GET['oxitype']) ? sanitize_text_field($_GET['oxitype']) : ''));
         $style = (!empty($_GET['styleid']) ? (int) $_GET['styleid'] : '');
         if (!empty($oxitype) && empty($style)):
             $clsss = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\\' . $oxitype . '';
-
             if (class_exists($clsss)):
                 $elements = new $clsss();
                 $elements->elements();
@@ -356,31 +236,26 @@ trait Helper {
             }
         </style>
         <?php
+
     }
 
     public function supportandcomments($agr) {
-        ?>
-        <div class="oxi-addons-admin-notifications">
-            <h3>
-                <span class="dashicons dashicons-flag"></span>
-                Notifications
-            </h3>
-            <p></p>
-            <div class="oxi-addons-admin-notifications-holder">
-                <div class="oxi-addons-admin-notifications-alert">
-                    <p>Unable to create your desire design or need any help? I Just wanted to see if you have any questions or concerns about my plugins. If you do, Please do not hesitate to <a href="https://wordpress.org/support/plugin/shortcode-addons#new-post">file a bug report or help</a>. Our dedicated team will helps you to solve your issues. </p>
-                    <?php
-                    if (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) != true):
-                        echo '<p>By the way, did you know we also have a <a href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Premium Version</a>? It offers lots of options with automatic update. It also comes with 16/5 personal support.</p>';
-                    endif;
-                    ?>
-                    <p>Thanks Again!</p>
+        echo '  <div class="oxi-addons-admin-notifications">
+                    <h3>
+                        <span class="dashicons dashicons-flag"></span>
+                        Notifications
+                    </h3>
                     <p></p>
-                </div>
-            </div>
-            <p></p>
-        </div>
-        <?php
+                    <div class="oxi-addons-admin-notifications-holder">
+                        <div class="oxi-addons-admin-notifications-alert">
+                            <p>Unable to create your desire design or need any help? I Just wanted to see if you have any questions or concerns about my plugins. If you do, Please do not hesitate to <a href="https://wordpress.org/support/plugin/shortcode-addons#new-post">file a bug report or help</a>. Our dedicated team will helps you to solve your issues. </p>
+                            ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) ? '' : '<p>By the way, did you know we also have a <a href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Premium Version</a>? It offers lots of options with automatic update. It also comes with 16/5 personal support.</p>') . '
+                            <p>Thanks Again!</p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <p></p>
+                </div>';
     }
 
     /**
@@ -507,15 +382,6 @@ trait Helper {
             $rawdata = isset($_POST['rawdata']) ? sanitize_post($_POST['rawdata']) : '';
             $optional = isset($_POST['optional']) ? sanitize_post($_POST['optional']) : '';
             $optional2 = isset($_POST['optional2']) ? sanitize_post($_POST['optional2']) : '';
-
-            if (strpos($classname, 'SHORTCODE_ADDONS_UPLOAD') === false):
-                return new \WP_REST_Request('Invalid URL', 422);
-            endif;
-
-            if (!(strpos($classname, 'Ajax') !== false || strpos($classname, 'Files') !== false)):
-                return new \WP_REST_Request('Invalid URL', 422);
-            endif;
-
             if (!empty($classname) && !empty($functionname)):
                 $classname::$functionname($rawdata, $optional, $optional2);
             endif;

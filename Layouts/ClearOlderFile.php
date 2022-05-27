@@ -2,10 +2,6 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
 /**
  * Description of ClearOlderFile
  *
@@ -72,5 +68,5 @@ class ClearOlderFile extends Console {
         }
     }
 
-//
+//   
 }

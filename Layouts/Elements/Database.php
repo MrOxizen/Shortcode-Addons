@@ -2,10 +2,6 @@
 
 namespace SHORTCODE_ADDONS\Layouts\Elements;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
 /**
  *
  * @author biplo

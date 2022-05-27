@@ -15,7 +15,7 @@ jQuery.noConflict();
                 notice: _This.attr('sup-data')
             },
             success: function (response) {
-                $('.oxi-addons-admin-notifications').remove();
+                _This.parents().find('.oxi-addons-admin-notifications').remove();
             },
             error: function (error) {
                 console.log('Something went wrong!');

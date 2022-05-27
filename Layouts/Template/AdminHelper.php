@@ -1,4 +1,5 @@
 <?php
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,10 +7,6 @@
  */
 
 namespace SHORTCODE_ADDONS\Layouts\Template;
-
-if (!defined('ABSPATH')) {
-    exit;
-}
 
 use SHORTCODE_ADDONS\Core\Admin\Controls as Controls;
 
@@ -39,8 +36,8 @@ trait AdminHelper {
     public function modal_opener() {
         $this->add_substitute_control('', [], [
             'type' => Controls::MODALOPENER,
-            'title' => __('Add New Data', 'shortcode-addons'),
-            'sub-title' => __('Open Data Form', 'shortcode-addons'),
+            'title' => __('Add New Data', SHORTCODE_ADDOONS),
+            'sub-title' => __('Open Data Form', SHORTCODE_ADDOONS),
             'showing' => TRUE,
         ]);
     }
@@ -54,8 +51,8 @@ trait AdminHelper {
     public function shortcode_name() {
         $this->add_substitute_control('', $this->dbdata, [
             'type' => Controls::SHORTCODENAME,
-            'title' => __('Shortcode Name', 'shortcode-addons'),
-            'placeholder' => __('Set Your Shortcode Name', 'shortcode-addons'),
+            'title' => __('Shortcode Name', SHORTCODE_ADDOONS),
+            'placeholder' => __('Set Your Shortcode Name', SHORTCODE_ADDOONS),
             'showing' => TRUE,
         ]);
     }
@@ -69,7 +66,7 @@ trait AdminHelper {
     public function shortcode_info() {
         $this->add_substitute_control($this->oxiid, $this->dbdata, [
             'type' => Controls::SHORTCODEINFO,
-            'title' => __('Shortcode', 'shortcode-addons'),
+            'title' => __('Shortcode', SHORTCODE_ADDOONS),
             'showing' => TRUE,
         ]);
     }
@@ -90,25 +87,21 @@ trait AdminHelper {
      * @since 2.0.0
      */
     public function modal_form() {
-        ?>
-        <div class="modal fade" id="oxi-addons-list-data-modal" >
-            <div class="modal-dialog">
-                <form method="post" id="shortcode-addons-template-modal-form">
-                    <div class="modal-content">
 
-                        <?php
-                        $this->modal_form_data();
-                        ?>
-                        <div class="modal-footer">
-                            <input type="hidden" id="shortcodeitemid" name="shortcodeitemid" value="">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" id="shortcode-template-modal-submit">Submit</button>
+        echo '<div class="modal fade" id="oxi-addons-list-data-modal" >
+                <div class="modal-dialog">
+                    <form method="post" id="shortcode-addons-template-modal-form">
+                         <div class="modal-content">';
+        $this->modal_form_data();
+        echo '          <div class="modal-footer">
+                                <input type="hidden" id="shortcodeitemid" name="shortcodeitemid" value="">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" id="shortcode-template-modal-submit">Submit</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <?php
+                    </form>
+                </div>
+              </div>';
     }
 
     /**

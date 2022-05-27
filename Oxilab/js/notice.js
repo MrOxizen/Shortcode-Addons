@@ -14,7 +14,7 @@
             },
             success: function (response) {
                 console.log(response);
-                $('.shortcode-addons-review-notice').remove();
+                _This.parents().find('.shortcode-addons-review-notice').hide();
             },
             error: function (error) {
                 console.log('Something went wrong!');

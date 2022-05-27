@@ -2,10 +2,6 @@
 
 namespace SHORTCODE_ADDONS\Core;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
 /**
  * Description of Cloud
  *
@@ -67,7 +63,7 @@ class Console extends Database {
     /**
      * Get  template Elements List.
      * @return mixed
-     *
+     * 
      *  @since 2.0.0
      */
     public function shortcode_elements($force_update = FALSE) {
@@ -92,7 +88,7 @@ class Console extends Database {
     public function installed_elements($force_update = FALSE) {
         $response = get_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
         if (!$response || $force_update) :
-
+            
             $this->create_upload_folder();
             $elements = glob(SA_ADDONS_UPLOAD_PATH . '*', GLOB_ONLYDIR);
             $response = $catarray = $catnewdata = [];
@@ -130,7 +126,7 @@ class Console extends Database {
     /**
      * Get  template google font.
      * @return mixed
-     *
+     * 
      *  @since 2.0.0
      */
     public function google_fonts($force_update = FALSE) {
@@ -149,9 +145,6 @@ class Console extends Database {
      * @since 2.0.0
      */
     public function post_get_elements($elements = '') {
-        if (!current_user_can('upload_files')):
-            return;
-        endif;
         if (!empty($elements)):
             $this->rawdata = $elements;
         endif;
@@ -181,7 +174,7 @@ class Console extends Database {
      */
     public function post_elements_template_deactive() {
 
-        $settings = $this->validate_post();
+        $settings = json_decode(stripslashes($this->rawdata), true);
         $type = sanitize_title($settings['oxitype']);
         $name = sanitize_text_field($settings['oxideletestyle']);
         $this->wpdb->query($this->wpdb->prepare("DELETE FROM $this->import_table WHERE type = %s and name = %s", $type, $name));
@@ -195,7 +188,7 @@ class Console extends Database {
      * @since 2.0.0
      */
     public function post_elements_template_active($data = '') {
-        $settings = $this->validate_post();
+        $settings = json_decode(stripslashes($this->rawdata), true);
         $type = sanitize_title($settings['oxitype']);
         $name = sanitize_text_field($settings['oxiactivestyle']);
         $d = $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} (type, name) VALUES (%s, %s)", array($type, $name)));
@@ -218,7 +211,6 @@ class Console extends Database {
         if (count($cache) == 0) {
             $font = ['Roboto', 'Manjari', 'Gayathri', 'Open+Sans', 'Lato', 'Chilanka', 'Montserrat', 'Roboto+Condensed', 'Source+Sans+Pro'];
             foreach ($font as $value) {
-                $value = sanitize_text_field($value);
                 $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} ( type, font) VALUES (%s, %s)", array('shortcode-addons', $value)));
                 $redirect_id = $this->wpdb->insert_id;
                 $this->stored_font[$value] = [
@@ -286,7 +278,7 @@ class Console extends Database {
      */
     public function post_add_google_font() {
         if ($this->rawdata != '' && !empty($this->rawdata)) {
-            $data = $this->validate_post();
+            $data = sanitize_text_field($this->rawdata);
             $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
             if (is_array($font)):
                 return 'Someone already Saved it';
@@ -303,7 +295,7 @@ class Console extends Database {
      * @since 2.1.0
      */
     public function post_remove_google_font() {
-        $data = $this->validate_post();
+        $data = sanitize_text_field($this->rawdata);
         $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
         if (is_array($font)):
             $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->import_table} WHERE id = %d ", $font['id']));
@@ -318,7 +310,7 @@ class Console extends Database {
      */
     public function post_add_custom_font() {
         if ($this->rawdata != '' && !empty($this->rawdata)) {
-            $data = $this->validate_post();
+            $data = sanitize_text_field($this->rawdata);
             $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s AND  name = %s ", 'shortcode-addons', $data, 'custom'), ARRAY_A);
             if (is_array($font)):
                 return 'Someone already Saved it';

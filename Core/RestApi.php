@@ -39,12 +39,12 @@ class RestApi extends Console {
         if (!wp_verify_nonce($wpnonce, 'wp_rest')):
             return new \WP_REST_Request('Invalid URL', 422);
         endif;
-
-        $this->rawdata = addslashes($request['rawdata']);
-
-        $this->styleid = isset($request['styleid']) ? (int) $request['styleid'] : '';
-        $this->childid = isset($request['childid']) ? (int) $request['childid'] : '';
+        $this->rawdata = isset($request['rawdata']) ? addslashes($request['rawdata']) : '';
+        $this->styleid = isset($request['styleid']) ? $request['styleid'] : '';
+        $this->childid = isset($request['childid']) ? $request['childid'] : '';
+        $class = isset($request['class']) ? $request['class'] : '';
         $action_class = strtolower($request->get_method()) . '_' . sanitize_key($request['action']);
+
         if (method_exists($this, $action_class)) {
             return $this->{$action_class}();
         } else {
@@ -167,62 +167,13 @@ class RestApi extends Console {
      */
     public function post_elements_template_create() {
         $settings = json_decode(stripslashes($this->rawdata), true);
-        $elements = $this->validate_post($settings['addons-oxi-type']);
+        $elements = sanitize_text_field($settings['addons-oxi-type']);
         $row = json_decode($settings['oxi-addons-data'], true);
-        $settings['addons-style-name'] = $this->validate_post($settings['addons-style-name']);
-        
-        $styleid = (int) $settings['oxistyleid'];
-        if ($styleid != ''):
-            $newdata = $this->wpdb->get_row($this->wpdb->prepare('SELECT * FROM ' . $this->parent_table . ' WHERE id = %d ', $styleid), ARRAY_A);
-            $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($settings['addons-style-name'], $newdata['type'], $newdata['style_name'], $newdata['rawdata'])));
-            $redirect_id = $this->wpdb->insert_id;
-            if ($redirect_id > 0):
-                $rawdata = json_decode(stripslashes($newdata['rawdata']), true);
-                $rawdata['shortcode-addons-elements-id'] = $redirect_id;
-                $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . ucfirst($rawdata['shortcode-addons-elements-name']) . '\Admin\\' . ucfirst(str_replace('-', '_', $rawdata['shortcode-addons-elements-template'])) . '';
-                if (class_exists($cls)):
-                    $CLASS = new $cls('admin');
-                    $CLASS->template_css_render($rawdata);
-                endif;
-                $child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM $this->child_table WHERE styleid = %d ORDER by id ASC", $styleid), ARRAY_A);
-                foreach ($child as $value) {
-                    $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, 'shortcode-addons', $value['rawdata'])));
-                }
-                return admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($elements) . "&styleid=$redirect_id");
-            endif;
-        else:
-            $style = $row['style'];
-            $child = $row['child'];
 
-            $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($settings['addons-style-name'], $elements, $style['style_name'], $style['rawdata'])));
-            $redirect_id = $this->wpdb->insert_id;
-            if ($redirect_id > 0):
-                $oxitype = ucfirst(strtolower($style['type']));
-                $rawdata = json_decode(stripslashes($style['rawdata']), true);
-                $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
-                $rawdata['shortcode-addons-elements-id'] = $redirect_id;
-                $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $stylename)) . '';
-                if (class_exists($cls)):
-                    $CLASS = new $cls('admin');
-                    $cssgenera = $CLASS->template_css_render($rawdata);
-                endif;
+        $style = $row['style'];
+        $child = $row['child'];
 
-                foreach ($child as $value) {
-                    $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, 'shortcode-addons', $value['rawdata'])));
-                }
-                return admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($elements) . "&styleid=$redirect_id");
-            endif;
-        endif;
-        return;
-    }
-
-    public function import_json_template($params) {
-
-
-        $style = $params['style'];
-        $child = $params['child'];
-
-        $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($style['name'], $style['type'], $style['style_name'], $style['rawdata'])));
+        $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($settings['addons-style-name'], $elements, $style['style_name'], $style['rawdata'])));
         $redirect_id = $this->wpdb->insert_id;
         if ($redirect_id > 0):
             $oxitype = ucfirst(strtolower($style['type']));
@@ -230,19 +181,49 @@ class RestApi extends Console {
             $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
             $rawdata['shortcode-addons-elements-id'] = $redirect_id;
             $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $stylename)) . '';
-            if (!class_exists($cls)) {
-                $return = $this->post_get_elements($oxitype);
-                if ($return != 'Done') {
-                    echo 'Error';
-                }
-            }
             $CLASS = new $cls('admin');
             $cssgenera = $CLASS->template_css_render($rawdata);
+
             foreach ($child as $value) {
-                $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, $value['type'], $value['rawdata'])));
+                $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, 'shortcode-addons', $value['rawdata'])));
             }
-            return admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($style['type']) . "&styleid=$redirect_id");
+            return admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($elements) . "&styleid=$redirect_id");
         endif;
+    }
+
+    public function import_json_template($folder, $filename, $name = 'truee') {
+
+        if (is_file($folder . $filename)) {
+            $this->rawdata = file_get_contents($folder . $filename);
+
+            $params = json_decode($this->rawdata, true);
+            $style = $params['style'];
+            $child = $params['child'];
+            if ($name != 'truee'):
+                $style['name'] = $name;
+            endif;
+            $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($style['name'], $style['type'], $style['style_name'], $style['rawdata'])));
+            $redirect_id = $this->wpdb->insert_id;
+            if ($redirect_id > 0):
+                $oxitype = ucfirst(strtolower($style['type']));
+                $rawdata = json_decode(stripslashes($style['rawdata']), true);
+                $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
+                $rawdata['shortcode-addons-elements-id'] = $redirect_id;
+                $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $stylename)) . '';
+                if (!class_exists($cls)) {
+                    $return = $this->post_get_elements($oxitype);
+                    if ($return != 'Done') {
+                        echo 'Error';
+                    }
+                }
+                $CLASS = new $cls('admin');
+                $cssgenera = $CLASS->template_css_render($rawdata);
+                foreach ($child as $value) {
+                    $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s)", array($redirect_id, $value['type'], $value['rawdata'])));
+                }
+                return admin_url("admin.php?page=shortcode-addons&oxitype=" . strtolower($style['type']) . "&styleid=$redirect_id");
+            endif;
+        }
     }
 
     public function get_get_template_data() {
@@ -256,7 +237,7 @@ class RestApi extends Console {
      * @since 2.0.0
      */
     public function post_elements_template_change_name() {
-        $settings = $this->validate_post();
+        $settings = json_decode(stripslashes($this->rawdata), true);
         $name = sanitize_text_field($settings['addonsstylename']);
         $id = $settings['addonsstylenameid'];
         if ((int) $id):
@@ -272,8 +253,12 @@ class RestApi extends Console {
      * @since 2.0.0
      */
     public function post_elements_template_style_data() {
+
+
         $rawdata = $this->rawdata;
+
         $styleid = $this->styleid;
+
         $settings = json_decode(stripslashes($rawdata), true);
 
         $oxitype = sanitize_text_field($settings['shortcode-addons-elements-name']);
@@ -339,7 +324,7 @@ class RestApi extends Console {
     }
 
     /**
-     * Template Modal Data Edit Form
+     * Template Modal Data Edit Form 
      *
      * @since 2.0.0
      */
@@ -436,12 +421,10 @@ class RestApi extends Console {
      * @return void
      */
     public function post_addons_settings() {
-
         if (!current_user_can('manage_options')):
             return 'Go to Hell';
         endif;
-
-        $rawdata = $this->validate_post();
+        $rawdata = json_decode(stripslashes($this->rawdata), true);
         $name = sanitize_text_field($rawdata['name']);
         $value = sanitize_text_field($rawdata['value']);
         if ($name === 'oxi_addons_user_permission'):
@@ -471,7 +454,7 @@ class RestApi extends Console {
      * @return void
      */
     public function post_oxi_license() {
-        $rawdata = $this->validate_post();
+        $rawdata = json_decode(stripslashes($this->rawdata), true);
         $new = $rawdata['license'];
         $old = get_option('shortcode_addons_license_key');
         $status = get_option('oxi_addons_license_status');

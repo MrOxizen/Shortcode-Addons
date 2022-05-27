@@ -5,122 +5,11 @@ namespace SHORTCODE_ADDONS\Helper;
 if (!defined('ABSPATH')) {
     exit;
 }
-
 /**
  *
  * @author biplo
  */
 trait Admin_Scripts {
-    
-    
-    public function allowed_html($rawdata) {
-        $allowed_tags = array(
-            'a' => array(
-                'class' => array(),
-                'href' => array(),
-                'rel' => array(),
-                'title' => array(),
-            ),
-            'abbr' => array(
-                'title' => array(),
-            ),
-            'b' => array(),
-            'br' => array(),
-            'blockquote' => array(
-                'cite' => array(),
-            ),
-            'cite' => array(
-                'title' => array(),
-            ),
-            'code' => array(),
-            'del' => array(
-                'datetime' => array(),
-                'title' => array(),
-            ),
-            'dd' => array(),
-            'div' => array(
-                'class' => array(),
-                'title' => array(),
-                'style' => array(),
-                'id' => array(),
-            ),
-            'table' => array(
-                'class' => array(),
-                'id' => array(),
-                'style' => array(),
-            ),
-            'button' => array(
-                'class' => array(),
-                'type' => array(),
-                'value' => array(),
-            ),
-            'thead' => array(),
-            'tbody' => array(),
-            'tr' => array(),
-            'td' => array(),
-            'dt' => array(),
-            'em' => array(),
-            'h1' => array(),
-            'h2' => array(),
-            'h3' => array(),
-            'h4' => array(),
-            'h5' => array(),
-            'h6' => array(),
-            'i' => array(
-                'class' => array(),
-            ),
-            'img' => array(
-                'alt' => array(),
-                'class' => array(),
-                'height' => array(),
-                'src' => array(),
-                'width' => array(),
-            ),
-            'li' => array(
-                'class' => array(),
-            ),
-            'ol' => array(
-                'class' => array(),
-            ),
-            'p' => array(
-                'class' => array(),
-            ),
-            'q' => array(
-                'cite' => array(),
-                'title' => array(),
-            ),
-            'span' => array(
-                'class' => array(),
-                'title' => array(),
-                'style' => array(),
-            ),
-            'strike' => array(),
-            'strong' => array(),
-            'ul' => array(
-                'class' => array(),
-            ),
-        );
-        if (is_array($rawdata)):
-            return $rawdata = array_map(array($this, 'allowed_html'), $rawdata);
-        else:
-            return wp_kses($rawdata, $allowed_tags);
-        endif;
-    }
-
-    public function validate_post($files = '') {
-        
-        $rawdata = [];
-        if (!empty($files) && !is_array($files)):
-            $data = json_decode(stripslashes($files), true);
-        endif;
-        if (is_array($data)):
-            $rawdata = array_map(array($this, 'allowed_html'), $data);
-        else:
-            $rawdata = $this->allowed_html($files);
-        endif;
-       
-        return $rawdata;
-    }
 
     /**
      * font family loader validation
@@ -191,6 +80,8 @@ trait Admin_Scripts {
         wp_enqueue_script('shortcode-addons-elements', SA_ADDONS_URL . '/assets/backend/js/elements.js', false, SA_ADDONS_PLUGIN_VERSION);
     }
 
+   
+
     /**
      * Load Frontend Loader
      *
@@ -222,7 +113,7 @@ trait Admin_Scripts {
     /**
      * Admin Media Scripts.
      * Most of time using into Style Editing Page
-     *
+     * 
      * @since 2.0.0
      */
     public function admin_media_scripts() {

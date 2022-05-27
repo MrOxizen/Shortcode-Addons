@@ -2,10 +2,6 @@
 
 namespace SHORTCODE_ADDONS\Layouts;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
 /**
  * Description of Elements
  *
@@ -44,18 +40,18 @@ class Collection extends Console {
 
     /*
      * Shortcode Addons fontawesome Icon Render.
-     *
+     * 
      * @since 2.1.0
      */
 
     public function font_awesome_render($data) {
-        $files = '<i class="' . esc_attr($data) . ' oxi-icons"></i>';
+        $files = '<i class="' . $data . ' oxi-icons"></i>';
         return $files;
     }
 
     /*
      * Shortcode Addons name converter.
-     *
+     * 
      * @since 2.1.0
      */
 
@@ -68,7 +64,7 @@ class Collection extends Console {
 
     public function render() {
         ?>
-        <div class="wrap">
+        <div class="wrap">  
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
             ?>
@@ -80,39 +76,34 @@ class Collection extends Console {
                         $elementshtml = '';
                         $elementsnumber = 0;
                         asort($elements);
-
-                        if (count($elements) > 0) {
-                            ?>
-                            <div class="oxi-addons-text-blocks-body-wrapper">
-                                <div class="oxi-addons-text-blocks-body">
-                                    <div class="oxi-addons-text-blocks">
-                                        <div class="oxi-addons-text-blocks-heading"><?php echo esc_html($key); ?></div>
-                                        <div class="oxi-addons-text-blocks-border">
-                                            <div class="oxi-addons-text-block-border"></div>
-                                        </div>
-                                        <div class="oxi-addons-text-blocks-content">Available (<?php echo esc_html(count($elements)); ?>)</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                        }
-
                         foreach ($elements as $value) {
                             $oxilink = 'admin.php?page=shortcode-addons&oxitype=' . strtolower($value['name']);
                             $elementsnumber++;
-                            ?>
-                            <div class="oxi-addons-shortcode-import" id="<?php echo esc_attr($value['name']); ?>" oxi-addons-search="<?php echo esc_attr(strtolower($value['name'])); ?>">
-                                <a class="addons-pre-check <?php echo ((array_key_exists('premium', $value) && $value['premium'] == true && apply_filters('shortcode-addons/admin_version', false) == FALSE) ? 'addons-pre-check-pro' : ''); ?>" href="<?php echo esc_url(admin_url($oxilink)); ?>" sub-name="<?php echo esc_attr($value['name']); ?>" sub-type="<?php echo (array_key_exists($key, $this->installed_elements) ? array_key_exists($value['name'], $this->installed_elements[$key]) ? (version_compare($this->installed_elements[$key][$value['name']]['version'], $value['version']) >= 0) ? '' : 'update' : 'install' : 'install'); ?>">
-                                    <div class="oxi-addons-shortcode-import-top">
-                                        <?php echo $this->font_awesome_render((array_key_exists('icon', $value) ? $value['icon'] : 'fas fa-cloud-download-alt')); ?>
+                            $elementshtml .= ' <div class="oxi-addons-shortcode-import" id="' . $value['name'] . '" oxi-addons-search="' . strtolower($value['name']) . '">
+                                                <a class="addons-pre-check ' . ((array_key_exists('premium', $value) && $value['premium'] == true && apply_filters('shortcode-addons/admin_version', false) == FALSE) ? 'addons-pre-check-pro' : '') . '" href="' . admin_url($oxilink) . '" sub-name="' . $value['name'] . '" sub-type="' . (array_key_exists($key, $this->installed_elements) ? array_key_exists($value['name'], $this->installed_elements[$key]) ? (version_compare($this->installed_elements[$key][$value['name']]['version'], $value['version']) >= 0) ? '' : 'update' : 'install' : 'install') . '">
+                                                    <div class="oxi-addons-shortcode-import-top">
+                                                       ' . $this->font_awesome_render((array_key_exists('icon', $value) ? $value['icon'] : 'fas fa-cloud-download-alt')) . '
+                                                    </div>
+                                                    <div class="oxi-addons-shortcode-import-bottom">
+                                                        <span>' . $this->name_converter($value['name']) . '</span>
+                                                    </div>
+                                                </a>
+                                               
+                                           </div>';
+                        }
+                        if ($elementsnumber > 0) {
+                            echo '  <div class="oxi-addons-text-blocks-body-wrapper">
+                                    <div class="oxi-addons-text-blocks-body">
+                                        <div class="oxi-addons-text-blocks">
+                                            <div class="oxi-addons-text-blocks-heading">' . $key . '</div>
+                                            <div class="oxi-addons-text-blocks-border">
+                                                <div class="oxi-addons-text-block-border"></div>
+                                            </div>
+                                            <div class="oxi-addons-text-blocks-content">Available (' . $elementsnumber . ')</div>
+                                        </div>
                                     </div>
-                                    <div class="oxi-addons-shortcode-import-bottom">
-                                        <span><?php echo esc_html($this->name_converter($value['name'])); ?></span>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <?php
+                                </div>';
+                            echo $elementshtml;
                         }
                     }
                     ?>
@@ -128,12 +119,12 @@ class Collection extends Console {
                         </div>
                     </div>
                     <div class="modal-body text-center">
-                        <h4></h4>
+                        <h4></h4>	
                         <p></p>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
         <?php
     }
 
