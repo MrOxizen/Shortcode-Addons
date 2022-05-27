@@ -15,7 +15,6 @@ jQuery.noConflict();
                 url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
                 method: 'POST',
                 dataType: "json",
-
                 data: {
                     _wpnonce: ShortCodeAddonsUltimate.nonce,
                     styleid: styleid,

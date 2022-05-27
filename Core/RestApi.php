@@ -191,17 +191,12 @@ class RestApi extends Console {
         endif;
     }
 
-    public function import_json_template($folder, $filename, $name = 'truee') {
+    public function import_json_template($params) {
 
-        if (is_file($folder . $filename)) {
-            $this->rawdata = file_get_contents($folder . $filename);
-
-            $params = json_decode($this->rawdata, true);
+        if (is_array($params)) {
+           
             $style = $params['style'];
             $child = $params['child'];
-            if ($name != 'truee'):
-                $style['name'] = $name;
-            endif;
             $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($style['name'], $style['type'], $style['style_name'], $style['rawdata'])));
             $redirect_id = $this->wpdb->insert_id;
             if ($redirect_id > 0):

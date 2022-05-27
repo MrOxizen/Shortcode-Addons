@@ -36,7 +36,7 @@ trait Template {
             $return .= _('<td> 
                        <a href="' . admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&styleid=$id") . '"  title="Edit"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Edit</a>
                         <button class="btn btn-danger shortcode-addons-addons-data-delete" style="float:left"  title="Delete"  type="button" value="' . $id . '">Delete</button>  
-                       <a href="' . esc_url_raw(rest_url()) . 'ShortCodeAddonsUltimate/v2/shortcode_export?styleid=' . $id . '"  title="Export"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Export</a>    
+                       <a href="' . esc_url(esc_url_raw(rest_url()) . 'ShortCodeAddonsUltimate/v2/shortcode_export?styleid=' . $id . '&_wpnonce=' . wp_create_nonce('wp_rest'))  . '"  title="Export"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Export</a>    
                 </td>');
             $return .= _(' </tr>');
         }

@@ -62,6 +62,7 @@ jQuery.noConflict();
         if (subtype !== "") {
             $(this).children(".oxi-addons-shortcode-import-bottom").append('<span class="spinner sa-spinner-open-left"></span>');
             ShortCodeAddonsRestApi('get_elements', $(this).attr("sub-name"), styleid, childid, function (callback) {
+                
                 setTimeout(function () {
                     document.location.href = url;
                 }, 1000);
