@@ -7,9 +7,11 @@ namespace SHORTCODE_ADDONS\Layouts;
  *
  * @author biplo
  */
+
 use \SHORTCODE_ADDONS\Core\Console as Console;
 
-class Collection extends Console {
+class Collection extends Console
+{
 
     use \SHORTCODE_ADDONS\Helper\Admin_Scripts;
 
@@ -17,7 +19,8 @@ class Collection extends Console {
     public $installed_elements;
     public $elements;
 
-    public function element_page() {
+    public function element_page()
+    {
 
         do_action('shortcode-addons/before_init');
         // Load Elements
@@ -27,13 +30,15 @@ class Collection extends Console {
         $this->render();
     }
 
-    public function admin() {
+    public function admin()
+    {
         $this->require_scripts();
         $this->available_elements = $this->shortcode_elements();
         $this->installed_elements = $this->installed_elements();
     }
 
-    public function require_scripts() {
+    public function require_scripts()
+    {
         $this->admin_scripts();
         wp_enqueue_script('shortcode-addons-elements', SA_ADDONS_URL . '/assets/backend/js/collection.js', false, SA_ADDONS_PLUGIN_VERSION);
     }
@@ -44,7 +49,8 @@ class Collection extends Console {
      * @since 2.1.0
      */
 
-    public function font_awesome_render($data) {
+    public function font_awesome_render($data)
+    {
         $files = '<i class="' . $data . ' oxi-icons"></i>';
         return $files;
     }
@@ -55,18 +61,22 @@ class Collection extends Console {
      * @since 2.1.0
      */
 
-    public function name_converter($data) {
+    public function name_converter($data)
+    {
         $data = str_replace('_', ' ', $data);
         $data = str_replace('-', ' ', $data);
         $data = str_replace('+', ' ', $data);
         return ucwords($data);
     }
 
-    public function render() {
-        ?>
-        <div class="wrap">  
+    public function render()
+    {
+
+?>
+        <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
+            apply_filters('shortcode-addons/support-and-comments', false);
             ?>
             <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-row">
@@ -119,13 +129,12 @@ class Collection extends Console {
                         </div>
                     </div>
                     <div class="modal-body text-center">
-                        <h4></h4>	
+                        <h4></h4>
                         <p></p>
                     </div>
                 </div>
             </div>
-        </div>  
-        <?php
+        </div>
+<?php
     }
-
 }

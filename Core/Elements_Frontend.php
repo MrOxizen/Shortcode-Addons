@@ -13,9 +13,11 @@ namespace SHORTCODE_ADDONS\Core;
  *
  * @author biplo
  */
+
 use SHORTCODE_ADDONS\Helper\Database as Database;
 
-class Elements_Frontend extends Database {
+class Elements_Frontend extends Database
+{
 
     use \SHORTCODE_ADDONS\Helper\Admin_Scripts;
     use \SHORTCODE_ADDONS\Layouts\Elements\Database;
@@ -49,7 +51,8 @@ class Elements_Frontend extends Database {
      */
     public $templates;
 
-    public function elements() {
+    public function elements()
+    {
 
         do_action('shortcode-addons/before_init');
         $this->oxitype = (!empty($_GET['oxitype']) ? ucfirst(sanitize_text_field($_GET['oxitype'])) : '');
@@ -58,13 +61,15 @@ class Elements_Frontend extends Database {
         $this->rander();
     }
 
-    public function admin() {
+    public function admin()
+    {
         $this->admin_elements_scripts();
         $this->database_data();
         $this->pre_active_check();
     }
 
-    public function templates() {
+    public function templates()
+    {
         $template_data = [];
 
         $basename = array_map('basename', glob(SA_ADDONS_UPLOAD_PATH . $this->oxitype . '/Layouts/' . '*.json', GLOB_BRACE));
@@ -82,21 +87,22 @@ class Elements_Frontend extends Database {
      *
      * @since 2.1.0
      */
-    public function rander() {
-        ?>
-        <div class="wrap">  
+    public function rander()
+    {
+?>
+        <div class="wrap">
             <div class="oxi-addons-wrapper">
                 <?php
                 apply_filters('shortcode-addons/admin_menu', false);
-                if ($this->oxiimport == 'import'):
+                if ($this->oxiimport == 'import') :
                     $this->elements_import();
-                else:
+                else :
                     $this->elements_home();
                 endif;
                 ?>
             </div>
         </div>
-        <?php
+    <?php
     }
 
     /**
@@ -104,7 +110,9 @@ class Elements_Frontend extends Database {
      *
      * @since 2.1.0
      */
-    public function elements_home() {
+    public function elements_home()
+    {
+        apply_filters('shortcode-addons/support-and-comments', false);
         echo _('<div class="oxi-addons-row">
                     <div class="oxi-addons-wrapper">
                         <div class="oxi-addons-import-layouts">
@@ -116,31 +124,29 @@ class Elements_Frontend extends Database {
                     </div>');
         echo $this->pre_created_templates();
         echo _(' </div>');
-        ?>
+    ?>
 
         <div class="oxi-addons-row">
 
 
-            <?php
-            apply_filters('shortcode-addons/support-and-comments', false);
-            ?>
+
             <?php
             $i = 0;
             $templatenai = false;
             foreach ($this->templates() as $value) {
                 $settings = json_decode($value, true);
                 $layouts = str_replace('-', '_', ucfirst($settings['style']['style_name']));
-                if (array_key_exists($layouts, $this->pre_active_check())):
+                if (array_key_exists($layouts, $this->pre_active_check())) :
                     $i++;
                     echo $this->template_rendar($settings);
-                else:
+                else :
                     $templatenai = true;
                 endif;
             }
-            if ($i < 1):
+            if ($i < 1) :
                 $this->pre_active_check(true);
             endif;
-            if ($templatenai):
+            if ($templatenai) :
 
 
                 echo _('<div class="oxi-addons-col-1 oxi-import">
@@ -209,7 +215,6 @@ class Elements_Frontend extends Database {
 
         </div>
 
-        <?php
+<?php
     }
-
 }

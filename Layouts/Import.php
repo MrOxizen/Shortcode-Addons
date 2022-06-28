@@ -8,7 +8,8 @@ if (!defined('ABSPATH')) {
 
 use \SHORTCODE_ADDONS\Core\Console as Console;
 
-class Import extends Console {
+class Import extends Console
+{
 
     use \SHORTCODE_ADDONS\Helper\Admin_Scripts;
 
@@ -19,7 +20,8 @@ class Import extends Console {
      *
      * @since 2.0.0
      */
-    public function element_page() {
+    public function element_page()
+    {
         do_action('shortcode-addons/before_init');
         // Load Elements
 
@@ -28,7 +30,8 @@ class Import extends Console {
         $this->render();
     }
 
-    public function admin() {
+    public function admin()
+    {
         $this->import();
         $this->admin_scripts();
     }
@@ -37,7 +40,8 @@ class Import extends Console {
      * Generate safe path
      * @since v1.0.0
      */
-    public function safe_path($path) {
+    public function safe_path($path)
+    {
 
         $path = str_replace(['//', '\\\\'], ['/', '\\'], $path);
         return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
@@ -48,7 +52,8 @@ class Import extends Console {
      *
      * @since 2.1.0
      */
-    public function import() {
+    public function import()
+    {
 
         if (!empty($_REQUEST['_wpnonce'])) {
             $nonce = $_REQUEST['_wpnonce'];
@@ -59,7 +64,7 @@ class Import extends Console {
             } else {
                 if ($_FILES["validuploaddata"]["name"] && current_user_can('upload_files')) {
 
-                    if (!current_user_can('upload_files')):
+                    if (!current_user_can('upload_files')) :
                         wp_die(esc_html('You do not have permission to upload files.'));
                     endif;
 
@@ -89,7 +94,7 @@ class Import extends Console {
                             $message = "The file you are trying to upload is not a .zip file. Please try again.";
                         }
                         global $wp_filesystem;
-                        require_once ( ABSPATH . '/wp-admin/includes/file.php' );
+                        require_once(ABSPATH . '/wp-admin/includes/file.php');
                         WP_Filesystem();
                         $fileconpress = SA_ADDONS_UPLOAD_PATH . $filename;
                         if (file_exists($fileconpress)) {
@@ -111,11 +116,13 @@ class Import extends Console {
         }
     }
 
-    public function render() {
-        ?>
+    public function render()
+    {
+?>
         <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
+            apply_filters('shortcode-addons/support-and-comments', false);
             ?>
             <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-import-layouts">
@@ -131,7 +138,7 @@ class Import extends Console {
                             <div class="oxi-content-box">
                                 <div class="oxi-content">
                                     <div class="form-group">
-                                        <input type="file" class="form-control-file" id="ShortcodeAddonsUploa"  name="validuploaddata">
+                                        <input type="file" class="form-control-file" id="ShortcodeAddonsUploa" name="validuploaddata">
                                     </div>
                                 </div>
                                 <div class="oxi-buttom">
@@ -144,7 +151,6 @@ class Import extends Console {
                 </div>
             </div>
         </div>
-        <?php
+<?php
     }
-
 }

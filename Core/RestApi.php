@@ -8,9 +8,11 @@ if (!defined('ABSPATH')) {
 
 use \SHORTCODE_ADDONS\Core\Console as Console;
 
-class RestApi extends Console {
+class RestApi extends Console
+{
 
-    public function build_api() {
+    public function build_api()
+    {
         add_action('rest_api_init', function () {
             register_rest_route(untrailingslashit('ShortCodeAddonsUltimate/v2/'), '/(?P<action>\w+)/', array(
                 'methods' => array('GET', 'POST'),
@@ -20,7 +22,8 @@ class RestApi extends Console {
         });
     }
 
-    public function get_permissions_check($request) {
+    public function get_permissions_check($request)
+    {
         $user_role = get_option('oxi_addons_user_permission');
         $role_object = get_role($user_role);
         $first_key = '';
@@ -33,10 +36,11 @@ class RestApi extends Console {
         return current_user_can($first_key);
     }
 
-    public function api_action($request) {
+    public function api_action($request)
+    {
         $this->request = $request;
         $wpnonce = $request['_wpnonce'];
-        if (!wp_verify_nonce($wpnonce, 'wp_rest')):
+        if (!wp_verify_nonce($wpnonce, 'wp_rest')) :
             return new \WP_REST_Request('Invalid URL', 422);
         endif;
         $this->rawdata = isset($request['rawdata']) ? addslashes($request['rawdata']) : '';
@@ -52,7 +56,8 @@ class RestApi extends Console {
         }
     }
 
-    public function allowed_html($rawdata) {
+    public function allowed_html($rawdata)
+    {
         $allowed_tags = array(
             'a' => array(
                 'class' => array(),
@@ -138,23 +143,24 @@ class RestApi extends Console {
                 'class' => array(),
             ),
         );
-        if (is_array($rawdata)):
+        if (is_array($rawdata)) :
             return $rawdata = array_map(array($this, 'allowed_html'), $rawdata);
-        else:
+        else :
             return wp_kses($rawdata, $allowed_tags);
         endif;
     }
 
-    public function validate_post($data = '') {
+    public function validate_post($data = '')
+    {
         $rawdata = [];
-        if (!empty($data)):
+        if (!empty($data)) :
             $arrfiles = json_decode(stripslashes($data), true);
-        else:
+        else :
             $arrfiles = json_decode(stripslashes($this->rawdata), true);
         endif;
-        if (is_array($arrfiles)):
+        if (is_array($arrfiles)) :
             $rawdata = array_map(array($this, 'allowed_html'), $arrfiles);
-        else:
+        else :
             $rawdata = $this->allowed_html($data);
         endif;
         return $rawdata;
@@ -165,7 +171,8 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_create() {
+    public function post_elements_template_create()
+    {
         $settings = json_decode(stripslashes($this->rawdata), true);
         $elements = sanitize_text_field($settings['addons-oxi-type']);
         $row = json_decode($settings['oxi-addons-data'], true);
@@ -175,7 +182,7 @@ class RestApi extends Console {
 
         $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($settings['addons-style-name'], $elements, $style['style_name'], $style['rawdata'])));
         $redirect_id = $this->wpdb->insert_id;
-        if ($redirect_id > 0):
+        if ($redirect_id > 0) :
             $oxitype = ucfirst(strtolower($style['type']));
             $rawdata = json_decode(stripslashes($style['rawdata']), true);
             $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
@@ -191,15 +198,16 @@ class RestApi extends Console {
         endif;
     }
 
-    public function import_json_template($params) {
+    public function import_json_template($params)
+    {
 
         if (is_array($params)) {
-           
+
             $style = $params['style'];
             $child = $params['child'];
             $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->parent_table} (name, type, style_name, rawdata) VALUES ( %s, %s, %s, %s)", array($style['name'], $style['type'], $style['style_name'], $style['rawdata'])));
             $redirect_id = $this->wpdb->insert_id;
-            if ($redirect_id > 0):
+            if ($redirect_id > 0) :
                 $oxitype = ucfirst(strtolower($style['type']));
                 $rawdata = json_decode(stripslashes($style['rawdata']), true);
                 $stylename = ucfirst(str_replace('-', '_', $style['style_name']));
@@ -221,7 +229,8 @@ class RestApi extends Console {
         }
     }
 
-    public function get_get_template_data() {
+    public function get_get_template_data()
+    {
         $response = get_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
         return $response;
     }
@@ -231,11 +240,12 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_change_name() {
+    public function post_elements_template_change_name()
+    {
         $settings = json_decode(stripslashes($this->rawdata), true);
         $name = sanitize_text_field($settings['addonsstylename']);
         $id = $settings['addonsstylenameid'];
-        if ((int) $id):
+        if ((int) $id) :
             $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->parent_table} SET name = %s WHERE id = %d", $name, $id));
             return 'success';
         endif;
@@ -247,7 +257,8 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_style_data() {
+    public function post_elements_template_style_data()
+    {
 
 
         $rawdata = $this->rawdata;
@@ -261,7 +272,7 @@ class RestApi extends Console {
         $stylesheet = '';
         $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $oxitype . '\Admin\\' . $StyleName . '';
 
-        if ((int) $styleid):
+        if ((int) $styleid) :
             $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->parent_table} SET rawdata = %s, stylesheet = %s WHERE id = %d", $rawdata, $stylesheet, $styleid));
             $CLASS = new $cls('admin');
             $data = $CLASS->template_css_render($settings);
@@ -283,7 +294,8 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_render_data() {
+    public function post_elements_template_render_data()
+    {
         $settings = json_decode(stripslashes($this->rawdata), true);
         $child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM $this->child_table WHERE styleid = %d ORDER by id ASC", $this->styleid), ARRAY_A);
         $oxitype = $settings['shortcode-addons-elements-name'];
@@ -306,12 +318,13 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_modal_data() {
-        if ((int) $this->styleid):
+    public function post_elements_template_modal_data()
+    {
+        if ((int) $this->styleid) :
             $type = 'shortcode-addons';
-            if ((int) $this->childid):
+            if ((int) $this->childid) :
                 $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->child_table} SET rawdata = %s WHERE id = %d", $this->rawdata, $this->childid));
-            else:
+            else :
                 $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->child_table} (styleid, type, rawdata) VALUES (%d, %s, %s )", array($this->styleid, $type, $this->rawdata)));
             endif;
             return 'Done';
@@ -323,18 +336,20 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_modal_data_edit() {
-        if ((int) $this->childid):
+    public function post_elements_template_modal_data_edit()
+    {
+        if ((int) $this->childid) :
             $listdata = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM {$this->child_table} WHERE id = %d ", $this->childid), ARRAY_A);
             $returnfile = json_decode(stripslashes($listdata['rawdata']), true);
             $returnfile['shortcodeitemid'] = $this->childid;
             return json_encode($returnfile);
-        else:
+        else :
             return 'Silence is Golden';
         endif;
     }
 
-    public function post_shortcode_delete() {
+    public function post_shortcode_delete()
+    {
         $styleid = (int) $this->styleid;
         if ($styleid) :
             $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->parent_table} WHERE id = %d", $styleid));
@@ -350,11 +365,12 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_modal_data_delete() {
-        if ((int) $this->childid):
+    public function post_elements_template_modal_data_delete()
+    {
+        if ((int) $this->childid) :
             $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->child_table} WHERE id = %d ", $this->childid));
             return 'done';
-        else:
+        else :
             return 'Silence is Golden';
         endif;
     }
@@ -364,18 +380,20 @@ class RestApi extends Console {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_old_version() {
+    public function post_elements_template_old_version()
+    {
         $stylesheet = $rawdata = '';
-        if ((int) $this->styleid):
+        if ((int) $this->styleid) :
             $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->parent_table} SET rawdata = %s, stylesheet = %s WHERE id = %d", $rawdata, $stylesheet, $this->styleid));
             echo 'success';
         endif;
     }
 
-    public function get_shortcode_export() {
+    public function get_shortcode_export()
+    {
         $styleid = (int) $this->styleid;
 
-        if ($styleid):
+        if ($styleid) :
             $style = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM {$this->parent_table} WHERE id = %d", $styleid), ARRAY_A);
             $child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM {$this->child_table} WHERE styleid = %d ORDER by id ASC", $styleid), ARRAY_A);
             $filename = 'shortcode-addons-template-' . $styleid . '.json';
@@ -390,7 +408,7 @@ class RestApi extends Console {
             flush();
             echo $finalfiles;
             die;
-        else:
+        else :
             return 'Silence is Golden';
         endif;
     }
@@ -402,7 +420,8 @@ class RestApi extends Console {
      * @param string $file_name File name.
      * @param int    $file_size File size.
      */
-    private function send_file_headers($file_name, $file_size) {
+    private function send_file_headers($file_name, $file_size)
+    {
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . $file_name);
         header('Expires: 0');
@@ -415,30 +434,34 @@ class RestApi extends Console {
      * Admin Settings
      * @return void
      */
-    public function post_addons_settings() {
-        if (!current_user_can('manage_options')):
+    public function post_addons_settings()
+    {
+        if (!current_user_can('manage_options')) :
             return 'Go to Hell';
         endif;
         $rawdata = json_decode(stripslashes($this->rawdata), true);
         $name = sanitize_text_field($rawdata['name']);
         $value = sanitize_text_field($rawdata['value']);
-        if ($name === 'oxi_addons_user_permission'):
+        if ($name === 'oxi_addons_user_permission') :
             update_option('oxi_addons_user_permission', $value);
             return '<span class="oxi-confirmation-success"></span>';
-        elseif ($name === 'oxi_addons_google_font'):
+        elseif ($name === 'oxi_addons_google_font') :
             update_option('oxi_addons_google_font', $value);
             return '<span class="oxi-confirmation-success"></span>';
-        elseif ($name === 'oxi_addons_font_awesome'):
+        elseif ($name === 'oxi_addons_font_awesome') :
             update_option('oxi_addons_font_awesome', $value);
             return '<span class="oxi-confirmation-success"></span>';
-        elseif ($name === 'oxi_addons_bootstrap'):
+        elseif ($name === 'oxi_addons_bootstrap') :
             update_option('oxi_addons_bootstrap', $value);
             return '<span class="oxi-confirmation-success"></span>';
-        elseif ($name === 'oxi_addons_waypoints'):
+        elseif ($name === 'oxi_addons_waypoints') :
             update_option('oxi_addons_waypoints', $value);
             return '<span class="oxi-confirmation-success"></span>';
-        elseif ($name === 'oxi_addons_conflict_class'):
+        elseif ($name === 'oxi_addons_conflict_class') :
             update_option('oxi_addons_conflict_class', $value);
+            return '<span class="oxi-confirmation-success"></span>';
+        elseif ($name === 'oxi_shortcode_support_massage') :
+            update_option('oxi_shortcode_support_massage', $value);
             return '<span class="oxi-confirmation-success"></span>';
         endif;
         return 'Invalid User Settings';
@@ -448,31 +471,33 @@ class RestApi extends Console {
      * Admin License
      * @return void
      */
-    public function post_oxi_license() {
+    public function post_oxi_license()
+    {
         $rawdata = json_decode(stripslashes($this->rawdata), true);
         $new = $rawdata['license'];
         $old = get_option('shortcode_addons_license_key');
         $status = get_option('oxi_addons_license_status');
-        if ($new == ''):
-            if ($old != '' && $status == 'valid'):
+        if ($new == '') :
+            if ($old != '' && $status == 'valid') :
                 $this->deactivate_license($old);
             endif;
             delete_option('shortcode_addons_license_key');
             $data = ['massage' => '<span class="oxi-confirmation-blank"></span>', 'text' => ''];
-        else:
+        else :
             update_option('shortcode_addons_license_key', $new);
             delete_option('oxi_addons_license_status');
             $r = $this->activate_license($new);
-            if ($r == 'success'):
+            if ($r == 'success') :
                 $data = ['massage' => '<span class="oxi-confirmation-success"></span>', 'text' => 'Active'];
-            else:
+            else :
                 $data = ['massage' => '<span class="oxi-confirmation-failed"></span>', 'text' => $r];
             endif;
         endif;
         return $data;
     }
 
-    public function activate_license($key) {
+    public function activate_license($key)
+    {
         $api_params = array(
             'edd_action' => 'activate_license',
             'license' => $key,
@@ -495,30 +520,31 @@ class RestApi extends Console {
 
                 switch ($license_data->error) {
 
-                    case 'expired' :
+                    case 'expired':
 
                         $message = sprintf(
-                                __('Your license key expired on %s.'), date_i18n(get_option('date_format'), strtotime($license_data->expires, current_time('timestamp')))
+                            __('Your license key expired on %s.'),
+                            date_i18n(get_option('date_format'), strtotime($license_data->expires, current_time('timestamp')))
                         );
                         break;
 
-                    case 'revoked' :
+                    case 'revoked':
 
                         $message = __('Your license key has been disabled.');
                         break;
 
-                    case 'missing' :
+                    case 'missing':
 
                         $message = __('Invalid license.');
                         break;
 
-                    case 'invalid' :
-                    case 'site_inactive' :
+                    case 'invalid':
+                    case 'site_inactive':
 
                         $message = __('Your license is not active for this URL.');
                         break;
 
-                    case 'item_name_mismatch' :
+                    case 'item_name_mismatch':
 
                         $message = sprintf(__('This appears to be an invalid license key for %s.'), Responsive_Tabs_with_Accordions);
                         break;
@@ -528,7 +554,7 @@ class RestApi extends Console {
                         $message = __('Your license key has reached its activation limit.');
                         break;
 
-                    default :
+                    default:
 
                         $message = __('An error occurred, please try again.');
                         break;
@@ -543,7 +569,8 @@ class RestApi extends Console {
         return 'success';
     }
 
-    public function deactivate_license($key) {
+    public function deactivate_license($key)
+    {
         $api_params = array(
             'edd_action' => 'deactivate_license',
             'license' => $key,
@@ -567,5 +594,4 @@ class RestApi extends Console {
         }
         return 'success';
     }
-
 }

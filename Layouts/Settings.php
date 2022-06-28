@@ -7,7 +7,8 @@ namespace SHORTCODE_ADDONS\Layouts;
  *
  * @author biplo
  */
-class Settings {
+class Settings
+{
 
     use \SHORTCODE_ADDONS\Helper\Admin_Scripts;
 
@@ -16,7 +17,8 @@ class Settings {
     public $license;
     public $status;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         do_action('shortcode-addons/before_init');
         // Load Elements
@@ -26,9 +28,10 @@ class Settings {
         $this->render();
     }
 
-    public function admin() {
+    public function admin()
+    {
         $this->admin_settings();
-        
+
         global $wp_roles;
         $this->roles = $wp_roles->get_names();
         $this->saved_role = get_option('oxi_addons_user_permission');
@@ -36,9 +39,10 @@ class Settings {
         $this->status = get_option('oxi_addons_license_status');
     }
 
-    public function render() {
-        ?>
-        <div class="wrap">  
+    public function render()
+    {
+?>
+        <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
             ?>
@@ -73,7 +77,7 @@ class Settings {
                                         <label for="oxi_addons_google_font[yes]">
                                             <input type="radio" class="radio" id="oxi_addons_google_font[yes]" name="oxi_addons_google_font" value="" <?php checked('', get_option('oxi_addons_google_font'), true); ?>>Yes</label>
                                         <label for="oxi_addons_google_font[no]">
-                                            <input type="radio" class="radio" id="oxi_addons_google_font[no]" name="oxi_addons_google_font" value="no"  <?php checked('no', get_option('oxi_addons_google_font'), true); ?>>No
+                                            <input type="radio" class="radio" id="oxi_addons_google_font[no]" name="oxi_addons_google_font" value="no" <?php checked('no', get_option('oxi_addons_google_font'), true); ?>>No
                                         </label>
                                         <span class="oxi-addons-settings-connfirmation oxi_addons_google_font"></span>
                                         <br>
@@ -94,7 +98,7 @@ class Settings {
                                         <label for="oxi_addons_font_awesome[yes]">
                                             <input type="radio" class="radio" id="oxi_addons_font_awesome[yes]" name="oxi_addons_font_awesome" value="" <?php checked('', get_option('oxi_addons_font_awesome'), true); ?>>Yes</label>
                                         <label for="oxi_addons_font_awesome[no]">
-                                            <input type="radio" class="radio" id="oxi_addons_font_awesome[no]" name="oxi_addons_font_awesome" value="no"  <?php checked('no', get_option('oxi_addons_font_awesome'), true); ?>>No
+                                            <input type="radio" class="radio" id="oxi_addons_font_awesome[no]" name="oxi_addons_font_awesome" value="no" <?php checked('no', get_option('oxi_addons_font_awesome'), true); ?>>No
                                         </label>
                                         <span class="oxi-addons-settings-connfirmation oxi_addons_font_awesome"></span>
                                         <br>
@@ -114,7 +118,7 @@ class Settings {
                                         <label for="oxi_addons_bootstrap[yes]">
                                             <input type="radio" class="radio" id="oxi_addons_bootstrap[yes]" name="oxi_addons_bootstrap" value="" <?php checked('', get_option('oxi_addons_bootstrap'), true); ?>>Yes</label>
                                         <label for="oxi_addons_bootstrap[no]">
-                                            <input type="radio" class="radio" id="oxi_addons_bootstrap[no]" name="oxi_addons_bootstrap" value="no"  <?php checked('no', get_option('oxi_addons_bootstrap'), true); ?>>No
+                                            <input type="radio" class="radio" id="oxi_addons_bootstrap[no]" name="oxi_addons_bootstrap" value="no" <?php checked('no', get_option('oxi_addons_bootstrap'), true); ?>>No
                                         </label>
                                         <span class="oxi-addons-settings-connfirmation oxi_addons_bootstrap"></span>
                                         <br>
@@ -131,7 +135,7 @@ class Settings {
                                         <label for="oxi_addons_waypoints[yes]">
                                             <input type="radio" class="radio" id="oxi_addons_waypoints[yes]" name="oxi_addons_waypoints" value="" <?php checked('', get_option('oxi_addons_waypoints'), true); ?>>Yes</label>
                                         <label for="oxi_addons_waypoints[no]">
-                                            <input type="radio" class="radio" id="oxi_addons_waypoints[no]" name="oxi_addons_waypoints" value="no"  <?php checked('no', get_option('oxi_addons_waypoints'), true); ?>>No
+                                            <input type="radio" class="radio" id="oxi_addons_waypoints[no]" name="oxi_addons_waypoints" value="no" <?php checked('no', get_option('oxi_addons_waypoints'), true); ?>>No
                                         </label>
                                         <span class="oxi-addons-settings-connfirmation oxi_addons_waypoints"></span>
                                         <br>
@@ -154,8 +158,25 @@ class Settings {
                                     </fieldset>
                                 </td>
                             </tr>
+                            <tr>
+                                <th scope="row">
+                                    <label for="oxi_shortcode_support_massage">Display Support Massage</label>
+                                </th>
+                                <td>
+                                    <fieldset>
+                                        <label for="oxi_shortcode_support_massage[yes]">
+                                            <input type="radio" class="radio" id="oxi_shortcode_support_massage[yes]" name="oxi_shortcode_support_massage" value="" <?php checked('', get_option('oxi_shortcode_support_massage'), true); ?>>Yes</label>
+                                        <label for="oxi_shortcode_support_massage[no]">
+                                            <input type="radio" class="radio" id="oxi_shortcode_support_massage[no]" name="oxi_shortcode_support_massage" value="no" <?php checked('no', get_option('oxi_shortcode_support_massage'), true); ?>>No
+                                        </label>
+                                        <span class="oxi-addons-settings-connfirmation oxi_shortcode_support_massage"></span>
+                                        <br>
+                                        <p class="description">Display support massage at Image Hover admin area. Don't need, kindly select it no</p>
+                                    </fieldset>
+                                </td>
+                            </tr>
                         </tbody>
-                    </table>	
+                    </table>
                     <br>
                     <br>
 
@@ -170,26 +191,26 @@ class Settings {
                                     <input type="text" class="regular-text" id="shortcode_addons_license_key" name="shortcode_addons_license_key" value="<?php echo $this->license; ?>">
                                     <span class="oxi-addons-settings-connfirmation shortcode_addons_license_massage">
                                         <?php
-                                        if ($this->status == 'valid' && empty($this->license)):
+                                        if ($this->status == 'valid' && empty($this->license)) :
                                             echo '<span class="oxi-confirmation-success"></span>';
-                                        elseif ($this->status == 'valid' && !empty($this->license)):
+                                        elseif ($this->status == 'valid' && !empty($this->license)) :
                                             echo '<span class="oxi-confirmation-success"></span>';
-                                        elseif (!empty($this->license)):
+                                        elseif (!empty($this->license)) :
                                             echo '<span class="oxi-confirmation-failed"></span>';
-                                        else:
+                                        else :
                                             echo '<span class="oxi-confirmation-blank"></span>';
                                         endif;
                                         ?>
                                     </span>
                                     <span class="oxi-addons-settings-connfirmation shortcode_addons_license_text">
                                         <?php
-                                        if ($this->status == 'valid' && empty($this->license)):
+                                        if ($this->status == 'valid' && empty($this->license)) :
                                             echo '<span class="oxi-addons-settings-massage">Pre Active</span>';
-                                        elseif ($this->status == 'valid' && !empty($this->license)):
+                                        elseif ($this->status == 'valid' && !empty($this->license)) :
                                             echo '<span class="oxi-addons-settings-massage">Active</span>';
-                                        elseif (!empty($this->license)):
+                                        elseif (!empty($this->license)) :
                                             echo '<span class="oxi-addons-settings-massage">' . $this->status . '</span>';
-                                        else:
+                                        else :
                                             echo '<span class="oxi-addons-settings-massage"></span>';
                                         endif;
                                         ?>
@@ -202,7 +223,6 @@ class Settings {
                 </form>
             </div>
         </div>
-        <?php
+<?php
     }
-
 }
