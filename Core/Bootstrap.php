@@ -11,7 +11,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Bootstrap {
+class Bootstrap
+{
 
     use \SHORTCODE_ADDONS\Helper\Helper;
 
@@ -29,7 +30,8 @@ class Bootstrap {
      *
      * @since 2.0.0
      */
-    public static function instance() {
+    public static function instance()
+    {
         if (self::$instance == null) {
             self::$instance = new self;
         }
@@ -37,7 +39,8 @@ class Bootstrap {
         return self::$instance;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
 
         do_action('shortcode-addons/before_init');
         // Load translation
@@ -58,20 +61,12 @@ class Bootstrap {
      *
      * @since 2.0.0
      */
-    public function i18n() {
+    public function i18n()
+    {
         load_plugin_textdomain('shortcode-addons');
     }
-
-    public function load_shortcode() {
-        add_action('wp_ajax_shortcode_addons_data', array($this, 'shortcode_addons_data_process'));
-        add_action('wp_ajax_nopriv_shortcode_addons_data', [$this, 'shortcode_addons_data_process']);
-        add_shortcode('oxi_addons', [$this, 'oxi_addons_shortcode']);
-        $Widget = new \SHORTCODE_ADDONS\Includes\Widget();
-        add_filter('widget_text', 'do_shortcode');
-        add_action('widgets_init', array($Widget, 'register_shortcode_addons_widget'));
-    }
-
-    public function User_Admin() {
+    public function User_Admin()
+    {
 
         add_filter('shortcode-addons/support-and-comments', array($this, 'supportandcomments'));
         add_filter('shortcode-addons/admin_version', array($this, 'check_current_version'));
@@ -80,5 +75,13 @@ class Bootstrap {
         add_action('admin_head', [$this, 'admin_icon']);
         add_action('admin_init', array($this, 'redirect_on_activation'));
     }
-
+    public function load_shortcode()
+    {
+        add_action('wp_ajax_shortcode_addons_data', array($this, 'shortcode_addons_data_process'));
+        add_action('wp_ajax_nopriv_shortcode_addons_data', [$this, 'shortcode_addons_data_process']);
+        add_shortcode('oxi_addons', [$this, 'oxi_addons_shortcode']);
+        $Widget = new \SHORTCODE_ADDONS\Includes\Widget();
+        add_filter('widget_text', 'do_shortcode');
+        add_action('widgets_init', array($Widget, 'register_shortcode_addons_widget'));
+    }
 }

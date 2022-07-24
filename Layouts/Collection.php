@@ -76,7 +76,7 @@ class Collection extends Console
         <div class="wrap">
             <?php
             apply_filters('shortcode-addons/admin_menu', false);
-            apply_filters('shortcode-addons/support-and-comments', false);
+
             ?>
             <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-row">

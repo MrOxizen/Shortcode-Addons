@@ -11,9 +11,11 @@ if (!defined('ABSPATH')) {
  *
  * @author biplobadhikari
  */
+
 use SHORTCODE_ADDONS\Core\Admin\Controls as Controls;
 
-class AdminStyle {
+class AdminStyle
+{
 
     use \SHORTCODE_ADDONS\Helper\Admin_Scripts;
     use \SHORTCODE_ADDONS\Layouts\Template\AdminHelper;
@@ -144,7 +146,8 @@ class AdminStyle {
      *
      * @since 2.1.0
      */
-    public function __construct($type = '') {
+    public function __construct($type = '')
+    {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->parent_table = $this->wpdb->prefix . 'oxi_div_style';
@@ -163,11 +166,12 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function hooks() {
+    public function hooks()
+    {
         $this->template_scripts();
         $this->dbdata = $this->wpdb->get_row($this->wpdb->prepare('SELECT * FROM ' . $this->parent_table . ' WHERE id = %d ', $this->oxiid), ARRAY_A);
         $this->child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM $this->child_table WHERE styleid = %d ORDER by id ASC", $this->oxiid), ARRAY_A);
-        if (!empty($this->dbdata['rawdata'])):
+        if (!empty($this->dbdata['rawdata'])) :
             $this->dbdata['rawdata'] = str_replace(['\\(spBac)', '\\spBac', '\\(spTac)', '\\spTac'], ['<br> ', '<br> ', '&nbsp;', '&nbsp;'], $this->dbdata['rawdata']);
             $this->style = json_decode(stripslashes($this->dbdata['rawdata']), true);
         endif;
@@ -182,7 +186,8 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function modal_opener() {
+    public function modal_opener()
+    {
         $this->add_substitute_control('', [], [
             'type' => Controls::MODALOPENER,
             'title' => __('Add New Data', SHORTCODE_ADDOONS),
@@ -197,7 +202,8 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function shortcode_name() {
+    public function shortcode_name()
+    {
         $this->add_substitute_control('', $this->dbdata, [
             'type' => Controls::SHORTCODENAME,
             'title' => __('Shortcode Name', SHORTCODE_ADDOONS),
@@ -212,7 +218,8 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function shortcode_info() {
+    public function shortcode_info()
+    {
         $this->add_substitute_control($this->oxiid, $this->dbdata, [
             'type' => Controls::SHORTCODEINFO,
             'title' => __('Shortcode', SHORTCODE_ADDOONS),
@@ -226,7 +233,8 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function modal_form_data() {
+    public function modal_form_data()
+    {
         $this->form = 'single';
     }
 
@@ -235,7 +243,8 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function modal_form() {
+    public function modal_form()
+    {
 
         echo '<div class="modal fade" id="oxi-addons-list-data-modal" >
                 <div class="modal-dialog">
@@ -258,7 +267,12 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function shortcode_rearrange() {
+    public function shortcode_rearrange()
+    {
+        echo '';
+    }
+    public function register_controls()
+    {
         echo '';
     }
 
@@ -267,7 +281,8 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function template_css_render($style) {
+    public function template_css_render($style)
+    {
         $styleid = $style['shortcode-addons-elements-id'];
         $this->oxiid = $styleid;
         $this->WRAPPER = '.shortcode-addons-wrapper-' . $this->oxiid;
@@ -288,13 +303,13 @@ class AdminStyle {
                 }
                 $tempcss .= '}';
             }
-            if ($key == 'laptop'):
+            if ($key == 'laptop') :
                 $fullcssfile .= $tempcss;
-            elseif ($key == 'tab'):
+            elseif ($key == 'tab') :
                 $fullcssfile .= '@media only screen and (min-width : 669px) and (max-width : 993px){';
                 $fullcssfile .= $tempcss;
                 $fullcssfile .= '}';
-            elseif ($key == 'mobile'):
+            elseif ($key == 'mobile') :
                 $fullcssfile .= '@media only screen and (max-width : 668px){';
                 $fullcssfile .= $tempcss;
                 $fullcssfile .= '}';
@@ -311,7 +326,8 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function inline_template_css_render($style) {
+    public function inline_template_css_render($style)
+    {
         $styleid = $style['shortcode-addons-elements-id'];
         $this->style = $style;
         $this->oxiid = $styleid;
@@ -330,13 +346,13 @@ class AdminStyle {
                 }
                 $tempcss .= '}';
             }
-            if ($key == 'laptop'):
+            if ($key == 'laptop') :
                 $fullcssfile .= $tempcss;
-            elseif ($key == 'tab'):
+            elseif ($key == 'tab') :
                 $fullcssfile .= '@media only screen and (min-width : 669px) and (max-width : 993px){';
                 $fullcssfile .= $tempcss;
                 $fullcssfile .= '}';
-            elseif ($key == 'mobile'):
+            elseif ($key == 'mobile') :
                 $fullcssfile .= '@media only screen and (max-width : 668px){';
                 $fullcssfile .= $tempcss;
                 $fullcssfile .= '}';
@@ -350,9 +366,10 @@ class AdminStyle {
      *
      * @since 2.0.0
      */
-    public function render() {
-        ?>
-        <div class="wrap">  
+    public function render()
+    {
+?>
+        <div class="wrap">
             <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-parent-loader-wrap" style="display: none">
                     <div class="oxi-addons-parent-loader">
@@ -394,26 +411,26 @@ class AdminStyle {
                                         </div>
                                         <div class="oxi-addons-setting-save">
                                             <?php
-                                            if (array_key_exists('css', $this->dbdata) && $this->dbdata['css'] != '' && $this->dbdata['rawdata'] != ''):
+                                            if (array_key_exists('css', $this->dbdata) && $this->dbdata['css'] != '' && $this->dbdata['rawdata'] != '') :
                                                 echo '<button type="button" class="btn btn-danger" id="oxi-addons-setting-old-version">Old Version</button>';
                                             endif;
                                             ?>
                                             <button type="button" class="btn btn-danger" id="oxi-addons-setting-reload">Reload</button>
-                                            <input type="hidden"  id="shortcode-addons-2-0-preview" name="shortcode-addons-2-0-preview" value="<?php echo(is_array($this->style) ? array_key_exists('shortcode-addons-2-0-preview', $this->style) ? $this->style['shortcode-addons-2-0-preview'] : '#FFF' : '#FFF'); ?>">
-                                            <input type="hidden"  id="shortcode-addons-elements-name" name="shortcode-addons-elements-name" value="<?php echo ucfirst(strtolower($this->dbdata['type'])); ?>">
-                                            <input type="hidden"  id="shortcode-addons-elements-id" name="shortcode-addons-elements-id" value="<?php echo ucfirst($this->dbdata['id']); ?>">
-                                            <input type="hidden"  id="shortcode-addons-elements-template" name="shortcode-addons-elements-template" value="<?php echo ucfirst(str_replace('-', '_', $this->dbdata['style_name'])); ?>">
+                                            <input type="hidden" id="shortcode-addons-2-0-preview" name="shortcode-addons-2-0-preview" value="<?php echo (is_array($this->style) ? array_key_exists('shortcode-addons-2-0-preview', $this->style) ? $this->style['shortcode-addons-2-0-preview'] : '#FFF' : '#FFF'); ?>">
+                                            <input type="hidden" id="shortcode-addons-elements-name" name="shortcode-addons-elements-name" value="<?php echo ucfirst(strtolower($this->dbdata['type'])); ?>">
+                                            <input type="hidden" id="shortcode-addons-elements-id" name="shortcode-addons-elements-id" value="<?php echo ucfirst($this->dbdata['id']); ?>">
+                                            <input type="hidden" id="shortcode-addons-elements-template" name="shortcode-addons-elements-template" value="<?php echo ucfirst(str_replace('-', '_', $this->dbdata['style_name'])); ?>">
                                             <button type="button" class="btn btn-success" id="shortcode-addons-templates-submit"> Save</button>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </form>
                             </div>
                             <div class="oxi-addons-style-right">
                                 <?php
-                                if ($this->form == 'single'):
+                                if ($this->form == 'single') :
                                     $this->shortcode_name();
                                     $this->shortcode_info();
-                                else:
+                                else :
                                     $this->modal_opener();
                                     $this->shortcode_name();
                                     $this->shortcode_info();
@@ -428,31 +445,31 @@ class AdminStyle {
                                     <div class="oxi-addons-style-left-preview-heading">
                                         <div class="oxi-addons-style-left-preview-heading-left shortcode-addons-tabs-sortable-title">
                                             Preview
-                                        </div> 
+                                        </div>
                                         <div class="shortcode-form-control shortcode-control-type-choose    ">
                                             <div class="shortcode-form-control-content">
                                                 <div class="shortcode-form-control-field">
                                                     <div class="shortcode-form-control-input-wrapper">
-                                                        <div class="shortcode-form-choices" retundata=""> 
+                                                        <div class="shortcode-form-choices" retundata="">
                                                             <input id="shortcode-addons-preview-align-top" type="radio" name="shortcode-addons-preview-align" value="oxi-shortcode-admin-layouts-design-float">
                                                             <label class="shortcode-form-choices-label" for="shortcode-addons-preview-align-top" tooltip="Top">
                                                                 <i class="fas fa-arrow-up" aria-hidden="true"></i>
-                                                            </label>  
-                                                            <input id="shortcode-addons-preview-align-center" type="radio" name="shortcode-addons-preview-align" value="oxi-shortcode-admin-layouts-design-grid" >
+                                                            </label>
+                                                            <input id="shortcode-addons-preview-align-center" type="radio" name="shortcode-addons-preview-align" value="oxi-shortcode-admin-layouts-design-grid">
                                                             <label class="shortcode-form-choices-label" for="shortcode-addons-preview-align-center" tooltip="Center">
                                                                 <i class="fas fa-align-center" aria-hidden="true"></i>
-                                                            </label> 
+                                                            </label>
                                                             <input id="shortcode-addons-preview-align-bottom" type="radio" name="shortcode-addons-preview-align" value="oxi-shortcode-admin-layouts-design-flex">
                                                             <label class="shortcode-form-choices-label" for="shortcode-addons-preview-align-bottom" tooltip="Bottom">
                                                                 <i class="fas fa-arrow-down" aria-hidden="true"></i>
                                                             </label>
                                                         </div>
-                                                    </div>   
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="oxi-addons-style-left-preview-heading-right">
-                                            <input type="text" data-format="rgb" data-opacity="TRUE" class="oxi-addons-minicolor" id="shortcode-addons-2-0-color" name="shortcode-addons-2-0-color" value="<?php echo(is_array($this->style) ? array_key_exists('shortcode-addons-2-0-preview', $this->style) ? $this->style['shortcode-addons-2-0-preview'] : '#FFF' : '#FFF'); ?>">
+                                            <input type="text" data-format="rgb" data-opacity="TRUE" class="oxi-addons-minicolor" id="shortcode-addons-2-0-color" name="shortcode-addons-2-0-color" value="<?php echo (is_array($this->style) ? array_key_exists('shortcode-addons-2-0-preview', $this->style) ? $this->style['shortcode-addons-2-0-preview'] : '#FFF' : '#FFF'); ?>">
                                         </div>
                                     </div>
                                     <div class="oxi-addons-preview-data" id="oxi-addons-preview-data" template-wrapper="<?php echo $this->WRAPPER; ?>">
@@ -479,16 +496,15 @@ class AdminStyle {
                                     </div>
                                 </div>
                                 <div class="modal-body text-center">
-                                    <h4></h4>	
+                                    <h4></h4>
                                     <p></p>
                                 </div>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
-        <?php
+<?php
     }
-
 }

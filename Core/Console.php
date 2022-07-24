@@ -7,9 +7,11 @@ namespace SHORTCODE_ADDONS\Core;
  *
  * @author biplo
  */
+
 use SHORTCODE_ADDONS\Helper\Database as Database;
 
-class Console extends Database {
+class Console extends Database
+{
 
     const SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS = 'shortcode_addons_available_elements';
     const SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS = 'shortcode_addons_installed_elements';
@@ -27,7 +29,8 @@ class Console extends Database {
      *
      * @since 2.0.1
      */
-    public function update_plugin() {
+    public function update_plugin()
+    {
         $this->shortcode_elements(true);
         $this->google_fonts(true);
     }
@@ -37,7 +40,8 @@ class Console extends Database {
      *
      * @since 2.0.1
      */
-    public function fixed_data($agr) {
+    public function fixed_data($agr)
+    {
         return hex2bin($agr);
     }
 
@@ -46,7 +50,8 @@ class Console extends Database {
      *
      * @since 2.0.1
      */
-    public function fixed_debug_data($str) {
+    public function fixed_debug_data($str)
+    {
         return bin2hex($str);
     }
 
@@ -55,7 +60,8 @@ class Console extends Database {
      *
      * @since 2.0.1
      */
-    public function delete_transient() {
+    public function delete_transient()
+    {
         delete_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
         delete_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
     }
@@ -66,14 +72,15 @@ class Console extends Database {
      * 
      *  @since 2.0.0
      */
-    public function shortcode_elements($force_update = FALSE) {
+    public function shortcode_elements($force_update = FALSE)
+    {
         $response = get_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
         if (!$response || $force_update) {
             $folder = $this->safe_path(SA_ADDONS_PATH . '/assets/element/');
             $response = json_decode(file_get_contents($folder . 'elements.json'), true);
             set_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS, $response, 30 * DAY_IN_SECONDS);
             $installed = $this->installed_elements($force_update);
-            if (count($installed) > 0):
+            if (count($installed) > 0) :
                 $response = array_merge($response, $installed);
             endif;
         }
@@ -85,10 +92,11 @@ class Console extends Database {
      *
      * @since 2.0.0
      */
-    public function installed_elements($force_update = FALSE) {
+    public function installed_elements($force_update = FALSE)
+    {
         $response = get_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
         if (!$response || $force_update) :
-            
+
             $this->create_upload_folder();
             $elements = glob(SA_ADDONS_UPLOAD_PATH . '*', GLOB_ONLYDIR);
             $response = $catarray = $catnewdata = [];
@@ -129,7 +137,8 @@ class Console extends Database {
      * 
      *  @since 2.0.0
      */
-    public function google_fonts($force_update = FALSE) {
+    public function google_fonts($force_update = FALSE)
+    {
         $response = get_transient(self::SHORTCODE_TRANSIENT_GOOGLE_FONT);
         if (!$response || $force_update) {
             $folder = $this->safe_path(SA_ADDONS_PATH . '/assets/element/');
@@ -144,20 +153,21 @@ class Console extends Database {
      *
      * @since 2.0.0
      */
-    public function post_get_elements($elements = '') {
-        if (!empty($elements)):
+    public function post_get_elements($elements = '')
+    {
+        if (!empty($elements)) :
             $this->rawdata = $elements;
         endif;
-        if (is_dir(SA_ADDONS_UPLOAD_PATH . $this->rawdata)):
+        if (is_dir(SA_ADDONS_UPLOAD_PATH . $this->rawdata)) :
             $this->empty_dir(SA_ADDONS_UPLOAD_PATH . $this->rawdata);
         endif;
 
         require_once(ABSPATH . 'wp-admin/includes/file.php');
         $tmpfile = download_url(self::DOWNLOAD_SHORTCODE_ELEMENTS . $this->rawdata . '.zip', $timeout = 500);
-        if (is_string($tmpfile)):
+        if (is_string($tmpfile)) :
             $permfile = 'oxilab.zip';
             $zip = new \ZipArchive();
-            if ($zip->open($tmpfile) !== TRUE):
+            if ($zip->open($tmpfile) !== TRUE) :
                 return 'Problem 2';
             endif;
             $zip->extractTo(SA_ADDONS_UPLOAD_PATH);
@@ -172,7 +182,8 @@ class Console extends Database {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_deactive() {
+    public function post_elements_template_deactive()
+    {
 
         $settings = json_decode(stripslashes($this->rawdata), true);
         $type = sanitize_title($settings['oxitype']);
@@ -187,14 +198,15 @@ class Console extends Database {
      *
      * @since 2.0.0
      */
-    public function post_elements_template_active($data = '') {
+    public function post_elements_template_active($data = '')
+    {
         $settings = json_decode(stripslashes($this->rawdata), true);
         $type = sanitize_title($settings['oxitype']);
         $name = sanitize_text_field($settings['oxiactivestyle']);
         $d = $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} (type, name) VALUES (%s, %s)", array($type, $name)));
-        if ($d == 1):
+        if ($d == 1) :
             return admin_url('admin.php?page=shortcode-addons&oxitype=' . $type . '#' . $name . '');
-        else:
+        else :
             return 'Problem';
         endif;
     }
@@ -204,7 +216,8 @@ class Console extends Database {
      *
      * @since 2.1.0
      */
-    public function stored_font() {
+    public function stored_font()
+    {
         $type = 'shortcode-addons';
         $cache = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM  $this->import_table WHERE type = %s ", $type), ARRAY_A);
 
@@ -231,9 +244,10 @@ class Console extends Database {
      *
      * @since 2.1.0
      */
-    public function post_google_font() {
+    public function post_google_font()
+    {
 
-        if ($this->rawdata != ''):
+        if ($this->rawdata != '') :
             $response = array();
             foreach ($this->google_fonts() as $val) {
                 if (stripos($val['font'], str_replace(' ', '+', $this->rawdata)) !== false) {
@@ -244,7 +258,7 @@ class Console extends Database {
                     ];
                 }
             }
-        else:
+        else :
             $this->stored_font();
             $response = array();
             $start_count = ($this->styleid != 1 ? $this->styleid : 0);
@@ -261,28 +275,21 @@ class Console extends Database {
         return json_encode($response);
     }
 
-    /**
-     * Google font selection.
-     *
-     * @since 2.1.0
-     */
-    public function post_selected_google_font() {
-        $this->stored_font();
-        return json_encode($this->stored_font);
-    }
+
 
     /**
      * Add Google font.
      *
      * @since 2.1.0
      */
-    public function post_add_google_font() {
+    public function post_add_google_font()
+    {
         if ($this->rawdata != '' && !empty($this->rawdata)) {
             $data = sanitize_text_field($this->rawdata);
             $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
-            if (is_array($font)):
+            if (is_array($font)) :
                 return 'Someone already Saved it';
-            else:
+            else :
                 $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} ( type, font) VALUES (%s, %s)", array('shortcode-addons', $data)));
                 return 'Stored';
             endif;
@@ -294,10 +301,11 @@ class Console extends Database {
      *
      * @since 2.1.0
      */
-    public function post_remove_google_font() {
+    public function post_remove_google_font()
+    {
         $data = sanitize_text_field($this->rawdata);
         $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s ", 'shortcode-addons', $data), ARRAY_A);
-        if (is_array($font)):
+        if (is_array($font)) :
             $this->wpdb->query($this->wpdb->prepare("DELETE FROM {$this->import_table} WHERE id = %d ", $font['id']));
         endif;
         return 'Done';
@@ -308,18 +316,28 @@ class Console extends Database {
      *
      * @since 2.1.0
      */
-    public function post_add_custom_font() {
+    public function post_add_custom_font()
+    {
         if ($this->rawdata != '' && !empty($this->rawdata)) {
             $data = sanitize_text_field($this->rawdata);
             $font = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s AND  font = %s AND  name = %s ", 'shortcode-addons', $data, 'custom'), ARRAY_A);
-            if (is_array($font)):
+            if (is_array($font)) :
                 return 'Someone already Saved it';
-            else:
+            else :
                 $this->wpdb->query($this->wpdb->prepare("INSERT INTO {$this->import_table} ( type, name, font) VALUES (%s, %s, %s)", array('shortcode-addons', 'custom', $data)));
             endif;
             return 'Done';
         }
         return 'jamela';
     }
-
+    /**
+     * Google font selection.
+     *
+     * @since 2.1.0
+     */
+    public function post_selected_google_font()
+    {
+        $this->stored_font();
+        return json_encode($this->stored_font);
+    }
 }

@@ -6,7 +6,8 @@ namespace SHORTCODE_ADDONS\Helper;
  *
  * @author biplo
  */
-class Database {
+class Database
+{
 
     /**
      * Define $wpdb
@@ -36,7 +37,7 @@ class Database {
      */
     public $child_table;
 
-  
+
 
     /**
      * Plugins Loader
@@ -52,7 +53,8 @@ class Database {
      *
      * @since 2.0.0
      */
-    public static function instance() {
+    public static function instance()
+    {
         if (self::$instance == null) {
             self::$instance = new self;
         }
@@ -60,7 +62,8 @@ class Database {
         return self::$instance;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->parent_table = $wpdb->prefix . 'oxi_div_style';
@@ -68,7 +71,8 @@ class Database {
         $this->import_table = $wpdb->prefix . 'oxi_div_import';
     }
 
-    public function update_database() {
+    public function update_database()
+    {
         $charset_collate = $this->wpdb->get_charset_collate();
 
         $sql1 = "CREATE TABLE $this->parent_table (
@@ -112,7 +116,8 @@ class Database {
      *
      * @since 2.0.0
      */
-    public function create_upload_folder() {
+    public function create_upload_folder()
+    {
         $upload = wp_upload_dir();
         $upload_dir = $upload['basedir'];
         $dir = $upload_dir . '/shortcode-addons';
@@ -121,12 +126,58 @@ class Database {
         }
     }
 
+
+
+
+
+    /**
+     * Generate safe path
+     * @since v1.0.0
+     */
+    public function safe_path($path)
+    {
+
+        $path = str_replace(['//', '\\\\'], ['/', '\\'], $path);
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+    }
+
+    public function array_replace($arr = [], $search = '', $replace = '')
+    {
+        array_walk($arr, function (&$v) use ($search, $replace) {
+            $v = str_replace($search, $replace, $v);
+        });
+        return $arr;
+    }
+
+    public function name_converter($data)
+    {
+        $data = str_replace('_', ' ', $data);
+        $data = str_replace('-', ' ', $data);
+        $data = str_replace('+', ' ', $data);
+        return ucwords($data);
+    }
+
+    public function font_familly_validation($data = [])
+    {
+        foreach ($data as $value) {
+            wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
+        }
+    }
+
+    public function admin_name_validation($data)
+    {
+        $data = str_replace('_', ' ', $data);
+        $data = str_replace('-', ' ', $data);
+        $data = str_replace('+', ' ', $data);
+        return ucwords($data);
+    }
     /**
      * Remove files in dir
      *
      * @since 1.0.0
      */
-    public function empty_dir($str) {
+    public function empty_dir($str)
+    {
 
         if (is_file($str)) {
             return unlink($str);
@@ -138,44 +189,4 @@ class Database {
             return @rmdir($str);
         }
     }
-
-   
-
-    /**
-     * Generate safe path
-     * @since v1.0.0
-     */
-    public function safe_path($path) {
-
-        $path = str_replace(['//', '\\\\'], ['/', '\\'], $path);
-        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
-    }
-
-    public function array_replace($arr = [], $search = '', $replace = '') {
-        array_walk($arr, function (&$v) use ($search, $replace) {
-            $v = str_replace($search, $replace, $v);
-        });
-        return $arr;
-    }
-
-    public function name_converter($data) {
-        $data = str_replace('_', ' ', $data);
-        $data = str_replace('-', ' ', $data);
-        $data = str_replace('+', ' ', $data);
-        return ucwords($data);
-    }
-
-    public function font_familly_validation($data = []) {
-        foreach ($data as $value) {
-            wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
-        }
-    }
-
-    public function admin_name_validation($data) {
-        $data = str_replace('_', ' ', $data);
-        $data = str_replace('-', ' ', $data);
-        $data = str_replace('+', ' ', $data);
-        return ucwords($data);
-    }
-
 }

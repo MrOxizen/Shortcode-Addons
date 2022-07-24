@@ -67,21 +67,6 @@ class Elements_Frontend extends Database
         $this->database_data();
         $this->pre_active_check();
     }
-
-    public function templates()
-    {
-        $template_data = [];
-
-        $basename = array_map('basename', glob(SA_ADDONS_UPLOAD_PATH . $this->oxitype . '/Layouts/' . '*.json', GLOB_BRACE));
-
-        foreach ($basename as $key => $value) {
-            $folder = $this->safe_path(SA_ADDONS_UPLOAD_PATH . $this->oxitype . '/Layouts/');
-            $layoutsdata = file_get_contents($folder . $value);
-            $template_data[] = $layoutsdata;
-        }
-        return $template_data;
-    }
-
     /**
      * Shortcode Addons Rander.
      *
@@ -104,6 +89,22 @@ class Elements_Frontend extends Database
         </div>
     <?php
     }
+
+    public function templates()
+    {
+        $template_data = [];
+
+        $basename = array_map('basename', glob(SA_ADDONS_UPLOAD_PATH . $this->oxitype . '/Layouts/' . '*.json', GLOB_BRACE));
+
+        foreach ($basename as $key => $value) {
+            $folder = $this->safe_path(SA_ADDONS_UPLOAD_PATH . $this->oxitype . '/Layouts/');
+            $layoutsdata = file_get_contents($folder . $value);
+            $template_data[] = $layoutsdata;
+        }
+        return $template_data;
+    }
+
+
 
     /**
      * Shortcode Addons Element home.

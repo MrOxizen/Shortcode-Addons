@@ -9,25 +9,36 @@ if (!defined('ABSPATH')) {
  *
  * @author biplo
  */
-trait Admin_Scripts {
+trait Admin_Scripts
+{
 
     /**
      * font family loader validation
      *
      * @since v2.1.0
      */
-    public function loader_font_familly_validation($data = []) {
+    public function loader_font_familly_validation($data = [])
+    {
         foreach ($data as $value) {
             wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
         }
     }
-
+    /**
+     * Admin Notice JS file loader
+     * @return void
+     */
+    public function admin_settings()
+    {
+        $this->admin_scripts();
+        wp_enqueue_script('shortcode-addons-settings-page', SA_ADDONS_URL . '/assets/backend/js/settings.js', false, SA_ADDONS_PLUGIN_VERSION);
+    }
     /**
      * Load Admin CSS and jQuery
      *
      * @since v2.1.0
      */
-    public function admin_scripts() {
+    public function admin_scripts()
+    {
         $this->loader_font_familly_validation(['Bree+Serif', 'Source+Sans+Pro']);
         wp_enqueue_style('shortcode-addons-bootstrap', SA_ADDONS_URL . 'assets/backend/css/bootstrap.min.css', false, SA_ADDONS_PLUGIN_VERSION);
         wp_enqueue_style('font-awsome.min', SA_ADDONS_URL . 'assets/front/css/font-awsome.min.css', false, SA_ADDONS_PLUGIN_VERSION);
@@ -49,20 +60,14 @@ trait Admin_Scripts {
         ));
     }
 
-    /**
-     * Admin Notice JS file loader
-     * @return void
-     */
-    public function admin_settings() {
-        $this->admin_scripts();
-        wp_enqueue_script('shortcode-addons-settings-page', SA_ADDONS_URL . '/assets/backend/js/settings.js', false, SA_ADDONS_PLUGIN_VERSION);
-    }
+
 
     /**
      * Admin Notice JS file loader
      * @return void
      */
-    public function admin_font_manager() {
+    public function admin_font_manager()
+    {
         $this->admin_scripts();
         wp_enqueue_script('shortcode-addons-font-manager', SA_ADDONS_URL . '/assets/backend/js/font_manager.js', false, SA_ADDONS_PLUGIN_VERSION);
     }
@@ -72,7 +77,8 @@ trait Admin_Scripts {
      *
      * @since v2.1.0
      */
-    public function admin_elements_scripts() {
+    public function admin_elements_scripts()
+    {
         $this->admin_scripts();
         wp_enqueue_script('jquery.serializejson.min', SA_ADDONS_URL . '/assets/backend/js/jquery.serializejson.min.js', false, SA_ADDONS_PLUGIN_VERSION);
         wp_enqueue_script('jquery.dataTables.min', SA_ADDONS_URL . '/assets/backend/js/jquery.dataTables.min.js', false, SA_ADDONS_PLUGIN_VERSION);
@@ -80,14 +86,15 @@ trait Admin_Scripts {
         wp_enqueue_script('shortcode-addons-elements', SA_ADDONS_URL . '/assets/backend/js/elements.js', false, SA_ADDONS_PLUGIN_VERSION);
     }
 
-   
+
 
     /**
      * Load Frontend Loader
      *
      * @since v2.1.0
      */
-    public function template_scripts() {
+    public function template_scripts()
+    {
         $this->admin_scripts();
 
         wp_enqueue_style('jquery.coloring-pick.min.js', SA_ADDONS_URL . '/assets/backend/css/jquery.coloring-pick.min.js.css', false, SA_ADDONS_PLUGIN_VERSION);
@@ -116,10 +123,10 @@ trait Admin_Scripts {
      * 
      * @since 2.0.0
      */
-    public function admin_media_scripts() {
+    public function admin_media_scripts()
+    {
         wp_enqueue_media();
         wp_register_script('shortcode_addons_media_scripts', SA_ADDONS_URL . '/assets/backend/js/media-uploader.js', false, SA_ADDONS_PLUGIN_VERSION);
         wp_enqueue_script('shortcode_addons_media_scripts');
     }
-
 }

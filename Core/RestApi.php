@@ -22,19 +22,6 @@ class RestApi extends Console
         });
     }
 
-    public function get_permissions_check($request)
-    {
-        $user_role = get_option('oxi_addons_user_permission');
-        $role_object = get_role($user_role);
-        $first_key = '';
-        if (isset($role_object->capabilities) && is_array($role_object->capabilities)) {
-            reset($role_object->capabilities);
-            $first_key = key($role_object->capabilities);
-        } else {
-            $first_key = 'manage_options';
-        }
-        return current_user_can($first_key);
-    }
 
     public function api_action($request)
     {
@@ -55,6 +42,21 @@ class RestApi extends Console
             return 'Go to Hell';
         }
     }
+
+    public function get_permissions_check($request)
+    {
+        $user_role = get_option('oxi_addons_user_permission');
+        $role_object = get_role($user_role);
+        $first_key = '';
+        if (isset($role_object->capabilities) && is_array($role_object->capabilities)) {
+            reset($role_object->capabilities);
+            $first_key = key($role_object->capabilities);
+        } else {
+            $first_key = 'manage_options';
+        }
+        return current_user_can($first_key);
+    }
+
 
     public function allowed_html($rawdata)
     {
@@ -546,7 +548,7 @@ class RestApi extends Console
 
                     case 'item_name_mismatch':
 
-                        $message = sprintf(__('This appears to be an invalid license key for %s.'), Responsive_Tabs_with_Accordions);
+                        $message = sprintf(__('This appears to be an invalid license key for %s.'), 'Responsive_Tabs_with_Accordions');
                         break;
 
                     case 'no_activations_left':
