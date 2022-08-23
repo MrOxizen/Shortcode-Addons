@@ -4,13 +4,15 @@ namespace SHORTCODE_ADDONS\Layouts\Template;
 
 use SHORTCODE_ADDONS\Core\Admin\Controls as Controls;
 
-trait Sanitization {
+trait Sanitization
+{
 
     /**
      * font settings sanitize 
      * works at layouts page to adding font Settings sanitize
      */
-    public function AdminTextSenitize($data) {
+    public function AdminTextSenitize($data)
+    {
         $data = str_replace('\\\\"', '&quot;', $data);
         $data = str_replace('\\\"', '&quot;', $data);
         $data = str_replace('\\"', '&quot;', $data);
@@ -41,7 +43,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function start_section_header($id, array $arg = []) {
+    public function start_section_header($id, array $arg = [])
+    {
         echo '<ul class="oxi-addons-tabs-ul">   ';
         foreach ($arg['options'] as $key => $value) {
             echo '<li ref="#shortcode-addons-section-' . $key . '">' . $value . '</li>';
@@ -55,7 +58,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function start_section_tabs($id, array $arg = []) {
+    public function start_section_tabs($id, array $arg = [])
+    {
         echo '<div class="oxi-addons-tabs-content-tabs" id="shortcode-addons-section-';
         if (array_key_exists('condition', $arg)) :
             foreach ($arg['condition'] as $value) {
@@ -71,7 +75,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function end_section_tabs() {
+    public function end_section_tabs()
+    {
         echo '</div>';
     }
 
@@ -81,7 +86,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function start_section_devider() {
+    public function start_section_devider()
+    {
         echo '<div class="oxi-addons-col-6">';
     }
 
@@ -91,7 +97,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function end_section_devider() {
+    public function end_section_devider()
+    {
         echo '</div>';
     }
 
@@ -101,19 +108,20 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function forms_condition(array $arg = []) {
+    public function forms_condition(array $arg = [])
+    {
 
         if (array_key_exists('condition', $arg)) :
             $i = $arg['condition'] != '' ? count($arg['condition']) : 0;
-// echo $i;
+            // echo $i;
             $data = '';
             $s = 1;
             $form_condition = array_key_exists('form_condition', $arg) ? $arg['form_condition'] : '';
             foreach ($arg['condition'] != '' ? $arg['condition'] : [] as $key => $value) {
-                if (is_array($value)):
+                if (is_array($value)) :
                     $c = count($value);
                     $crow = 1;
-                    if ($c > 1 && $i > 1):
+                    if ($c > 1 && $i > 1) :
                         $data .= '(';
                     endif;
                     foreach ($value as $item) {
@@ -123,7 +131,7 @@ trait Sanitization {
                             $crow++;
                         endif;
                     }
-                    if ($c > 1 && $i > 1):
+                    if ($c > 1 && $i > 1) :
                         $data .= ')';
                     endif;
                 elseif ($value == 'COMPILED') :
@@ -153,7 +161,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function start_controls_section($id, array $arg = []) {
+    public function start_controls_section($id, array $arg = [])
+    {
         $defualt = ['showing' => FALSE];
         $arg = array_merge($defualt, $arg);
         $condition = $this->forms_condition($arg);
@@ -171,7 +180,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function end_controls_section() {
+    public function end_controls_section()
+    {
         echo '</div></div>';
     }
 
@@ -182,7 +192,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function start_controls_tabs($id, array $arg = []) {
+    public function start_controls_tabs($id, array $arg = [])
+    {
         $defualt = ['options' => ['normal' => 'Normal', 'hover' => 'Hover']];
         $arg = array_merge($defualt, $arg);
         echo '<div class="shortcode-form-control shortcode-control-type-control-tabs ' . (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '') . '">
@@ -206,7 +217,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function end_controls_tabs() {
+    public function end_controls_tabs()
+    {
         echo '</div> </div>';
     }
 
@@ -216,7 +228,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function start_controls_tab() {
+    public function start_controls_tab()
+    {
         echo '<div class="shortcode-form-control-content shortcode-form-control-tabs-content shortcode-control-tab-close">';
     }
 
@@ -226,7 +239,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function end_controls_tab() {
+    public function end_controls_tab()
+    {
         echo '</div>';
     }
 
@@ -236,7 +250,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function start_popover_control($id, array $arg = []) {
+    public function start_popover_control($id, array $arg = [])
+    {
         $condition = $this->forms_condition($arg);
         $separator = (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '');
         echo '  <div class="shortcode-form-control shortcode-control-type-popover ' . $separator . '" ' . $condition . '>
@@ -261,7 +276,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function end_popover_control() {
+    public function end_popover_control()
+    {
         echo '</div></div>';
     }
 
@@ -272,7 +288,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function add_control($id, array $data = [], array $arg = []) {
+    public function add_control($id, array $data = [], array $arg = [])
+    {
         /*
          * Responsive Control Start
          * @since 2.0.0
@@ -321,7 +338,7 @@ trait Sanitization {
         endif;
 
         $arg = array_merge($defualt, $arg);
-        if ($arg['type'] == 'animation'):
+        if ($arg['type'] == 'animation') :
             $arg['type'] = 'select';
             $arg['options'] = [
                 '' => __('None', SHORTCODE_ADDOONS),
@@ -361,7 +378,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function add_responsive_control($id, array $data = [], array $arg = []) {
+    public function add_responsive_control($id, array $data = [], array $arg = [])
+    {
         $lap = $id . '-lap';
         $tab = $id . '-tab';
         $mob = $id . '-mob';
@@ -380,7 +398,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function add_group_control($id, array $data = [], array $arg = []) {
+    public function add_group_control($id, array $data = [], array $arg = [])
+    {
         $defualt = ['type' => 'text', 'label' => 'Input Text'];
         $arg = array_merge($defualt, $arg);
         $fun = $arg['type'] . '_admin_group_control';
@@ -393,7 +412,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function add_repeater_control($id, array $data = [], array $arg = []) {
+    public function add_repeater_control($id, array $data = [], array $arg = [])
+    {
         $condition = $this->forms_condition($arg);
         $separator = (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '');
         $buttontext = (array_key_exists('button', $arg) ? $arg['button'] : 'Add Item');
@@ -442,7 +462,9 @@ trait Sanitization {
         echo '      </div>';
 
         $this->add_control(
-                $id . 'nm', $data, ['type' => Controls::HIDDEN, 'default' => '0',]
+            $id . 'nm',
+            $data,
+            ['type' => Controls::HIDDEN, 'default' => '0',]
         );
         echo '      <div class="shortcode-form-repeater-button-wrapper"><a href="#" parent-id="' . $id . '" class="shortcode-form-repeater-button"><span class="dashicons dashicons-plus"></span> ' . $buttontext . '</a></div>';
 
@@ -489,7 +511,8 @@ trait Sanitization {
      * @since 2.1.0
      */
 
-    public function add_rearrange_control($id, array $data = [], array $arg = []) {
+    public function add_rearrange_control($id, array $data = [], array $arg = [])
+    {
         $condition = $this->forms_condition($arg);
         $separator = (array_key_exists('separator', $arg) ? ($arg['separator'] === TRUE ? 'shortcode-form-control-separator-before' : '') : '');
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
@@ -501,7 +524,7 @@ trait Sanitization {
                     <div class="shortcode-form-rearrange-fields-wrapper" vlid="#' . $id . '">';
         $rearrange = explode(',', $value);
         foreach ($rearrange as $k => $vl) {
-            if ($vl != ''):
+            if ($vl != '') :
                 echo '  <div class="shortcode-form-repeater-fields" id="' . $vl . '">
                             <div class="shortcode-form-repeater-controls">
                                 <div class="shortcode-form-repeater-controls-title">
@@ -525,7 +548,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function heading_admin_control($id, array $data = [], array $arg = []) {
+    public function heading_admin_control($id, array $data = [], array $arg = [])
+    {
         echo ' ';
     }
 
@@ -535,7 +559,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function separator_admin_control($id, array $data = [], array $arg = []) {
+    public function separator_admin_control($id, array $data = [], array $arg = [])
+    {
         echo '';
     }
 
@@ -545,19 +570,20 @@ trait Sanitization {
      * @since 2.1.0
      */
 
-    public function multiple_selector_handler($data, $val) {
+    public function multiple_selector_handler($data, $val)
+    {
 
-        $val = preg_replace_callback('/\{\{\K(.*?)(?=}})/', function ($match)use ($data) {
+        $val = preg_replace_callback('/\{\{\K(.*?)(?=}})/', function ($match) use ($data) {
             $ER = explode('.', $match[0]);
-            if (strpos($match[0], 'SIZE') !== FALSE):
+            if (strpos($match[0], 'SIZE') !== FALSE) :
                 $size = array_key_exists($ER[0] . '-size', $data) ? $data[$ER[0] . '-size'] : '';
                 $match[0] = str_replace('.SIZE', $size, $match[0]);
             endif;
-            if (strpos($match[0], 'UNIT') !== FALSE):
+            if (strpos($match[0], 'UNIT') !== FALSE) :
                 $size = array_key_exists($ER[0] . '-choices', $data) ? $data[$ER[0] . '-choices'] : '';
                 $match[0] = str_replace('.UNIT', $size, $match[0]);
             endif;
-            if (strpos($match[0], 'VALUE') !== FALSE):
+            if (strpos($match[0], 'VALUE') !== FALSE) :
                 $size = array_key_exists($ER[0], $data) ? $data[$ER[0]] : '';
                 $match[0] = str_replace('.VALUE', $size, $match[0]);
             endif;
@@ -572,7 +598,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function switcher_admin_control($id, array $data = [], array $arg = []) {
+    public function switcher_admin_control($id, array $data = [], array $arg = [])
+    {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         echo '  <div class="shortcode-form-control-input-wrapper">
                     <label class="shortcode-switcher">  
@@ -588,7 +615,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function text_admin_control($id, array $data = [], array $arg = []) {
+    public function text_admin_control($id, array $data = [], array $arg = [])
+    {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
         if (array_key_exists('link', $arg)) :
@@ -608,7 +636,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function password_admin_control($id, array $data = [], array $arg = []) {
+    public function password_admin_control($id, array $data = [], array $arg = [])
+    {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
         if (array_key_exists('link', $arg)) :
@@ -628,7 +657,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function hidden_admin_control($id, array $data = [], array $arg = []) {
+    public function hidden_admin_control($id, array $data = [], array $arg = [])
+    {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         echo ' <div class="shortcode-form-control-input-wrapper">
                    <input type="hidden" value="' . $value . '" name="' . $id . '" id="' . $id . '">
@@ -641,11 +671,19 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function textarea_admin_control($id, array $data = [], array $arg = []) {
+    public function textarea_admin_control($id, array $data = [], array $arg = [])
+    {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
+
+        if ($id === 'image-hover-custom-css') :
+            $value = str_replace("<br>", "\n", str_replace("&nbsp;", " ", $value));
+        else :
+            $value =   str_replace('&nbsp;', '  ', str_replace('<br>', '&#13;&#10;', $value));
+        endif;
+
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
         echo '<div class="shortcode-form-control-input-wrapper">
-                 <textarea  name="' . $id . '" id="' . $id . '" retundata=\'' . $retunvalue . '\' class="shortcode-form-control-tag-area" rows="' . (int) ((strlen($value) / 50) + 2) . '" placeholder="' . $arg['placeholder'] . '">' . str_replace('&nbsp;', '  ', str_replace('<br>', '&#13;&#10;', $value)) . '</textarea>
+                 <textarea  name="' . $id . '" id="' . $id . '" retundata=\'' . $retunvalue . '\' class="shortcode-form-control-tag-area" rows="' . (int) ((strlen($value) / 50) + 2) . '" placeholder="' . $arg['placeholder'] . '">' . $value . '</textarea>
               </div>';
     }
 
@@ -655,25 +693,28 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function wysiwyg_admin_control($id, array $data = [], array $arg = []) {
-        
-        if($this->template_css_render != 'css_render'):
-            
-      
-        $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
-        $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
-        echo ' <div class="shortcode-form-control-input-wrapper"  retundata=\'' . $retunvalue . '\'>';
-        echo wp_editor(
-                $value, $id, $settings = array(
-            'textarea_name' => $id,
-            'wpautop' => false,
-            'textarea_rows' => 7,
-            'force_br_newlines' => true,
-            'force_p_newlines' => false
+    public function wysiwyg_admin_control($id, array $data = [], array $arg = [])
+    {
+
+        if ($this->template_css_render != 'css_render') :
+
+
+            $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
+            $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
+            echo ' <div class="shortcode-form-control-input-wrapper"  retundata=\'' . $retunvalue . '\'>';
+            echo wp_editor(
+                $value,
+                $id,
+                $settings = array(
+                    'textarea_name' => $id,
+                    'wpautop' => false,
+                    'textarea_rows' => 7,
+                    'force_br_newlines' => true,
+                    'force_p_newlines' => false
                 )
-        );
-        echo ' </div>';
-          endif;
+            );
+            echo ' </div>';
+        endif;
     }
 
     /*
@@ -682,14 +723,15 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function image_admin_control($id, array $data = [], array $arg = []) {
+    public function image_admin_control($id, array $data = [], array $arg = [])
+    {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $alt = array_key_exists($id . '-alt', $data) ? $data[$id . '-alt'] : '';
-        if (isset($arg['select'])):
+        if (isset($arg['select'])) :
             $img = '';
             $type = ($arg['select'] != 'file') ? $arg['select'] : 'file';
             $altfile = '';
-        else:
+        else :
             $img = 'style="background-image: url(' . $value . ');" ckdflt="background-image: url(' . $value . ');"';
             $type = '';
             $altfile = '<input type="hidden" class="shortcode-addons-media-control-link-alt" id="' . $id . '-alt" name="' . $id . '-alt" value="' . $alt . '" >';
@@ -717,7 +759,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function number_admin_control($id, array $data = [], array $arg = []) {
+    public function number_admin_control($id, array $data = [], array $arg = [])
+    {
 
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
@@ -727,7 +770,7 @@ trait Sanitization {
                     $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                     $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                     $file = str_replace('{{VALUE}}', $value, $val);
-                    if (strpos($file, '{{') !== FALSE):
+                    if (strpos($file, '{{') !== FALSE) :
                         $file = $this->multiple_selector_handler($data, $file);
                     endif;
                     $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
@@ -747,7 +790,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function slider_admin_control($id, array $data = [], array $arg = []) {
+    public function slider_admin_control($id, array $data = [], array $arg = [])
+    {
         $unit = array_key_exists($id . '-choices', $data) ? $data[$id . '-choices'] : $arg['default']['unit'];
         $size = array_key_exists($id . '-size', $data) ? $data[$id . '-size'] : $arg['default']['size'];
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
@@ -760,10 +804,10 @@ trait Sanitization {
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                         $file = str_replace('{{SIZE}}', $size, $val);
                         $file = str_replace('{{UNIT}}', $unit, $file);
-                        if (strpos($file, '{{') !== FALSE):
+                        if (strpos($file, '{{') !== FALSE) :
                             $file = $this->multiple_selector_handler($data, $file);
                         endif;
-                        if (!empty($size)):
+                        if (!empty($size)) :
                             $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
                         endif;
                     endif;
@@ -796,7 +840,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function select_admin_control($id, array $data = [], array $arg = []) {
+    public function select_admin_control($id, array $data = [], array $arg = [])
+    {
         $id = (array_key_exists('repeater', $arg) ? $id . ']' : $id);
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retun = [];
@@ -808,7 +853,7 @@ trait Sanitization {
                     if (!empty($value) && !empty($val) && $arg['render'] == TRUE) {
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                         $file = str_replace('{{VALUE}}', $value, $val);
-                        if (strpos($file, '{{') !== FALSE):
+                        if (strpos($file, '{{') !== FALSE) :
                             $file = $this->multiple_selector_handler($data, $file);
                         endif;
                         $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
@@ -823,19 +868,19 @@ trait Sanitization {
 
         echo '<div class="shortcode-form-control-input-wrapper">
                 <div class="shortcode-form-control-input-select-wrapper">
-                <select id="' . $id . '" class="shortcode-addons-select-input ' . ($multiple ? 'js-example-basic-multiple' : '' ) . '" ' . ($multiple ? 'multiple' : '' ) . ' name="' . $id . '' . ($multiple ? '[]' : '' ) . '"  responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>';
+                <select id="' . $id . '" class="shortcode-addons-select-input ' . ($multiple ? 'js-example-basic-multiple' : '') . '" ' . ($multiple ? 'multiple' : '') . ' name="' . $id . '' . ($multiple ? '[]' : '') . '"  responsive="' . $arg['responsive'] . '" retundata=\'' . $retunvalue . '\'>';
         foreach ($arg['options'] as $key => $val) {
-            if (is_array($val)):
-                if (isset($val[0]) && $val[0] == true):
+            if (is_array($val)) :
+                if (isset($val[0]) && $val[0] == true) :
                     echo '<optgroup label="' . $val[1] . '">';
-                else:
+                else :
                     echo '</optgroup>';
                 endif;
-            else:
-                if (is_array($value)):
+            else :
+                if (is_array($value)) :
                     $new = array_flip($value);
                     echo ' <option value="' . $key . '" ' . (array_key_exists($key, $new) ? 'selected' : '') . '>' . $val . '</option>';
-                else:
+                else :
                     echo ' <option value="' . $key . '" ' . ($value == $key ? 'selected' : '') . '>' . $val . '</option>';
                 endif;
             endif;
@@ -851,7 +896,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function choose_admin_control($id, array $data = [], array $arg = []) {
+    public function choose_admin_control($id, array $data = [], array $arg = [])
+    {
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retun = [];
 
@@ -863,10 +909,10 @@ trait Sanitization {
                     if (!empty($val)) {
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                         $file = str_replace('{{VALUE}}', $value, $val);
-                        if (strpos($file, '{{') !== FALSE):
+                        if (strpos($file, '{{') !== FALSE) :
                             $file = $this->multiple_selector_handler($data, $file);
                         endif;
-                        if (!empty($value)):
+                        if (!empty($value)) :
                             $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
                         endif;
                     }
@@ -894,35 +940,36 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function render_condition_control($id, array $data = [], array $arg = []) {
+    public function render_condition_control($id, array $data = [], array $arg = [])
+    {
 
-        if (array_key_exists('condition', $arg)):
+        if (array_key_exists('condition', $arg)) :
             foreach ($arg['condition'] as $key => $value) {
-                if (array_key_exists('conditional', $arg) && $arg['conditional'] == 'outside'):
+                if (array_key_exists('conditional', $arg) && $arg['conditional'] == 'outside') :
                     $data = $this->style;
-                elseif (array_key_exists('conditional', $arg) && $arg['conditional'] == 'inside' && isset($arg['form_condition'])):
+                elseif (array_key_exists('conditional', $arg) && $arg['conditional'] == 'inside' && isset($arg['form_condition'])) :
                     $key = $arg['form_condition'] . $key;
                 endif;
-                if (strpos($key, '&') !== FALSE):
+                if (strpos($key, '&') !== FALSE) :
                     return true;
                 endif;
-                if (!array_key_exists($key, $data)):
+                if (!array_key_exists($key, $data)) :
                     return false;
                 endif;
-                if ($data[$key] != $value):
-                    if (is_array($value)):
+                if ($data[$key] != $value) :
+                    if (is_array($value)) :
                         $t = false;
                         foreach ($value as $val) {
-                            if ($data[$key] == $val):
+                            if ($data[$key] == $val) :
                                 $t = true;
                             endif;
                         }
                         echo $t;
                     endif;
-                    if ($value == 'EMPTY' && $data[$key] != '0'):
+                    if ($value == 'EMPTY' && $data[$key] != '0') :
                         return true;
                     endif;
-                    if (strpos($data[$key], '&') !== FALSE):
+                    if (strpos($data[$key], '&') !== FALSE) :
                         return true;
                     endif;
                     return false;
@@ -938,7 +985,8 @@ trait Sanitization {
      * @since 2.1.0
      */
 
-    public function color_admin_control($id, array $data = [], array $arg = []) {
+    public function color_admin_control($id, array $data = [], array $arg = [])
+    {
         $id = (array_key_exists('repeater', $arg) ? $id . ']' : $id);
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
@@ -948,7 +996,7 @@ trait Sanitization {
                     $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                     $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                     $file = str_replace('{{VALUE}}', $value, $val);
-                    if (!empty($value)):
+                    if (!empty($value)) :
                         $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
                     endif;
                 }
@@ -966,7 +1014,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function icon_admin_control($id, array $data = [], array $arg = []) {
+    public function icon_admin_control($id, array $data = [], array $arg = [])
+    {
         $id = (array_key_exists('repeater', $arg) ? $id . ']' : $id);
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         echo '  <div class="shortcode-form-control-input-wrapper">
@@ -981,7 +1030,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function font_admin_control($id, array $data = [], array $arg = []) {
+    public function font_admin_control($id, array $data = [], array $arg = [])
+    {
         $id = (array_key_exists('repeater', $arg) ? $id . ']' : $id);
         $retunvalue = '';
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
@@ -996,7 +1046,7 @@ trait Sanitization {
                         $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                         $file = str_replace('{{VALUE}}', str_replace("+", ' ', $value), $val);
-                        if (!empty($value)):
+                        if (!empty($value)) :
                             $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
                         endif;
                     endif;
@@ -1016,7 +1066,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function date_time_admin_control($id, array $data = [], array $arg = []) {
+    public function date_time_admin_control($id, array $data = [], array $arg = [])
+    {
         $id = (array_key_exists('repeater', $arg) ? $id . ']' : $id);
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $format = 'date';
@@ -1036,7 +1087,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function gradient_admin_control($id, array $data = [], array $arg = []) {
+    public function gradient_admin_control($id, array $data = [], array $arg = [])
+    {
         $id = (array_key_exists('repeater', $arg) ? $id . ']' : $id);
         $value = array_key_exists($id, $data) ? $data[$id] : $arg['default'];
         $retunvalue = array_key_exists('selector', $arg) ? htmlspecialchars(json_encode($arg['selector'])) : '';
@@ -1047,7 +1099,7 @@ trait Sanitization {
                         $key = (strpos($key, '{{KEY}}') ? str_replace('{{KEY}}', explode('saarsa', $id)[1], $key) : $key);
                         $class = str_replace('{{WRAPPER}}', $this->WRAPPER, $key);
                         $file = str_replace('{{VALUE}}', $value, $val);
-                        if (!empty($value)):
+                        if (!empty($value)) :
                             $this->CSSDATA[$arg['responsive']][$class][$file] = $file;
                         endif;
                     endif;
@@ -1066,7 +1118,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function dimensions_admin_control($id, array $data = [], array $arg = []) {
+    public function dimensions_admin_control($id, array $data = [], array $arg = [])
+    {
         $unit = array_key_exists($id . '-choices', $data) ? $data[$id . '-choices'] : $arg['default']['unit'];
         $top = array_key_exists($id . '-top', $data) ? $data[$id . '-top'] : $arg['default']['size'];
         $bottom = array_key_exists($id . '-bottom', $data) ? $data[$id . '-bottom'] : $top;
@@ -1135,7 +1188,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function typography_admin_group_control($id, array $data = [], array $arg = []) {
+    public function typography_admin_group_control($id, array $data = [], array $arg = [])
+    {
         $cond = $condition = '';
         if (array_key_exists('condition', $arg)) :
             $cond = 'condition';
@@ -1143,13 +1197,14 @@ trait Sanitization {
         endif;
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
-                $id, [
-            'label' => __('Typography', SHORTCODE_ADDOONS),
-            $cond => $condition,
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
-                ]
+            $id,
+            [
+                'label' => __('Typography', SHORTCODE_ADDOONS),
+                $cond => $condition,
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                'separator' => $separator,
+                'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            ]
         );
 
         $selector_key = $selector = $selectorvalue = $loader = $loadervalue = '';
@@ -1163,230 +1218,252 @@ trait Sanitization {
             $loadervalue = $arg['loader'];
         endif;
         $this->add_control(
-                $id . '-font', $data, [
-            'label' => __('Font Family', SHORTCODE_ADDOONS),
-            'type' => Controls::FONT,
-            $selectorvalue => 'font-family:"{{VALUE}}";',
-            $selector_key => $selector,
-            $loader => $loadervalue
-                ]
+            $id . '-font',
+            $data,
+            [
+                'label' => __('Font Family', SHORTCODE_ADDOONS),
+                'type' => Controls::FONT,
+                $selectorvalue => 'font-family:"{{VALUE}}";',
+                $selector_key => $selector,
+                $loader => $loadervalue
+            ]
         );
         $this->add_responsive_control(
-                $id . '-size', $data, [
-            'label' => __('Size', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => '',
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'font-size: {{SIZE}}{{UNIT}};',
-            $selector_key => $selector,
-            'range' => [
-                'px' => [
-                    'min' => 0,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-size',
+            $data,
+            [
+                'label' => __('Size', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => '',
                 ],
-                'em' => [
-                    'min' => 0,
-                    'max' => 10,
-                    'step' => 0.1,
+                $loader => $loadervalue,
+                $selectorvalue => 'font-size: {{SIZE}}{{UNIT}};',
+                $selector_key => $selector,
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'em' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.1,
+                    ],
+                    'rem' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.1,
+                    ],
+                    'vm' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.1,
+                    ],
                 ],
-                'rem' => [
-                    'min' => 0,
-                    'max' => 10,
-                    'step' => 0.1,
-                ],
-                'vm' => [
-                    'min' => 0,
-                    'max' => 10,
-                    'step' => 0.1,
-                ],
-            ],
-                ]
+            ]
         );
         $this->add_control(
-                $id . '-weight', $data, [
-            'label' => __('Weight', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            $selectorvalue => 'font-weight: {{VALUE}};',
-            $loader => $loadervalue,
-            $selector_key => $selector,
-            'options' => [
-                '100' => __('100', SHORTCODE_ADDOONS),
-                '200' => __('200', SHORTCODE_ADDOONS),
-                '300' => __('300', SHORTCODE_ADDOONS),
-                '400' => __('400', SHORTCODE_ADDOONS),
-                '500' => __('500', SHORTCODE_ADDOONS),
-                '600' => __('600', SHORTCODE_ADDOONS),
-                '700' => __('700', SHORTCODE_ADDOONS),
-                '800' => __('800', SHORTCODE_ADDOONS),
-                '900' => __('900', SHORTCODE_ADDOONS),
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'normal' => __('Normal', SHORTCODE_ADDOONS),
-                'bold' => __('Bold', SHORTCODE_ADDOONS)
-            ],
-                ]
+            $id . '-weight',
+            $data,
+            [
+                'label' => __('Weight', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                $selectorvalue => 'font-weight: {{VALUE}};',
+                $loader => $loadervalue,
+                $selector_key => $selector,
+                'options' => [
+                    '100' => __('100', SHORTCODE_ADDOONS),
+                    '200' => __('200', SHORTCODE_ADDOONS),
+                    '300' => __('300', SHORTCODE_ADDOONS),
+                    '400' => __('400', SHORTCODE_ADDOONS),
+                    '500' => __('500', SHORTCODE_ADDOONS),
+                    '600' => __('600', SHORTCODE_ADDOONS),
+                    '700' => __('700', SHORTCODE_ADDOONS),
+                    '800' => __('800', SHORTCODE_ADDOONS),
+                    '900' => __('900', SHORTCODE_ADDOONS),
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'normal' => __('Normal', SHORTCODE_ADDOONS),
+                    'bold' => __('Bold', SHORTCODE_ADDOONS)
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-transform', $data, [
-            'label' => __('Transform', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => '',
-            'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'uppercase' => __('Uppercase', SHORTCODE_ADDOONS),
-                'lowercase' => __('Lowercase', SHORTCODE_ADDOONS),
-                'capitalize' => __('Capitalize', SHORTCODE_ADDOONS),
-                'none' => __('Normal', SHORTCODE_ADDOONS),
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'text-transform: {{VALUE}};',
-            $selector_key => $selector,
-                ]
+            $id . '-transform',
+            $data,
+            [
+                'label' => __('Transform', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => '',
+                'options' => [
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'uppercase' => __('Uppercase', SHORTCODE_ADDOONS),
+                    'lowercase' => __('Lowercase', SHORTCODE_ADDOONS),
+                    'capitalize' => __('Capitalize', SHORTCODE_ADDOONS),
+                    'none' => __('Normal', SHORTCODE_ADDOONS),
+                ],
+                $loader => $loadervalue,
+                $selectorvalue => 'text-transform: {{VALUE}};',
+                $selector_key => $selector,
+            ]
         );
         $this->add_control(
-                $id . '-style', $data, [
-            'label' => __('Style', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => '',
-            'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'normal' => __('normal', SHORTCODE_ADDOONS),
-                'italic' => __('Italic', SHORTCODE_ADDOONS),
-                'oblique' => __('Oblique', SHORTCODE_ADDOONS),
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'font-style: {{VALUE}};',
-            $selector_key => $selector,
-                ]
+            $id . '-style',
+            $data,
+            [
+                'label' => __('Style', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => '',
+                'options' => [
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'normal' => __('normal', SHORTCODE_ADDOONS),
+                    'italic' => __('Italic', SHORTCODE_ADDOONS),
+                    'oblique' => __('Oblique', SHORTCODE_ADDOONS),
+                ],
+                $loader => $loadervalue,
+                $selectorvalue => 'font-style: {{VALUE}};',
+                $selector_key => $selector,
+            ]
         );
         $this->add_control(
-                $id . '-decoration', $data, [
-            'label' => __('Decoration', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => '',
-            'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'underline' => __('Underline', SHORTCODE_ADDOONS),
-                'overline' => __('Overline', SHORTCODE_ADDOONS),
-                'line-through' => __('Line Through', SHORTCODE_ADDOONS),
-                'none' => __('None', SHORTCODE_ADDOONS),
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'text-decoration: {{VALUE}};',
-            $selector_key => $selector,
-                ]
+            $id . '-decoration',
+            $data,
+            [
+                'label' => __('Decoration', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => '',
+                'options' => [
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'underline' => __('Underline', SHORTCODE_ADDOONS),
+                    'overline' => __('Overline', SHORTCODE_ADDOONS),
+                    'line-through' => __('Line Through', SHORTCODE_ADDOONS),
+                    'none' => __('None', SHORTCODE_ADDOONS),
+                ],
+                $loader => $loadervalue,
+                $selectorvalue => 'text-decoration: {{VALUE}};',
+                $selector_key => $selector,
+            ]
         );
 
         if (array_key_exists('include', $arg)) :
             if ($arg['include'] == 'align_normal') :
                 $this->add_responsive_control(
-                        $id . '-align', $data, [
-                    'label' => __('Text Align', SHORTCODE_ADDOONS),
-                    'type' => Controls::SELECT,
-                    'default' => '',
-                    'options' => [
-                        '' => __('Default', SHORTCODE_ADDOONS),
-                        'left' => __('Left', SHORTCODE_ADDOONS),
-                        'center' => __('Center', SHORTCODE_ADDOONS),
-                        'right' => __('Right', SHORTCODE_ADDOONS),
-                    ],
-                    $loader => $loadervalue,
-                    $selectorvalue => 'text-align: {{VALUE}};',
-                    $selector_key => $selector,
-                        ]
+                    $id . '-align',
+                    $data,
+                    [
+                        'label' => __('Text Align', SHORTCODE_ADDOONS),
+                        'type' => Controls::SELECT,
+                        'default' => '',
+                        'options' => [
+                            '' => __('Default', SHORTCODE_ADDOONS),
+                            'left' => __('Left', SHORTCODE_ADDOONS),
+                            'center' => __('Center', SHORTCODE_ADDOONS),
+                            'right' => __('Right', SHORTCODE_ADDOONS),
+                        ],
+                        $loader => $loadervalue,
+                        $selectorvalue => 'text-align: {{VALUE}};',
+                        $selector_key => $selector,
+                    ]
                 );
             else :
                 $this->add_responsive_control(
-                        $id . '-justify', $data, [
-                    'label' => __('Justify Content', SHORTCODE_ADDOONS),
-                    'type' => Controls::SELECT,
-                    'default' => '',
-                    'options' => [
-                        '' => __('Default', SHORTCODE_ADDOONS),
-                        'flex-start' => __('Flex Start', SHORTCODE_ADDOONS),
-                        'flex-end' => __('Flex End', SHORTCODE_ADDOONS),
-                        'center' => __('Center', SHORTCODE_ADDOONS),
-                        'space-around' => __('Space Around', SHORTCODE_ADDOONS),
-                        'space-between' => __('Space Between', SHORTCODE_ADDOONS),
-                    ],
-                    $loader => $loadervalue,
-                    $selectorvalue => 'justify-content: {{VALUE}};',
-                    $selector_key => $selector,
-                        ]
+                    $id . '-justify',
+                    $data,
+                    [
+                        'label' => __('Justify Content', SHORTCODE_ADDOONS),
+                        'type' => Controls::SELECT,
+                        'default' => '',
+                        'options' => [
+                            '' => __('Default', SHORTCODE_ADDOONS),
+                            'flex-start' => __('Flex Start', SHORTCODE_ADDOONS),
+                            'flex-end' => __('Flex End', SHORTCODE_ADDOONS),
+                            'center' => __('Center', SHORTCODE_ADDOONS),
+                            'space-around' => __('Space Around', SHORTCODE_ADDOONS),
+                            'space-between' => __('Space Between', SHORTCODE_ADDOONS),
+                        ],
+                        $loader => $loadervalue,
+                        $selectorvalue => 'justify-content: {{VALUE}};',
+                        $selector_key => $selector,
+                    ]
                 );
                 $this->add_responsive_control(
-                        $id . '-align', $data, [
-                    'label' => __('Align Items', SHORTCODE_ADDOONS),
-                    'type' => Controls::SELECT,
-                    'default' => '',
-                    'options' => [
-                        '' => __('Default', SHORTCODE_ADDOONS),
-                        'stretch' => __('Stretch', SHORTCODE_ADDOONS),
-                        'baseline' => __('Baseline', SHORTCODE_ADDOONS),
-                        'center' => __('Center', SHORTCODE_ADDOONS),
-                        'flex-start' => __('Flex Start', SHORTCODE_ADDOONS),
-                        'flex-end' => __('Flex End', SHORTCODE_ADDOONS),
-                    ],
-                    $loader => $loadervalue,
-                    $selectorvalue => 'align-items: {{VALUE}};',
-                    $selector_key => $selector,
-                        ]
+                    $id . '-align',
+                    $data,
+                    [
+                        'label' => __('Align Items', SHORTCODE_ADDOONS),
+                        'type' => Controls::SELECT,
+                        'default' => '',
+                        'options' => [
+                            '' => __('Default', SHORTCODE_ADDOONS),
+                            'stretch' => __('Stretch', SHORTCODE_ADDOONS),
+                            'baseline' => __('Baseline', SHORTCODE_ADDOONS),
+                            'center' => __('Center', SHORTCODE_ADDOONS),
+                            'flex-start' => __('Flex Start', SHORTCODE_ADDOONS),
+                            'flex-end' => __('Flex End', SHORTCODE_ADDOONS),
+                        ],
+                        $loader => $loadervalue,
+                        $selectorvalue => 'align-items: {{VALUE}};',
+                        $selector_key => $selector,
+                    ]
                 );
             endif;
         endif;
 
         $this->add_responsive_control(
-                $id . '-l-height', $data, [
-            'label' => __('Line Height', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => '',
-            ],
-            'range' => [
-                'px' => [
-                    'min' => 0,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-l-height',
+            $data,
+            [
+                'label' => __('Line Height', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => '',
                 ],
-                'em' => [
-                    'min' => 0,
-                    'max' => 10,
-                    'step' => 0.1,
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'em' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.1,
+                    ],
                 ],
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'line-height: {{SIZE}}{{UNIT}};',
-            $selector_key => $selector,
-                ]
+                $loader => $loadervalue,
+                $selectorvalue => 'line-height: {{SIZE}}{{UNIT}};',
+                $selector_key => $selector,
+            ]
         );
         $this->add_responsive_control(
-                $id . '-l-spacing', $data, [
-            'label' => __('Letter Spacing', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => '',
-            ],
-            'range' => [
-                'px' => [
-                    'min' => 0,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-l-spacing',
+            $data,
+            [
+                'label' => __('Letter Spacing', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => '',
                 ],
-                'em' => [
-                    'min' => 0,
-                    'max' => 10,
-                    'step' => 0.1,
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'em' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.1,
+                    ],
                 ],
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'letter-spacing: {{SIZE}}{{UNIT}};',
-            $selector_key => $selector,
-                ]
+                $loader => $loadervalue,
+                $selectorvalue => 'letter-spacing: {{SIZE}}{{UNIT}};',
+                $selector_key => $selector,
+            ]
         );
         $this->end_popover_control();
     }
@@ -1397,12 +1474,13 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function media_admin_group_control($id, array $data = [], array $arg = []) {
-//        'default' => [
-//                'type' => 'media-library',
-//                'link' => '#asdas',
-//            ],
-// 'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+    public function media_admin_group_control($id, array $data = [], array $arg = [])
+    {
+        //        'default' => [
+        //                'type' => 'media-library',
+        //                'link' => '#asdas',
+        //            ],
+        // 'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
 
         $type = array_key_exists('default', $arg) ? $arg['default']['type'] : 'media-library';
         $value = array_key_exists('default', $arg) ? $arg['default']['link'] : '';
@@ -1411,46 +1489,52 @@ trait Sanitization {
 
         echo '<div class="shortcode-form-control" style="padding: 0;" ' . $this->forms_condition($arg) . '>';
         $this->add_control(
-                $id . '-select', $data, [
-            'label' => __($level, SHORTCODE_ADDOONS),
-            'type' => Controls::CHOOSE,
-            'loader' => TRUE,
-            'default' => $type,
-            'separator' => $separator,
-            'options' => [
-                'media-library' => [
-                    'title' => __('Media Library', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-left',
+            $id . '-select',
+            $data,
+            [
+                'label' => __($level, SHORTCODE_ADDOONS),
+                'type' => Controls::CHOOSE,
+                'loader' => TRUE,
+                'default' => $type,
+                'separator' => $separator,
+                'options' => [
+                    'media-library' => [
+                        'title' => __('Media Library', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-left',
+                    ],
+                    'custom-url' => [
+                        'title' => __('Custom URL', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-center',
+                    ]
                 ],
-                'custom-url' => [
-                    'title' => __('Custom URL', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-center',
-                ]
-            ],
-                ]
+            ]
         );
         $this->add_control(
-                $id . '-image', $data, [
-            'label' => __('Image', SHORTCODE_ADDOONS),
-            'type' => Controls::IMAGE,
-            'loader' => TRUE,
-            'default' => $value,
-            'condition' => [
-                $id . '-select' => 'media-library',
-            ],
-                ]
+            $id . '-image',
+            $data,
+            [
+                'label' => __('Image', SHORTCODE_ADDOONS),
+                'type' => Controls::IMAGE,
+                'loader' => TRUE,
+                'default' => $value,
+                'condition' => [
+                    $id . '-select' => 'media-library',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-url', $data, [
-            'label' => __('Image URL', SHORTCODE_ADDOONS),
-            'type' => Controls::TEXT,
-            'default' => $value,
-            'loader' => TRUE,
-            'placeholder' => 'www.example.com/image.jpg',
-            'condition' => [
-                $id . '-select' => 'custom-url',
-            ],
-                ]
+            $id . '-url',
+            $data,
+            [
+                'label' => __('Image URL', SHORTCODE_ADDOONS),
+                'type' => Controls::TEXT,
+                'default' => $value,
+                'loader' => TRUE,
+                'placeholder' => 'www.example.com/image.jpg',
+                'condition' => [
+                    $id . '-select' => 'custom-url',
+                ],
+            ]
         );
         echo '</div>';
     }
@@ -1461,7 +1545,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function fileupload_admin_group_control($id, array $data = [], array $arg = []) {
+    public function fileupload_admin_group_control($id, array $data = [], array $arg = [])
+    {
 
         $type = array_key_exists('default', $arg) ? $arg['default']['type'] : 'media-library';
         $value = array_key_exists('default', $arg) ? $arg['default']['link'] : '';
@@ -1471,47 +1556,53 @@ trait Sanitization {
 
         echo '<div class="shortcode-form-control" style="padding: 0;" ' . $this->forms_condition($arg) . '>';
         $this->add_control(
-                $id . '-select', $data, [
-            'label' => __(ucfirst($filetype) . ' Source', SHORTCODE_ADDOONS),
-            'type' => Controls::CHOOSE,
-            'loader' => TRUE,
-            'default' => $type,
-            'separator' => $separator,
-            'options' => [
-                'media-library' => [
-                    'title' => __('Media', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-left',
+            $id . '-select',
+            $data,
+            [
+                'label' => __(ucfirst($filetype) . ' Source', SHORTCODE_ADDOONS),
+                'type' => Controls::CHOOSE,
+                'loader' => TRUE,
+                'default' => $type,
+                'separator' => $separator,
+                'options' => [
+                    'media-library' => [
+                        'title' => __('Media', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-left',
+                    ],
+                    'custom-url' => [
+                        'title' => __('Custom', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-center',
+                    ]
                 ],
-                'custom-url' => [
-                    'title' => __('Custom', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-center',
-                ]
-            ],
-                ]
+            ]
         );
         $this->add_control(
-                $id . '-media', $data, [
-            'label' => __(ucfirst($filetype), SHORTCODE_ADDOONS),
-            'type' => Controls::IMAGE,
-            'loader' => TRUE,
-            'select' => $filetype,
-            'default' => $value,
-            'condition' => [
-                $id . '-select' => 'media-library',
-            ],
-                ]
+            $id . '-media',
+            $data,
+            [
+                'label' => __(ucfirst($filetype), SHORTCODE_ADDOONS),
+                'type' => Controls::IMAGE,
+                'loader' => TRUE,
+                'select' => $filetype,
+                'default' => $value,
+                'condition' => [
+                    $id . '-select' => 'media-library',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-url', $data, [
-            'label' => __(ucfirst($filetype) . ' URL', SHORTCODE_ADDOONS),
-            'type' => Controls::TEXT,
-            'default' => $value,
-            'loader' => TRUE,
-            'placeholder' => '' . $placeholder . '',
-            'condition' => [
-                $id . '-select' => 'custom-url',
-            ],
-                ]
+            $id . '-url',
+            $data,
+            [
+                'label' => __(ucfirst($filetype) . ' URL', SHORTCODE_ADDOONS),
+                'type' => Controls::TEXT,
+                'default' => $value,
+                'loader' => TRUE,
+                'placeholder' => '' . $placeholder . '',
+                'condition' => [
+                    $id . '-select' => 'custom-url',
+                ],
+            ]
         );
         echo '</div>';
     }
@@ -1522,7 +1613,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function boxshadow_admin_group_control($id, array $data = [], array $arg = []) {
+    public function boxshadow_admin_group_control($id, array $data = [], array $arg = [])
+    {
 
 
         $cond = $condition = $boxshadow = '';
@@ -1533,16 +1625,16 @@ trait Sanitization {
         endif;
         $true = TRUE;
         $selector_key = $selector = $selectorvalue = $loader = $loadervalue = '';
-        if (!array_key_exists($id . '-shadow', $data)):
+        if (!array_key_exists($id . '-shadow', $data)) :
             $data[$id . '-shadow'] = 'yes';
         endif;
-        if (!array_key_exists($id . '-blur-size', $data)):
+        if (!array_key_exists($id . '-blur-size', $data)) :
             $data[$id . '-blur-size'] = 0;
         endif;
-        if (!array_key_exists($id . '-horizontal-size', $data)):
+        if (!array_key_exists($id . '-horizontal-size', $data)) :
             $data[$id . '-horizontal-size'] = 0;
         endif;
-        if (!array_key_exists($id . '-vertical-size', $data)):
+        if (!array_key_exists($id . '-vertical-size', $data)) :
             $data[$id . '-vertical-size'] = 0;
         endif;
 
@@ -1565,146 +1657,161 @@ trait Sanitization {
             }
         endif;
         $this->start_popover_control(
-                $id, [
-            'label' => __('Box Shadow', SHORTCODE_ADDOONS),
-            $cond => $condition,
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
-                ]
+            $id,
+            [
+                'label' => __('Box Shadow', SHORTCODE_ADDOONS),
+                $cond => $condition,
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                'separator' => $separator,
+                'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            ]
         );
         $this->add_control(
-                $id . '-shadow', $data, [
-            'label' => __('Shadow', SHORTCODE_ADDOONS),
-            'type' => Controls::SWITCHER,
-            'loader' => TRUE,
-            'default' => 'yes',
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('None', SHORTCODE_ADDOONS),
-            'return_value' => 'yes',
-                ]
+            $id . '-shadow',
+            $data,
+            [
+                'label' => __('Shadow', SHORTCODE_ADDOONS),
+                'type' => Controls::SWITCHER,
+                'loader' => TRUE,
+                'default' => 'yes',
+                'label_on' => __('Yes', SHORTCODE_ADDOONS),
+                'label_off' => __('None', SHORTCODE_ADDOONS),
+                'return_value' => 'yes',
+            ]
         );
         $this->add_control(
-                $id . '-type', $data, [
-            'label' => __('Type', SHORTCODE_ADDOONS),
-            'type' => Controls::CHOOSE,
-            'loader' => TRUE,
-            'default' => '',
-            'options' => [
-                '' => [
-                    'title' => __('Outline', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-left',
+            $id . '-type',
+            $data,
+            [
+                'label' => __('Type', SHORTCODE_ADDOONS),
+                'type' => Controls::CHOOSE,
+                'loader' => TRUE,
+                'default' => '',
+                'options' => [
+                    '' => [
+                        'title' => __('Outline', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-left',
+                    ],
+                    'inset' => [
+                        'title' => __('Inset', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-center',
+                    ],
                 ],
-                'inset' => [
-                    'title' => __('Inset', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-center',
-                ],
-            ],
-            'condition' => [$id . '-shadow' => 'yes']
-                ]
+                'condition' => [$id . '-shadow' => 'yes']
+            ]
         );
 
         $this->add_control(
-                $id . '-horizontal', $data, [
-            'label' => __('Horizontal', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => -50,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-horizontal',
+            $data,
+            [
+                'label' => __('Horizontal', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
                 ],
-            ],
-            'custom' => $id . '|||||box-shadow',
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector,
-            'render' => FALSE,
-            'condition' => [$id . '-shadow' => 'yes']
-                ]
+                'range' => [
+                    'px' => [
+                        'min' => -50,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'custom' => $id . '|||||box-shadow',
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector,
+                'render' => FALSE,
+                'condition' => [$id . '-shadow' => 'yes']
+            ]
         );
         $this->add_control(
-                $id . '-vertical', $data, [
-            'label' => __('Vertical', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => -50,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-vertical',
+            $data,
+            [
+                'label' => __('Vertical', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
                 ],
-            ],
-            'custom' => $id . '|||||box-shadow',
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector,
-            'render' => FALSE,
-            'condition' => [$id . '-shadow' => 'yes']
-                ]
+                'range' => [
+                    'px' => [
+                        'min' => -50,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'custom' => $id . '|||||box-shadow',
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector,
+                'render' => FALSE,
+                'condition' => [$id . '-shadow' => 'yes']
+            ]
         );
         $this->add_control(
-                $id . '-blur', $data, [
-            'label' => __('Blur', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => 0,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-blur',
+            $data,
+            [
+                'label' => __('Blur', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
                 ],
-            ],
-            'custom' => $id . '|||||box-shadow',
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector,
-            'render' => FALSE,
-            'condition' => [$id . '-shadow' => 'yes']
-                ]
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'custom' => $id . '|||||box-shadow',
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector,
+                'render' => FALSE,
+                'condition' => [$id . '-shadow' => 'yes']
+            ]
         );
         $this->add_control(
-                $id . '-spread', $data, [
-            'label' => __('Spread', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => -50,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-spread',
+            $data,
+            [
+                'label' => __('Spread', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
                 ],
-            ],
-            'custom' => $id . '|||||box-shadow',
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector,
-            'render' => FALSE,
-            'condition' => [$id . '-shadow' => 'yes']
-                ]
+                'range' => [
+                    'px' => [
+                        'min' => -50,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'custom' => $id . '|||||box-shadow',
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector,
+                'render' => FALSE,
+                'condition' => [$id . '-shadow' => 'yes']
+            ]
         );
         $this->add_control(
-                $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
-            'separator' => TRUE,
-            'type' => Controls::COLOR,
-            'oparetor' => 'RGB',
-            'default' => '#CCC',
-            'custom' => $id . '|||||box-shadow',
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector,
-            'render' => FALSE,
-            'condition' => [$id . '-shadow' => 'yes']
-                ]
+            $id . '-color',
+            $data,
+            [
+                'label' => __('Color', SHORTCODE_ADDOONS),
+                'separator' => TRUE,
+                'type' => Controls::COLOR,
+                'oparetor' => 'RGB',
+                'default' => '#CCC',
+                'custom' => $id . '|||||box-shadow',
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector,
+                'render' => FALSE,
+                'condition' => [$id . '-shadow' => 'yes']
+            ]
         );
         $this->end_popover_control();
     }
@@ -1715,7 +1822,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function textshadow_admin_group_control($id, array $data = [], array $arg = []) {
+    public function textshadow_admin_group_control($id, array $data = [], array $arg = [])
+    {
 
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $cond = $condition = $textshadow = '';
@@ -1740,89 +1848,98 @@ trait Sanitization {
             }
         endif;
         $this->start_popover_control(
-                $id, [
-            'label' => __('Text Shadow', SHORTCODE_ADDOONS),
-            $cond => $condition,
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
-                ]
+            $id,
+            [
+                'label' => __('Text Shadow', SHORTCODE_ADDOONS),
+                $cond => $condition,
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                'separator' => $separator,
+                'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            ]
         );
         $this->add_control(
-                $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
-            'type' => Controls::COLOR,
-            'oparetor' => 'RGB',
-            'default' => '#FFF',
-            'custom' => $id . '|||||text-shadow',
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector,
-            'render' => FALSE,
-                ]
+            $id . '-color',
+            $data,
+            [
+                'label' => __('Color', SHORTCODE_ADDOONS),
+                'type' => Controls::COLOR,
+                'oparetor' => 'RGB',
+                'default' => '#FFF',
+                'custom' => $id . '|||||text-shadow',
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector,
+                'render' => FALSE,
+            ]
         );
         $this->add_control(
-                $id . '-blur', $data, [
-            'label' => __('Blur', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'separator' => TRUE,
-            'custom' => $id . '|||||text-shadow',
-            'render' => FALSE,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => -50,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-blur',
+            $data,
+            [
+                'label' => __('Blur', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'separator' => TRUE,
+                'custom' => $id . '|||||text-shadow',
+                'render' => FALSE,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
                 ],
-            ],
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector
-                ]
+                'range' => [
+                    'px' => [
+                        'min' => -50,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector
+            ]
         );
         $this->add_control(
-                $id . '-horizontal', $data, [
-            'label' => __('Horizontal', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'custom' => $id . '|||||text-shadow',
-            'render' => FALSE,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => -50,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-horizontal',
+            $data,
+            [
+                'label' => __('Horizontal', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'custom' => $id . '|||||text-shadow',
+                'render' => FALSE,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
                 ],
-            ],
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector
-                ]
+                'range' => [
+                    'px' => [
+                        'min' => -50,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector
+            ]
         );
         $this->add_control(
-                $id . '-vertical', $data, [
-            'label' => __('Vertical', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'custom' => $id . '|||||text-shadow',
-            'render' => FALSE,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => -50,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-vertical',
+            $data,
+            [
+                'label' => __('Vertical', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'custom' => $id . '|||||text-shadow',
+                'render' => FALSE,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
                 ],
-            ],
-            $selectorvalue => '{{VALUE}}',
-            $selector_key => $selector
-                ]
+                'range' => [
+                    'px' => [
+                        'min' => -50,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                $selectorvalue => '{{VALUE}}',
+                $selector_key => $selector
+            ]
         );
 
         $this->end_popover_control();
@@ -1834,7 +1951,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function animation_admin_group_control($id, array $data = [], array $arg = []) {
+    public function animation_admin_group_control($id, array $data = [], array $arg = [])
+    {
         $cond = $condition = '';
         if (array_key_exists('condition', $arg)) :
             $cond = 'condition';
@@ -1842,160 +1960,171 @@ trait Sanitization {
         endif;
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
-                $id, [
-            'label' => __('Animation', SHORTCODE_ADDOONS),
-            $cond => $condition,
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator,
-            'description' => 'Customize animation with animation type, Animation Duration with Delay and Looping Options',
-                ]
+            $id,
+            [
+                'label' => __('Animation', SHORTCODE_ADDOONS),
+                $cond => $condition,
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                'separator' => $separator,
+                'description' => 'Customize animation with animation type, Animation Duration with Delay and Looping Options',
+            ]
         );
         $this->add_control(
-                $id . '-type', $data, [
-            'label' => __('Type', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => '',
-            'options' => [
-                'optgroup0' => [true, 'Attention Seekers'],
-                '' => __('None', SHORTCODE_ADDOONS),
-                'optgroup1' => [false],
-                'optgroup2' => [true, 'Attention Seekers'],
-                'bounce' => __('Bounce', SHORTCODE_ADDOONS),
-                'flash' => __('Flash', SHORTCODE_ADDOONS),
-                'pulse' => __('Pulse', SHORTCODE_ADDOONS),
-                'rubberBand' => __('RubberBand', SHORTCODE_ADDOONS),
-                'shake' => __('Shake', SHORTCODE_ADDOONS),
-                'swing' => __('Swing', SHORTCODE_ADDOONS),
-                'tada' => __('Tada', SHORTCODE_ADDOONS),
-                'wobble' => __('Wobble', SHORTCODE_ADDOONS),
-                'jello' => __('Jello', SHORTCODE_ADDOONS),
-                'optgroup3' => [false],
-                'optgroup4' => [true, 'Bouncing Entrances'],
-                'bounceIn' => __('BounceIn', SHORTCODE_ADDOONS),
-                'bounceInDown' => __('BounceInDown', SHORTCODE_ADDOONS),
-                'bounceInLeft' => __('BounceInLeft', SHORTCODE_ADDOONS),
-                'bounceInRight' => __('BounceInRight', SHORTCODE_ADDOONS),
-                'bounceInUp' => __('BounceInUp', SHORTCODE_ADDOONS),
-                'optgroup5' => [false],
-                'optgroup6' => [true, 'Fading Entrances'],
-                'fadeIn' => __('FadeIn', SHORTCODE_ADDOONS),
-                'fadeInDown' => __('FadeInDown', SHORTCODE_ADDOONS),
-                'fadeInDownBig' => __('FadeInDownBig', SHORTCODE_ADDOONS),
-                'fadeInLeft' => __('FadeInLeft', SHORTCODE_ADDOONS),
-                'fadeInLeftBig' => __('FadeInLeftBig', SHORTCODE_ADDOONS),
-                'fadeInRight' => __('FadeInRight', SHORTCODE_ADDOONS),
-                'fadeInRightBig' => __('FadeInRightBig', SHORTCODE_ADDOONS),
-                'fadeInUp' => __('FadeInUp', SHORTCODE_ADDOONS),
-                'fadeInUpBig' => __('FadeInUpBig', SHORTCODE_ADDOONS),
-                'optgroup7' => [false],
-                'optgroup8' => [true, 'Flippers'],
-                'flip' => __('Flip', SHORTCODE_ADDOONS),
-                'flipInX' => __('FlipInX', SHORTCODE_ADDOONS),
-                'flipInY' => __('FlipInY', SHORTCODE_ADDOONS),
-                'optgroup9' => [false],
-                'optgroup10' => [true, 'Lightspeed'],
-                'lightSpeedIn' => __('LightSpeedIn', SHORTCODE_ADDOONS),
-                'optgroup11' => [false],
-                'optgroup12' => [true, 'Rotating Entrances'],
-                'rotateIn' => __('RotateIn', SHORTCODE_ADDOONS),
-                'rotateInDownLeft' => __('RotateInDownLeft', SHORTCODE_ADDOONS),
-                'rotateInDownRight' => __('RotateInDownRight', SHORTCODE_ADDOONS),
-                'rotateInUpLeft' => __('RotateInUpLeft', SHORTCODE_ADDOONS),
-                'rotateInUpRight' => __('RotateInUpRight', SHORTCODE_ADDOONS),
-                'optgroup13' => [false],
-                'optgroup14' => [true, 'Sliding Entrances'],
-                'slideInUp' => __('SlideInUp', SHORTCODE_ADDOONS),
-                'slideInDown' => __('SlideInDown', SHORTCODE_ADDOONS),
-                'slideInLeft' => __('SlideInLeft', SHORTCODE_ADDOONS),
-                'slideInRight' => __('SlideInRight', SHORTCODE_ADDOONS),
-                'optgroup15' => [false],
-                'optgroup16' => [true, 'Zoom Entrances'],
-                'zoomIn' => __('ZoomIn', SHORTCODE_ADDOONS),
-                'zoomInDown' => __('ZoomInDown', SHORTCODE_ADDOONS),
-                'zoomInLeft' => __('ZoomInLeft', SHORTCODE_ADDOONS),
-                'zoomInRight' => __('ZoomInRight', SHORTCODE_ADDOONS),
-                'zoomInUp' => __('ZoomInUp', SHORTCODE_ADDOONS),
-                'optgroup17' => [false],
-                'optgroup18' => [true, 'Specials'],
-                'hinge' => __('Hinge', SHORTCODE_ADDOONS),
-                'rollIn' => __('RollIn', SHORTCODE_ADDOONS),
-                'optgroup19' => [false],
-            ],
-                ]
-        );
-        $this->add_control(
-                $id . '-duration', $data, [
-            'label' => __('Duration (ms)', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => 1000,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => 00,
-                    'max' => 10000,
-                    'step' => 100,
+            $id . '-type',
+            $data,
+            [
+                'label' => __('Type', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => '',
+                'options' => [
+                    'optgroup0' => [true, 'Attention Seekers'],
+                    '' => __('None', SHORTCODE_ADDOONS),
+                    'optgroup1' => [false],
+                    'optgroup2' => [true, 'Attention Seekers'],
+                    'bounce' => __('Bounce', SHORTCODE_ADDOONS),
+                    'flash' => __('Flash', SHORTCODE_ADDOONS),
+                    'pulse' => __('Pulse', SHORTCODE_ADDOONS),
+                    'rubberBand' => __('RubberBand', SHORTCODE_ADDOONS),
+                    'shake' => __('Shake', SHORTCODE_ADDOONS),
+                    'swing' => __('Swing', SHORTCODE_ADDOONS),
+                    'tada' => __('Tada', SHORTCODE_ADDOONS),
+                    'wobble' => __('Wobble', SHORTCODE_ADDOONS),
+                    'jello' => __('Jello', SHORTCODE_ADDOONS),
+                    'optgroup3' => [false],
+                    'optgroup4' => [true, 'Bouncing Entrances'],
+                    'bounceIn' => __('BounceIn', SHORTCODE_ADDOONS),
+                    'bounceInDown' => __('BounceInDown', SHORTCODE_ADDOONS),
+                    'bounceInLeft' => __('BounceInLeft', SHORTCODE_ADDOONS),
+                    'bounceInRight' => __('BounceInRight', SHORTCODE_ADDOONS),
+                    'bounceInUp' => __('BounceInUp', SHORTCODE_ADDOONS),
+                    'optgroup5' => [false],
+                    'optgroup6' => [true, 'Fading Entrances'],
+                    'fadeIn' => __('FadeIn', SHORTCODE_ADDOONS),
+                    'fadeInDown' => __('FadeInDown', SHORTCODE_ADDOONS),
+                    'fadeInDownBig' => __('FadeInDownBig', SHORTCODE_ADDOONS),
+                    'fadeInLeft' => __('FadeInLeft', SHORTCODE_ADDOONS),
+                    'fadeInLeftBig' => __('FadeInLeftBig', SHORTCODE_ADDOONS),
+                    'fadeInRight' => __('FadeInRight', SHORTCODE_ADDOONS),
+                    'fadeInRightBig' => __('FadeInRightBig', SHORTCODE_ADDOONS),
+                    'fadeInUp' => __('FadeInUp', SHORTCODE_ADDOONS),
+                    'fadeInUpBig' => __('FadeInUpBig', SHORTCODE_ADDOONS),
+                    'optgroup7' => [false],
+                    'optgroup8' => [true, 'Flippers'],
+                    'flip' => __('Flip', SHORTCODE_ADDOONS),
+                    'flipInX' => __('FlipInX', SHORTCODE_ADDOONS),
+                    'flipInY' => __('FlipInY', SHORTCODE_ADDOONS),
+                    'optgroup9' => [false],
+                    'optgroup10' => [true, 'Lightspeed'],
+                    'lightSpeedIn' => __('LightSpeedIn', SHORTCODE_ADDOONS),
+                    'optgroup11' => [false],
+                    'optgroup12' => [true, 'Rotating Entrances'],
+                    'rotateIn' => __('RotateIn', SHORTCODE_ADDOONS),
+                    'rotateInDownLeft' => __('RotateInDownLeft', SHORTCODE_ADDOONS),
+                    'rotateInDownRight' => __('RotateInDownRight', SHORTCODE_ADDOONS),
+                    'rotateInUpLeft' => __('RotateInUpLeft', SHORTCODE_ADDOONS),
+                    'rotateInUpRight' => __('RotateInUpRight', SHORTCODE_ADDOONS),
+                    'optgroup13' => [false],
+                    'optgroup14' => [true, 'Sliding Entrances'],
+                    'slideInUp' => __('SlideInUp', SHORTCODE_ADDOONS),
+                    'slideInDown' => __('SlideInDown', SHORTCODE_ADDOONS),
+                    'slideInLeft' => __('SlideInLeft', SHORTCODE_ADDOONS),
+                    'slideInRight' => __('SlideInRight', SHORTCODE_ADDOONS),
+                    'optgroup15' => [false],
+                    'optgroup16' => [true, 'Zoom Entrances'],
+                    'zoomIn' => __('ZoomIn', SHORTCODE_ADDOONS),
+                    'zoomInDown' => __('ZoomInDown', SHORTCODE_ADDOONS),
+                    'zoomInLeft' => __('ZoomInLeft', SHORTCODE_ADDOONS),
+                    'zoomInRight' => __('ZoomInRight', SHORTCODE_ADDOONS),
+                    'zoomInUp' => __('ZoomInUp', SHORTCODE_ADDOONS),
+                    'optgroup17' => [false],
+                    'optgroup18' => [true, 'Specials'],
+                    'hinge' => __('Hinge', SHORTCODE_ADDOONS),
+                    'rollIn' => __('RollIn', SHORTCODE_ADDOONS),
+                    'optgroup19' => [false],
                 ],
-            ],
-            'condition' => [
-                $id . '-type' => 'EMPTY',
-            ],
-                ]
+            ]
         );
         $this->add_control(
-                $id . '-delay', $data, [
-            'label' => __('Delay (ms)', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => 0,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => 00,
-                    'max' => 10000,
-                    'step' => 100,
+            $id . '-duration',
+            $data,
+            [
+                'label' => __('Duration (ms)', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 1000,
                 ],
-            ],
-            'condition' => [
-                $id . '-type' => 'EMPTY',
-            ],
-                ]
-        );
-        $this->add_control(
-                $id . '-offset', $data, [
-            'label' => __('Offset', SHORTCODE_ADDOONS),
-            'type' => Controls::SLIDER,
-            'default' => [
-                'unit' => 'px',
-                'size' => 100,
-            ],
-            'range' => [
-                'px' => [
-                    'min' => 0,
-                    'max' => 100,
-                    'step' => 1,
+                'range' => [
+                    'px' => [
+                        'min' => 00,
+                        'max' => 10000,
+                        'step' => 100,
+                    ],
                 ],
-            ],
-            'condition' => [
-                $id . '-type' => 'EMPTY',
-            ],
-                ]
+                'condition' => [
+                    $id . '-type' => 'EMPTY',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-looping', $data, [
-            'label' => __('Looping', SHORTCODE_ADDOONS),
-            'type' => Controls::SWITCHER,
-            'default' => '',
-            'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
-            'return_value' => 'yes',
-            'condition' => [
-                $id . '-type' => 'EMPTY',
-            ],
-                ]
+            $id . '-delay',
+            $data,
+            [
+                'label' => __('Delay (ms)', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 00,
+                        'max' => 10000,
+                        'step' => 100,
+                    ],
+                ],
+                'condition' => [
+                    $id . '-type' => 'EMPTY',
+                ],
+            ]
+        );
+        $this->add_control(
+            $id . '-offset',
+            $data,
+            [
+                'label' => __('Offset', SHORTCODE_ADDOONS),
+                'type' => Controls::SLIDER,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 100,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'condition' => [
+                    $id . '-type' => 'EMPTY',
+                ],
+            ]
+        );
+        $this->add_control(
+            $id . '-looping',
+            $data,
+            [
+                'label' => __('Looping', SHORTCODE_ADDOONS),
+                'type' => Controls::SWITCHER,
+                'default' => '',
+                'loader' => TRUE,
+                'label_on' => __('Yes', SHORTCODE_ADDOONS),
+                'label_off' => __('No', SHORTCODE_ADDOONS),
+                'return_value' => 'yes',
+                'condition' => [
+                    $id . '-type' => 'EMPTY',
+                ],
+            ]
         );
 
         $this->end_popover_control();
@@ -2007,7 +2136,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function border_admin_group_control($id, array $data = [], array $arg = []) {
+    public function border_admin_group_control($id, array $data = [], array $arg = [])
+    {
 
         $cond = $condition = '';
         if (array_key_exists('condition', $arg)) :
@@ -2016,13 +2146,14 @@ trait Sanitization {
         endif;
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
-                $id, [
-            'label' => __('Border', SHORTCODE_ADDOONS),
-            $cond => $condition,
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
-                ]
+            $id,
+            [
+                'label' => __('Border', SHORTCODE_ADDOONS),
+                $cond => $condition,
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                'separator' => $separator,
+                'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            ]
         );
 
         $selector_key = $selector = $selectorvalue = $loader = $loadervalue = $render = '';
@@ -2040,69 +2171,75 @@ trait Sanitization {
         endif;
 
         $this->add_control(
-                $id . '-type', $data, [
-            'label' => __('Type', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => '',
-            'options' => [
-                '' => __('None', SHORTCODE_ADDOONS),
-                'solid' => __('Solid', SHORTCODE_ADDOONS),
-                'dotted' => __('Dotted', SHORTCODE_ADDOONS),
-                'dashed' => __('Dashed', SHORTCODE_ADDOONS),
-                'double' => __('Double', SHORTCODE_ADDOONS),
-                'groove' => __('Groove', SHORTCODE_ADDOONS),
-                'ridge' => __('Ridge', SHORTCODE_ADDOONS),
-                'inset' => __('Inset', SHORTCODE_ADDOONS),
-                'outset' => __('Outset', SHORTCODE_ADDOONS),
-                'hidden' => __('Hidden', SHORTCODE_ADDOONS),
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'border-style: {{VALUE}};',
-            $selector_key => $selector,
-                ]
+            $id . '-type',
+            $data,
+            [
+                'label' => __('Type', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => '',
+                'options' => [
+                    '' => __('None', SHORTCODE_ADDOONS),
+                    'solid' => __('Solid', SHORTCODE_ADDOONS),
+                    'dotted' => __('Dotted', SHORTCODE_ADDOONS),
+                    'dashed' => __('Dashed', SHORTCODE_ADDOONS),
+                    'double' => __('Double', SHORTCODE_ADDOONS),
+                    'groove' => __('Groove', SHORTCODE_ADDOONS),
+                    'ridge' => __('Ridge', SHORTCODE_ADDOONS),
+                    'inset' => __('Inset', SHORTCODE_ADDOONS),
+                    'outset' => __('Outset', SHORTCODE_ADDOONS),
+                    'hidden' => __('Hidden', SHORTCODE_ADDOONS),
+                ],
+                $loader => $loadervalue,
+                $selectorvalue => 'border-style: {{VALUE}};',
+                $selector_key => $selector,
+            ]
         );
         $this->add_responsive_control(
-                $id . '-width', $data, [
-            'label' => __('Width', SHORTCODE_ADDOONS),
-            'type' => Controls::DIMENSIONS,
-            $render => FALSE,
-            'default' => [
-                'unit' => 'px',
-                'size' => '',
-            ],
-            'range' => [
-                'px' => [
-                    'min' => -100,
-                    'max' => 100,
-                    'step' => 1,
+            $id . '-width',
+            $data,
+            [
+                'label' => __('Width', SHORTCODE_ADDOONS),
+                'type' => Controls::DIMENSIONS,
+                $render => FALSE,
+                'default' => [
+                    'unit' => 'px',
+                    'size' => '',
                 ],
-                'em' => [
-                    'min' => 0,
-                    'max' => 10,
-                    'step' => 0.01,
+                'range' => [
+                    'px' => [
+                        'min' => -100,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'em' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.01,
+                    ],
                 ],
-            ],
-            'condition' => [
-                $id . '-type' => 'EMPTY',
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-            $selector_key => $selector,
-                ]
+                'condition' => [
+                    $id . '-type' => 'EMPTY',
+                ],
+                $loader => $loadervalue,
+                $selectorvalue => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                $selector_key => $selector,
+            ]
         );
         $this->add_control(
-                $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
-            'type' => Controls::COLOR,
-            $render => FALSE,
-            'default' => '',
-            $loader => $loadervalue,
-            $selectorvalue => 'border-color: {{VALUE}};',
-            $selector_key => $selector,
-            'condition' => [
-                $id . '-type' => 'EMPTY',
-            ],
-                ]
+            $id . '-color',
+            $data,
+            [
+                'label' => __('Color', SHORTCODE_ADDOONS),
+                'type' => Controls::COLOR,
+                $render => FALSE,
+                'default' => '',
+                $loader => $loadervalue,
+                $selectorvalue => 'border-color: {{VALUE}};',
+                $selector_key => $selector,
+                'condition' => [
+                    $id . '-type' => 'EMPTY',
+                ],
+            ]
         );
         $this->end_popover_control();
     }
@@ -2113,7 +2250,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function background_admin_group_control($id, array $data = [], array $arg = []) {
+    public function background_admin_group_control($id, array $data = [], array $arg = [])
+    {
 
         $backround = '';
         $render = FALSE;
@@ -2154,168 +2292,187 @@ trait Sanitization {
         endif;
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->start_popover_control(
-                $id, [
-            'label' => __('Background', SHORTCODE_ADDOONS),
-            'condition' => array_key_exists('condition', $arg) ? $arg['condition'] : '',
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            'separator' => $separator,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
-                ]
+            $id,
+            [
+                'label' => __('Background', SHORTCODE_ADDOONS),
+                'condition' => array_key_exists('condition', $arg) ? $arg['condition'] : '',
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                'separator' => $separator,
+                'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            ]
         );
         $this->add_control(
-                $id . '-color', $data, [
-            'label' => __('Color', SHORTCODE_ADDOONS),
-            'type' => Controls::GRADIENT,
-            'gradient' => $id,
-            'oparetor' => 'RGB',
-            'render' => FALSE,
-            $selectorvalue => '',
-            $selector_key => $selector,
-                ]
+            $id . '-color',
+            $data,
+            [
+                'label' => __('Color', SHORTCODE_ADDOONS),
+                'type' => Controls::GRADIENT,
+                'gradient' => $id,
+                'oparetor' => 'RGB',
+                'render' => FALSE,
+                $selectorvalue => '',
+                $selector_key => $selector,
+            ]
         );
 
         $this->add_control(
-                $id . '-img', $data, [
-            'label' => __('Image', SHORTCODE_ADDOONS),
-            'type' => Controls::SWITCHER,
-            'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
-            'return_value' => 'yes',
-                ]
+            $id . '-img',
+            $data,
+            [
+                'label' => __('Image', SHORTCODE_ADDOONS),
+                'type' => Controls::SWITCHER,
+                'loader' => TRUE,
+                'label_on' => __('Yes', SHORTCODE_ADDOONS),
+                'label_off' => __('No', SHORTCODE_ADDOONS),
+                'return_value' => 'yes',
+            ]
         );
         $this->add_control(
-                $id . '-select', $data, [
-            'label' => __('Photo Source', SHORTCODE_ADDOONS),
-            'separator' => TRUE,
-            'loader' => TRUE,
-            'type' => Controls::CHOOSE,
-            'default' => 'media-library',
-            'options' => [
-                'media-library' => [
-                    'title' => __('Media Library', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-left',
+            $id . '-select',
+            $data,
+            [
+                'label' => __('Photo Source', SHORTCODE_ADDOONS),
+                'separator' => TRUE,
+                'loader' => TRUE,
+                'type' => Controls::CHOOSE,
+                'default' => 'media-library',
+                'options' => [
+                    'media-library' => [
+                        'title' => __('Media Library', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-left',
+                    ],
+                    'custom-url' => [
+                        'title' => __('Custom URL', SHORTCODE_ADDOONS),
+                        'icon' => 'fa fa-align-center',
+                    ]
                 ],
-                'custom-url' => [
-                    'title' => __('Custom URL', SHORTCODE_ADDOONS),
-                    'icon' => 'fa fa-align-center',
-                ]
-            ],
-            'condition' => [
-                $id . '-img' => 'yes',
-            ],
-                ]
+                'condition' => [
+                    $id . '-img' => 'yes',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-image', $data, [
-            'label' => __('Image', SHORTCODE_ADDOONS),
-            'type' => Controls::IMAGE,
-            'default' => '',
-            'loader' => TRUE,
-            'condition' => [
-                $id . '-select' => 'media-library',
-                $id . '-img' => 'yes',
-            ],
-                ]
+            $id . '-image',
+            $data,
+            [
+                'label' => __('Image', SHORTCODE_ADDOONS),
+                'type' => Controls::IMAGE,
+                'default' => '',
+                'loader' => TRUE,
+                'condition' => [
+                    $id . '-select' => 'media-library',
+                    $id . '-img' => 'yes',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-url', $data, [
-            'label' => __('Image URL', SHORTCODE_ADDOONS),
-            'type' => Controls::TEXT,
-            'default' => '',
-            'loader' => TRUE,
-            'placeholder' => 'www.example.com/image.jpg',
-            'condition' => [
-                $id . '-select' => 'custom-url',
-                $id . '-img' => 'yes',
-            ],
-                ]
+            $id . '-url',
+            $data,
+            [
+                'label' => __('Image URL', SHORTCODE_ADDOONS),
+                'type' => Controls::TEXT,
+                'default' => '',
+                'loader' => TRUE,
+                'placeholder' => 'www.example.com/image.jpg',
+                'condition' => [
+                    $id . '-select' => 'custom-url',
+                    $id . '-img' => 'yes',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-position', $data, [
-            'label' => __('Position', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => 'center center',
-            'render' => $render,
-            'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'top left' => __('Top Left', SHORTCODE_ADDOONS),
-                'top center' => __('Top Center', SHORTCODE_ADDOONS),
-                'top right' => __('Top Right', SHORTCODE_ADDOONS),
-                'center left' => __('Center Left', SHORTCODE_ADDOONS),
-                'center center' => __('Center Center', SHORTCODE_ADDOONS),
-                'center right' => __('Center Right', SHORTCODE_ADDOONS),
-                'bottom left' => __('Bottom Left', SHORTCODE_ADDOONS),
-                'bottom center' => __('Bottom Center', SHORTCODE_ADDOONS),
-                'bottom right' => __('Bottom Right', SHORTCODE_ADDOONS),
-            ],
-            'loader' => TRUE,
-            'condition' => [
-                $id . '-img' => 'yes',
-                '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
-            ],
-                ]
+            $id . '-position',
+            $data,
+            [
+                'label' => __('Position', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => 'center center',
+                'render' => $render,
+                'options' => [
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'top left' => __('Top Left', SHORTCODE_ADDOONS),
+                    'top center' => __('Top Center', SHORTCODE_ADDOONS),
+                    'top right' => __('Top Right', SHORTCODE_ADDOONS),
+                    'center left' => __('Center Left', SHORTCODE_ADDOONS),
+                    'center center' => __('Center Center', SHORTCODE_ADDOONS),
+                    'center right' => __('Center Right', SHORTCODE_ADDOONS),
+                    'bottom left' => __('Bottom Left', SHORTCODE_ADDOONS),
+                    'bottom center' => __('Bottom Center', SHORTCODE_ADDOONS),
+                    'bottom right' => __('Bottom Right', SHORTCODE_ADDOONS),
+                ],
+                'loader' => TRUE,
+                'condition' => [
+                    $id . '-img' => 'yes',
+                    '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-attachment', $data, [
-            'label' => __('Attachment', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => '',
-            'render' => $render,
-            'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'scroll' => __('Scroll', SHORTCODE_ADDOONS),
-                'fixed' => __('Fixed', SHORTCODE_ADDOONS),
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'background-attachment: {{VALUE}};',
-            $selector_key => $selector,
-            'condition' => [
-                $id . '-img' => 'yes',
-                '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
-            ],
-                ]
+            $id . '-attachment',
+            $data,
+            [
+                'label' => __('Attachment', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => '',
+                'render' => $render,
+                'options' => [
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'scroll' => __('Scroll', SHORTCODE_ADDOONS),
+                    'fixed' => __('Fixed', SHORTCODE_ADDOONS),
+                ],
+                $loader => $loadervalue,
+                $selectorvalue => 'background-attachment: {{VALUE}};',
+                $selector_key => $selector,
+                'condition' => [
+                    $id . '-img' => 'yes',
+                    '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
+                ],
+            ]
         );
         $this->add_control(
-                $id . '-repeat', $data, [
-            'label' => __('Repeat', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => 'no-repeat',
-            'render' => $render,
-            'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'no-repeat' => __('No-Repeat', SHORTCODE_ADDOONS),
-                'repeat' => __('Repeat', SHORTCODE_ADDOONS),
-                'repeat-x' => __('Repeat-x', SHORTCODE_ADDOONS),
-                'repeat-y' => __('Repeat-y', SHORTCODE_ADDOONS),
-            ],
-            'loader' => TRUE,
-            'condition' => [
-                $id . '-img' => 'yes',
-                '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
-            ],
-                ]
+            $id . '-repeat',
+            $data,
+            [
+                'label' => __('Repeat', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => 'no-repeat',
+                'render' => $render,
+                'options' => [
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'no-repeat' => __('No-Repeat', SHORTCODE_ADDOONS),
+                    'repeat' => __('Repeat', SHORTCODE_ADDOONS),
+                    'repeat-x' => __('Repeat-x', SHORTCODE_ADDOONS),
+                    'repeat-y' => __('Repeat-y', SHORTCODE_ADDOONS),
+                ],
+                'loader' => TRUE,
+                'condition' => [
+                    $id . '-img' => 'yes',
+                    '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
+                ],
+            ]
         );
         $this->add_responsive_control(
-                $id . '-size', $data, [
-            'label' => __('Size', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => 'cover',
-            'render' => $render,
-            'options' => [
-                '' => __('Default', SHORTCODE_ADDOONS),
-                'auto' => __('Auto', SHORTCODE_ADDOONS),
-                'cover' => __('Cover', SHORTCODE_ADDOONS),
-                'contain' => __('Contain', SHORTCODE_ADDOONS),
-            ],
-            $loader => $loadervalue,
-            $selectorvalue => 'background-size: {{VALUE}};',
-            $selector_key => $selector,
-            'condition' => [
-                $id . '-img' => 'yes',
-                '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
-            ],
-                ]
+            $id . '-size',
+            $data,
+            [
+                'label' => __('Size', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => 'cover',
+                'render' => $render,
+                'options' => [
+                    '' => __('Default', SHORTCODE_ADDOONS),
+                    'auto' => __('Auto', SHORTCODE_ADDOONS),
+                    'cover' => __('Cover', SHORTCODE_ADDOONS),
+                    'contain' => __('Contain', SHORTCODE_ADDOONS),
+                ],
+                $loader => $loadervalue,
+                $selectorvalue => 'background-size: {{VALUE}};',
+                $selector_key => $selector,
+                'condition' => [
+                    $id . '-img' => 'yes',
+                    '((' . $id . '-select === \'media-library\' && ' . $id . '-image !== \'\') || (' . $id . '-select === \'custom-url\' && ' . $id . '-url !== \'\'))' => 'COMPILED',
+                ],
+            ]
         );
         $this->end_popover_control();
     }
@@ -2326,7 +2483,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function url_admin_group_control($id, array $data = [], array $arg = []) {
+    public function url_admin_group_control($id, array $data = [], array $arg = [])
+    {
         if (array_key_exists('condition', $arg)) :
             $cond = 'condition';
             $condition = $arg['condition'];
@@ -2336,49 +2494,57 @@ trait Sanitization {
         $form_condition = array_key_exists('form_condition', $arg) ? $arg['form_condition'] : '';
         $separator = array_key_exists('separator', $arg) ? $arg['separator'] : FALSE;
         $this->add_control(
-                $id . '-url', $data, [
-            'label' => __('Link', SHORTCODE_ADDOONS),
-            'type' => Controls::TEXT,
-            'default' => '',
-            'link' => TRUE,
-            'separator' => $separator,
-            'placeholder' => 'www.example.com/',
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            $cond => $condition,
-            'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
-                ]
+            $id . '-url',
+            $data,
+            [
+                'label' => __('Link', SHORTCODE_ADDOONS),
+                'type' => Controls::TEXT,
+                'default' => '',
+                'link' => TRUE,
+                'separator' => $separator,
+                'placeholder' => 'www.example.com/',
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                $cond => $condition,
+                'description' => (array_key_exists('description', $arg) ? $arg['description'] : ''),
+            ]
         );
         echo '<div class="shortcode-form-control-content shortcode-form-control-content-popover-body">';
 
         $this->add_control(
-                $id . '-target', $data, [
-            'label' => __('New Window?', SHORTCODE_ADDOONS),
-            'type' => Controls::SWITCHER,
-            'default' => '',
-            'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
-            'return_value' => 'yes',
-                ]
+            $id . '-target',
+            $data,
+            [
+                'label' => __('New Window?', SHORTCODE_ADDOONS),
+                'type' => Controls::SWITCHER,
+                'default' => '',
+                'loader' => TRUE,
+                'label_on' => __('Yes', SHORTCODE_ADDOONS),
+                'label_off' => __('No', SHORTCODE_ADDOONS),
+                'return_value' => 'yes',
+            ]
         );
         $this->add_control(
-                $id . '-follow', $data, [
-            'label' => __('No Follow', SHORTCODE_ADDOONS),
-            'type' => Controls::SWITCHER,
-            'default' => 'yes',
-            'loader' => TRUE,
-            'label_on' => __('Yes', SHORTCODE_ADDOONS),
-            'label_off' => __('No', SHORTCODE_ADDOONS),
-            'return_value' => 'yes',
-                ]
+            $id . '-follow',
+            $data,
+            [
+                'label' => __('No Follow', SHORTCODE_ADDOONS),
+                'type' => Controls::SWITCHER,
+                'default' => 'yes',
+                'loader' => TRUE,
+                'label_on' => __('Yes', SHORTCODE_ADDOONS),
+                'label_off' => __('No', SHORTCODE_ADDOONS),
+                'return_value' => 'yes',
+            ]
         );
         $this->add_control(
-                $id . '-id', $data, [
-            'label' => __('CSS ID', SHORTCODE_ADDOONS),
-            'type' => Controls::TEXT,
-            'default' => '',
-            'placeholder' => 'abcd-css-id',
-                ]
+            $id . '-id',
+            $data,
+            [
+                'label' => __('CSS ID', SHORTCODE_ADDOONS),
+                'type' => Controls::TEXT,
+                'default' => '',
+                'placeholder' => 'abcd-css-id',
+            ]
         );
         echo '</div></div>';
     }
@@ -2389,7 +2555,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function column_admin_group_control($id, array $data = [], array $arg = []) {
+    public function column_admin_group_control($id, array $data = [], array $arg = [])
+    {
         $selector = array_key_exists('selector', $arg) ? $arg['selector'] : '';
         $select = array_key_exists('selector', $arg) ? 'selector' : '';
         $cond = $condition = '';
@@ -2399,64 +2566,70 @@ trait Sanitization {
         endif;
 
         $this->add_control(
-                $lap = $id . '-lap', $data, [
-            'label' => __('Column Size', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'responsive' => 'laptop',
-            'default' => 'oxi-bt-col-lg-12',
-            'options' => [
-                'oxi-bt-col-lg-12' => __('Col 1', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-6' => __('Col 2', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-4' => __('Col 3', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-3' => __('Col 4', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-2' => __('Col 6', SHORTCODE_ADDOONS),
-                'oxi-bt-col-lg-1' => __('Col 12', SHORTCODE_ADDOONS),
-            ],
-            $select => $selector,
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            $cond => $condition,
-            'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
-                ]
+            $lap = $id . '-lap',
+            $data,
+            [
+                'label' => __('Column Size', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'responsive' => 'laptop',
+                'default' => 'oxi-bt-col-lg-12',
+                'options' => [
+                    'oxi-bt-col-lg-12' => __('Col 1', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-lg-6' => __('Col 2', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-lg-4' => __('Col 3', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-lg-3' => __('Col 4', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-lg-2' => __('Col 6', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-lg-1' => __('Col 12', SHORTCODE_ADDOONS),
+                ],
+                $select => $selector,
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                $cond => $condition,
+                'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
+            ]
         );
         $this->add_control(
-                $tab = $id . '-tab', $data, [
-            'label' => __('Column Size', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'responsive' => 'tab',
-            'default' => 'oxi-bt-col-md-12',
-            'options' => [
-                'oxi-bt-col-md-12' => __('Col 1', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-6' => __('Col 2', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-4' => __('Col 3', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-3' => __('Col 4', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-2' => __('Col 6', SHORTCODE_ADDOONS),
-                'oxi-bt-col-md-1' => __('Col 12', SHORTCODE_ADDOONS),
-            ],
-            $select => $selector,
-            'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            $cond => $condition
-                ]
+            $tab = $id . '-tab',
+            $data,
+            [
+                'label' => __('Column Size', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'responsive' => 'tab',
+                'default' => 'oxi-bt-col-md-12',
+                'options' => [
+                    'oxi-bt-col-md-12' => __('Col 1', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-md-6' => __('Col 2', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-md-4' => __('Col 3', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-md-3' => __('Col 4', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-md-2' => __('Col 6', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-md-1' => __('Col 12', SHORTCODE_ADDOONS),
+                ],
+                $select => $selector,
+                'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                $cond => $condition
+            ]
         );
         $this->add_control(
-                $mob = $id . '-mob', $data, [
-            'label' => __('Column Size', SHORTCODE_ADDOONS),
-            'type' => Controls::SELECT,
-            'default' => 'oxi-bt-col-lg-12',
-            'responsive' => 'mobile',
-            'options' => [
-                'oxi-bt-col-sm-12' => __('Col 1', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-6' => __('Col 2', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-4' => __('Col 3', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-3' => __('Col 4', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-2' => __('Col 6', SHORTCODE_ADDOONS),
-                'oxi-bt-col-sm-1' => __('Col 12', SHORTCODE_ADDOONS),
-            ],
-            $select => $selector,
-            'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
-            'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
-            $cond => $condition
-                ]
+            $mob = $id . '-mob',
+            $data,
+            [
+                'label' => __('Column Size', SHORTCODE_ADDOONS),
+                'type' => Controls::SELECT,
+                'default' => 'oxi-bt-col-lg-12',
+                'responsive' => 'mobile',
+                'options' => [
+                    'oxi-bt-col-sm-12' => __('Col 1', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-sm-6' => __('Col 2', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-sm-4' => __('Col 3', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-sm-3' => __('Col 4', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-sm-2' => __('Col 6', SHORTCODE_ADDOONS),
+                    'oxi-bt-col-sm-1' => __('Col 12', SHORTCODE_ADDOONS),
+                ],
+                $select => $selector,
+                'description' => 'Define how much column you want to show into single rows. Customize possible with desktop or tab or mobile Settings.',
+                'form_condition' => (array_key_exists('form_condition', $arg) ? $arg['form_condition'] : ''),
+                $cond => $condition
+            ]
         );
     }
 
@@ -2475,7 +2648,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function add_substitute_control($id, array $data = [], array $arg = []) {
+    public function add_substitute_control($id, array $data = [], array $arg = [])
+    {
         $fun = $arg['type'] . '_substitute_control';
         echo $this->$fun($id, $data, $arg);
     }
@@ -2486,7 +2660,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function modalopener_substitute_control($id, array $data = [], array $arg = []) {
+    public function modalopener_substitute_control($id, array $data = [], array $arg = [])
+    {
         $default = [
             'showing' => FALSE,
             'title' => 'Add New Items',
@@ -2518,7 +2693,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function shortcodename_substitute_control($id, array $data = [], array $arg = []) {
+    public function shortcodename_substitute_control($id, array $data = [], array $arg = [])
+    {
         $default = [
             'showing' => FALSE,
             'title' => 'Shortcode Name',
@@ -2555,7 +2731,8 @@ trait Sanitization {
      * @since 2.0.0
      */
 
-    public function shortcodeinfo_substitute_control($id, array $data = [], array $arg = []) {
+    public function shortcodeinfo_substitute_control($id, array $data = [], array $arg = [])
+    {
         $default = [
             'showing' => FALSE,
             'title' => 'Shortcode',
@@ -2592,7 +2769,8 @@ trait Sanitization {
      * @since 2.1.0
      */
 
-    public function rearrange_substitute_control($id, array $data = [], array $arg = []) {
+    public function rearrange_substitute_control($id, array $data = [], array $arg = [])
+    {
         $default = [
             'showing' => FALSE,
             'title' => 'Flipbox Rearrange',
@@ -2644,5 +2822,4 @@ trait Sanitization {
             </div>
          </div>';
     }
-
 }

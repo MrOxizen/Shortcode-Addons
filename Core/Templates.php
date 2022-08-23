@@ -11,7 +11,8 @@ if (!defined('ABSPATH')) {
  *
  * @author biplobadhikari
  */
-class Templates {
+class Templates
+{
 
     use \SHORTCODE_ADDONS\Layouts\Template\Validation;
 
@@ -97,15 +98,16 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function __construct(array $dbdata = [], array $child = [], $admin = 'user') {
-        if (count($dbdata) > 0):
+    public function __construct(array $dbdata = [], array $child = [], $admin = 'user')
+    {
+        if (count($dbdata) > 0) :
             $this->dbdata = $dbdata;
             $this->child = $child;
             $this->admin = ($admin == 'basic' ? 'admin' : $admin);
             $this->CoreAdminRecall = $admin;
-            if (!empty($dbdata['rawdata'])):
+            if (!empty($dbdata['rawdata'])) :
                 $this->loader();
-            else:
+            else :
                 $this->old_loader();
             endif;
         endif;
@@ -116,11 +118,12 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function loader() {
+    public function loader()
+    {
         $this->style = json_decode(stripslashes($this->dbdata['rawdata']), true);
-        if (array_key_exists('id', $this->dbdata)):
+        if (array_key_exists('id', $this->dbdata)) :
             $this->oxiid = $this->dbdata['id'];
-        else:
+        else :
             $this->oxiid = rand(100000, 200000);
         endif;
         $this->CSSDATA = $this->dbdata['stylesheet'];
@@ -134,7 +137,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function old_loader() {
+    public function old_loader()
+    {
         include SA_ADDONS_PATH . 'Core/Admin/Old_Val.php';
         $this->public_frontend_loader();
         $this->old_render();
@@ -145,7 +149,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function hooks() {
+    public function hooks()
+    {
 
         $this->public_frontend_loader();
         $this->public_jquery();
@@ -164,8 +169,8 @@ class Templates {
         }
         echo $this->font_familly_validation(json_decode(($this->dbdata['font_family'] != '' ? $this->dbdata['font_family'] : "[]"), true));
 
-        if ($inlinejs != ''):
-            if ($this->admin == 'admin'):
+        if ($inlinejs != '') :
+            if ($this->admin == 'admin') :
                 //only load while ajax called
                 echo _('<script>
                         (function ($) {
@@ -173,22 +178,22 @@ class Templates {
                 echo $inlinejs;
                 echo _('    }, 1000);
                         })(jQuery)</script>');
-            else:
+            else :
                 $jquery = '(function ($) {var $ = jQuery; ' . $inlinejs . '})(jQuery);';
                 wp_add_inline_script($this->JSHANDLE, $jquery);
             endif;
 
         endif;
 
-        if ($inlinecss != ''):
+        if ($inlinecss != '') :
 
-            $inlinecss = html_entity_decode($inlinecss);
-            if ($this->admin == 'admin'):
+            $inlinecss = html_entity_decode(str_replace('<br>', ' ', str_replace('&nbsp;', ' ', $inlinecss)));
+            if ($this->admin == 'admin') :
                 //only load while ajax called
                 echo _('<style>');
                 echo $inlinecss;
                 echo _('</style>');
-            else:
+            else :
 
                 wp_add_inline_style('shortcode-addons-style', $inlinecss);
             endif;
@@ -200,23 +205,24 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function public_frontend_loader() {
+    public function public_frontend_loader()
+    {
         wp_enqueue_script("jquery");
         wp_enqueue_style('animation', SA_ADDONS_URL . '/assets/front/css/animation.css', false, SA_ADDONS_PLUGIN_VERSION);
         wp_enqueue_style('shortcode-addons-style', SA_ADDONS_URL . '/assets/front/css/style.css', false, SA_ADDONS_PLUGIN_VERSION);
 
         $fontawesome = get_option('oxi_addons_font_awesome');
-        if ($fontawesome != 'no'):
+        if ($fontawesome != 'no') :
             wp_enqueue_style('shortcode-font-awsome.min', SA_ADDONS_URL . '/assets/front/css/font-awsome.min.css', false, SA_ADDONS_PLUGIN_VERSION);
         endif;
 
         $bootstrap = get_option('oxi_addons_bootstrap');
-        if ($bootstrap != 'no'):
+        if ($bootstrap != 'no') :
             wp_enqueue_style('shortcode-bootstrap', SA_ADDONS_URL . '/assets/backend/css/bootstrap.min.css', false, SA_ADDONS_PLUGIN_VERSION);
         endif;
 
         $waypoints = get_option('oxi_addons_waypoints');
-        if ($waypoints != 'no'):
+        if ($waypoints != 'no') :
             wp_enqueue_script('waypoints.min', SA_ADDONS_URL . '/assets/front/js/waypoints.min.js', false, SA_ADDONS_PLUGIN_VERSION);
         endif;
 
@@ -234,7 +240,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function old_render() {
+    public function old_render()
+    {
         echo '';
     }
 
@@ -243,7 +250,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function render() {
+    public function render()
+    {
         echo '<div class="oxi-addons-container ' . $this->WRAPPER . ' ' . get_option('oxi_addons_conflict_class') . '">
                  <div class="oxi-addons-row">';
         $this->default_render($this->style, $this->child, $this->admin);
@@ -256,7 +264,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function public_jquery() {
+    public function public_jquery()
+    {
         echo '';
     }
 
@@ -265,7 +274,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function public_css() {
+    public function public_css()
+    {
         echo '';
     }
 
@@ -274,7 +284,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function inline_public_jquery() {
+    public function inline_public_jquery()
+    {
         echo '';
     }
 
@@ -283,7 +294,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function inline_public_css() {
+    public function inline_public_css()
+    {
         echo '';
     }
 
@@ -292,7 +304,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function public_frontend_old_loader() {
+    public function public_frontend_old_loader()
+    {
         echo '';
     }
 
@@ -301,7 +314,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function default_render($style, $child, $admin) {
+    public function default_render($style, $child, $admin)
+    {
         echo '';
     }
 
@@ -310,8 +324,8 @@ class Templates {
      *
      * @since 2.0.0
      */
-    public function Json_Decode($rawdata) {
+    public function Json_Decode($rawdata)
+    {
         return $rawdata != '' ? json_decode(stripcslashes($rawdata), true) : [];
     }
-
 }

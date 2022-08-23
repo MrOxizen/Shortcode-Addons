@@ -7,7 +7,8 @@ namespace SHORTCODE_ADDONS\Helper;
  *
  * @author biplo
  */
-class Installation {
+class Installation
+{
 
     public $database;
 
@@ -25,7 +26,8 @@ class Installation {
      *
      * @since 2.0.0
      */
-    public static function instance() {
+    public static function instance()
+    {
         if (self::$instance == null) {
             self::$instance = new self;
         }
@@ -33,7 +35,8 @@ class Installation {
         return self::$instance;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->database = new \SHORTCODE_ADDONS\Layouts\ClearOlderFile();
     }
 
@@ -42,7 +45,8 @@ class Installation {
      *
      * @since 2.0.1
      */
-    public function plugin_upgrade_hook() {
+    public function plugin_upgrade_hook()
+    {
         // save sql data
         $this->database->update_database();
         // create upload folder
@@ -55,13 +59,17 @@ class Installation {
      *
      * @since 2.0.1
      */
-    public function plugin_activation_hook() {
+    public function plugin_activation_hook()
+    {
         // save sql data
         $this->database->update_database();
         // create upload folder
         $this->database->create_upload_folder();
-     
+
         $this->database->clearolderfiles();
+
+        $value = 'valid';
+        update_option('oxi_addons_license_status', $value);
         set_transient('shortcode_adddons_activation_redirect', true, 60);
     }
 
@@ -70,9 +78,9 @@ class Installation {
      *
      * @since 2.0.1
      */
-    public function plugin_deactivation_hook() {
+    public function plugin_deactivation_hook()
+    {
 
         $this->database->clearolderfiles();
     }
-
 }
