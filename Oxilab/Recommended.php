@@ -15,23 +15,7 @@ class Recommended {
     public $get_plugins = [];
     public $current_plugins = 'shortcode-addons/index.php';
 
-    /**
-     * Revoke this function when the object is created.
-     *
-     */
-    public function __construct() {
-        require_once(ABSPATH . 'wp-admin/includes/screen.php');
-        $screen = get_current_screen();
-        if (isset($screen->parent_file) && 'plugins.php' === $screen->parent_file && 'update' === $screen->id) {
-            return;
-        }
-
-        $this->extension();
-        add_action('admin_notices', array($this, 'install_plugins'));
-        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
-        add_action('wp_ajax_shortcode_addons_recommended', array($this, 'notice_dissmiss'));
-        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
-    }
+   
 
     public function extension() {
         $response = get_transient(self::GET_LOCAL_PLUGINS);
@@ -138,6 +122,23 @@ class Recommended {
             return;
         endif;
         die();
+    }
+     /**
+     * Revoke this function when the object is created.
+     *
+     */
+    public function __construct() {
+        require_once(ABSPATH . 'wp-admin/includes/screen.php');
+        $screen = get_current_screen();
+        if (isset($screen->parent_file) && 'plugins.php' === $screen->parent_file && 'update' === $screen->id) {
+            return;
+        }
+
+        $this->extension();
+        add_action('admin_notices', array($this, 'install_plugins'));
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+        add_action('wp_ajax_shortcode_addons_recommended', array($this, 'notice_dissmiss'));
+        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
     }
 
 }

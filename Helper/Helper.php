@@ -9,50 +9,7 @@ namespace SHORTCODE_ADDONS\Helper;
 trait Helper
 {
 
-    /**
-     * Plugin fixed
-     *
-     * @since 2.0.0
-     */
-    public function fixed_data($agr)
-    {
-        return hex2bin($agr);
-    }
-
-    /**
-     * Plugin fixed debugging data
-     *
-     * @since 2.0.0
-     */
-    public function fixed_debug_data($str)
-    {
-        return bin2hex($str);
-    }
-
-    /**
-     * Plugin Elements Name Convert to View
-     *
-     * @since 2.0.0
-     */
-    public function name_converter($data)
-    {
-        $data = str_replace('_', ' ', $data);
-        $data = str_replace('-', ' ', $data);
-        $data = str_replace('+', ' ', $data);
-        return ucwords($data);
-    }
-
-    public function shortcode_render($atts)
-    {
-        extract(shortcode_atts(array('id' => ' ',), $atts));
-        $styleid = $atts['id'];
-        ob_start();
-        $CLASS = '\SHORTCODE_ADDONS\Includes\Shortcode';
-        if (class_exists($CLASS)) :
-            new $CLASS($styleid, 'user');
-        endif;
-        return ob_get_clean();
-    }
+    
 
     /**
      * Plugin menu Permission
@@ -419,5 +376,49 @@ trait Helper
             return;
         endif;
         die();
+    }
+    /**
+     * Plugin fixed
+     *
+     * @since 2.0.0
+     */
+    public function fixed_data($agr)
+    {
+        return hex2bin($agr);
+    }
+
+    /**
+     * Plugin fixed debugging data
+     *
+     * @since 2.0.0
+     */
+    public function fixed_debug_data($str)
+    {
+        return bin2hex($str);
+    }
+
+    /**
+     * Plugin Elements Name Convert to View
+     *
+     * @since 2.0.0
+     */
+    public function name_converter($data)
+    {
+        $data = str_replace('_', ' ', $data);
+        $data = str_replace('-', ' ', $data);
+        $data = str_replace('+', ' ', $data);
+        return ucwords($data);
+    }
+
+    public function shortcode_render($atts)
+    {
+        extract(shortcode_atts(array('id' => ' ',), $atts));
+        $styleid = $atts['id'];
+        ob_start();
+        $CLASS = '\SHORTCODE_ADDONS\Includes\Shortcode';
+        if (class_exists($CLASS)) :
+            new $CLASS($styleid, 'user');
+        endif;
+        return ob_get_clean();
     }
 }

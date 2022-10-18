@@ -15,15 +15,6 @@ class Support {
 
     use \SHORTCODE_ADDONS\Helper\Admin_Scripts;
 
-    public function __construct() {
-        $this->header();
-        $this->Public_Render();
-    }
-
-    public function header() {
-        $this->admin_scripts();
-        apply_filters('shortcode-addons/admin_menu', false);
-    }
 
     public function Public_Render() {
         ?>
@@ -98,6 +89,16 @@ class Support {
 
 
         <?php
+    }
+    
+    public function __construct() {
+        $this->header();
+        $this->Public_Render();
+    }
+
+    public function header() {
+        $this->admin_scripts();
+        apply_filters('shortcode-addons/admin_menu', false);
     }
 
 }

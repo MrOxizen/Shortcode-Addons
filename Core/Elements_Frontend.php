@@ -61,34 +61,7 @@ class Elements_Frontend extends Database
         $this->rander();
     }
 
-    public function admin()
-    {
-        $this->admin_elements_scripts();
-        $this->database_data();
-        $this->pre_active_check();
-    }
-    /**
-     * Shortcode Addons Rander.
-     *
-     * @since 2.1.0
-     */
-    public function rander()
-    {
-?>
-        <div class="wrap">
-            <div class="oxi-addons-wrapper">
-                <?php
-                apply_filters('shortcode-addons/admin_menu', false);
-                if ($this->oxiimport == 'import') :
-                    $this->elements_import();
-                else :
-                    $this->elements_home();
-                endif;
-                ?>
-            </div>
-        </div>
-    <?php
-    }
+   
 
     public function templates()
     {
@@ -217,5 +190,33 @@ class Elements_Frontend extends Database
         </div>
 
 <?php
+    }
+     public function admin()
+    {
+        $this->admin_elements_scripts();
+        $this->database_data();
+        $this->pre_active_check();
+    }
+    /**
+     * Shortcode Addons Rander.
+     *
+     * @since 2.1.0
+     */
+    public function rander()
+    {
+?>
+        <div class="wrap">
+            <div class="oxi-addons-wrapper">
+                <?php
+                apply_filters('shortcode-addons/admin_menu', false);
+                if ($this->oxiimport == 'import') :
+                    $this->elements_import();
+                else :
+                    $this->elements_home();
+                endif;
+                ?>
+            </div>
+        </div>
+    <?php
     }
 }

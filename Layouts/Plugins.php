@@ -32,29 +32,7 @@ class Plugins {
         return self::$instance;
     }
 
-    /**
-     * Constructor of Oxilab Plugins Page
-     *
-     * @since 1.0.0
-     */
-    public function __construct() {
-        $this->CSSJS_load();
-        $this->Header();
-        $this->Render();
-    }
-
-    public function CSSJS_load() {
-        $this->admin_scripts();
-        $this->extension();
-        if (!current_user_can('activate_plugins')):
-            die();
-        endif;
-    }
-
-    public function Header() {
-        echo apply_filters('shortcode-addons/admin_menu', false);
-        $this->Admin_header();
-    }
+    
 
     public function extension() {
         $response = get_transient(self::GET_LOCAL_PLUGINS);
@@ -149,5 +127,27 @@ class Plugins {
 
         wp_add_inline_script('oxilab-bootstrap', $data);
     }
+/**
+     * Constructor of Oxilab Plugins Page
+     *
+     * @since 1.0.0
+     */
+    public function __construct() {
+        $this->CSSJS_load();
+        $this->Header();
+        $this->Render();
+    }
 
+    public function CSSJS_load() {
+        $this->admin_scripts();
+        $this->extension();
+        if (!current_user_can('activate_plugins')):
+            die();
+        endif;
+    }
+
+    public function Header() {
+        echo apply_filters('shortcode-addons/admin_menu', false);
+        $this->Admin_header();
+    }
 }

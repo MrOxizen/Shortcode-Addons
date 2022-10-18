@@ -70,6 +70,20 @@ class Database
         $this->child_table = $wpdb->prefix . 'oxi_div_list';
         $this->import_table = $wpdb->prefix . 'oxi_div_import';
     }
+    /**
+     * Plugin Create Upload Folder
+     *
+     * @since 2.0.0
+     */
+    public function create_upload_folder()
+    {
+        $upload = wp_upload_dir();
+        $upload_dir = $upload['basedir'];
+        $dir = $upload_dir . '/shortcode-addons';
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777);
+        }
+    }
 
     public function update_database()
     {
@@ -111,20 +125,7 @@ class Database
         update_option('SA_ADDONS_PLUGIN_VERSION', SA_ADDONS_PLUGIN_VERSION);
     }
 
-    /**
-     * Plugin Create Upload Folder
-     *
-     * @since 2.0.0
-     */
-    public function create_upload_folder()
-    {
-        $upload = wp_upload_dir();
-        $upload_dir = $upload['basedir'];
-        $dir = $upload_dir . '/shortcode-addons';
-        if (!is_dir($dir)) {
-            mkdir($dir, 0777);
-        }
-    }
+   
 
 
 

@@ -43,31 +43,7 @@ class Collection extends Console
         wp_enqueue_script('shortcode-addons-elements', SA_ADDONS_URL . '/assets/backend/js/collection.js', false, SA_ADDONS_PLUGIN_VERSION);
     }
 
-    /*
-     * Shortcode Addons fontawesome Icon Render.
-     * 
-     * @since 2.1.0
-     */
-
-    public function font_awesome_render($data)
-    {
-        $files = '<i class="' . $data . ' oxi-icons"></i>';
-        return $files;
-    }
-
-    /*
-     * Shortcode Addons name converter.
-     * 
-     * @since 2.1.0
-     */
-
-    public function name_converter($data)
-    {
-        $data = str_replace('_', ' ', $data);
-        $data = str_replace('-', ' ', $data);
-        $data = str_replace('+', ' ', $data);
-        return ucwords($data);
-    }
+   
 
     public function render()
     {
@@ -136,5 +112,30 @@ class Collection extends Console
             </div>
         </div>
 <?php
+    }
+     /*
+     * Shortcode Addons fontawesome Icon Render.
+     * 
+     * @since 2.1.0
+     */
+
+    public function font_awesome_render($data)
+    {
+        $files = '<i class="' . $data . ' oxi-icons"></i>';
+        return $files;
+    }
+
+    /*
+     * Shortcode Addons name converter.
+     * 
+     * @since 2.1.0
+     */
+
+    public function name_converter($data)
+    {
+        $data = str_replace('_', ' ', $data);
+        $data = str_replace('-', ' ', $data);
+        $data = str_replace('+', ' ', $data);
+        return ucwords($data);
     }
 }

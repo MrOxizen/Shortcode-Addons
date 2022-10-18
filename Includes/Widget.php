@@ -15,20 +15,6 @@ class Widget extends \WP_Widget {
         );
     }
 
-    public function register_shortcode_addons_widget() {
-        register_widget($this);
-    }
-
-    public function widget($args, $instance) {
-        $title = apply_filters('widget_title', $instance['title']);
-        echo $args['before_widget'];
-        $CLASS = '\SHORTCODE_ADDONS\Includes\Shortcode';
-        if (class_exists($CLASS)):
-            new $CLASS($title, 'user');
-        endif;
-        echo $args['after_widget'];
-    }
-
     public function form($instance) {
         if (isset($instance['title'])) {
             $title = $instance['title'];
@@ -48,5 +34,19 @@ class Widget extends \WP_Widget {
         $instance['title'] = (!empty($new_instance['title']) ) ? strip_tags($new_instance['title']) : '';
         return $instance;
     }
+    public function register_shortcode_addons_widget() {
+        register_widget($this);
+    }
+
+    public function widget($args, $instance) {
+        $title = apply_filters('widget_title', $instance['title']);
+        echo $args['before_widget'];
+        $CLASS = '\SHORTCODE_ADDONS\Includes\Shortcode';
+        if (class_exists($CLASS)):
+            new $CLASS($title, 'user');
+        endif;
+        echo $args['after_widget'];
+    }
+
 
 }

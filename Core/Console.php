@@ -55,38 +55,7 @@ class Console extends Database
         return bin2hex($str);
     }
 
-    /**
-     * Plugin fixed debugging data
-     *
-     * @since 2.0.1
-     */
-    public function delete_transient()
-    {
-        delete_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
-        delete_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
-    }
-
-    /**
-     * Get  template Elements List.
-     * @return mixed
-     * 
-     *  @since 2.0.0
-     */
-    public function shortcode_elements($force_update = FALSE)
-    {
-        $response = get_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
-        if (!$response || $force_update) {
-            $folder = $this->safe_path(SA_ADDONS_PATH . '/assets/element/');
-            $response = json_decode(file_get_contents($folder . 'elements.json'), true);
-            set_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS, $response, 30 * DAY_IN_SECONDS);
-            $installed = $this->installed_elements($force_update);
-            if (count($installed) > 0) :
-                $response = array_merge($response, $installed);
-            endif;
-        }
-        return $response;
-    }
-
+   
     /**
      * Shortcode Addons Elements.
      *
@@ -340,4 +309,36 @@ class Console extends Database
         $this->stored_font();
         return json_encode($this->stored_font);
     }
+     /**
+     * Plugin fixed debugging data
+     *
+     * @since 2.0.1
+     */
+    public function delete_transient()
+    {
+        delete_transient(self::SHORTCODE_TRANSIENT_INSTALLED_ELEMENTS);
+        delete_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
+    }
+
+    /**
+     * Get  template Elements List.
+     * @return mixed
+     * 
+     *  @since 2.0.0
+     */
+    public function shortcode_elements($force_update = FALSE)
+    {
+        $response = get_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS);
+        if (!$response || $force_update) {
+            $folder = $this->safe_path(SA_ADDONS_PATH . '/assets/element/');
+            $response = json_decode(file_get_contents($folder . 'elements.json'), true);
+            set_transient(self::SHORTCODE_TRANSIENT_AVAILABLE_ELEMENTS, $response, 30 * DAY_IN_SECONDS);
+            $installed = $this->installed_elements($force_update);
+            if (count($installed) > 0) :
+                $response = array_merge($response, $installed);
+            endif;
+        }
+        return $response;
+    }
+
 }

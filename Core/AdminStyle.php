@@ -141,44 +141,7 @@ class AdminStyle
     public $StyleName;
     public $template_css_render;
 
-    /**
-     * Shortcode Addons Construct
-     *
-     * @since 2.1.0
-     */
-    public function __construct($type = '')
-    {
-        global $wpdb;
-        $this->wpdb = $wpdb;
-        $this->parent_table = $this->wpdb->prefix . 'oxi_div_style';
-        $this->child_table = $this->wpdb->prefix . 'oxi_div_list';
-        $this->import_table = $this->wpdb->prefix . 'oxi_div_import';
-        $this->oxiid = (!empty($_GET['styleid']) ? sanitize_text_field($_GET['styleid']) : '');
-        $this->WRAPPER = '.shortcode-addons-wrapper-' . $this->oxiid;
-        if ($type != 'admin') {
-            $this->hooks();
-            $this->render();
-        }
-    }
-
-    /**
-     * Template hooks
-     *
-     * @since 2.0.0
-     */
-    public function hooks()
-    {
-        $this->template_scripts();
-        $this->dbdata = $this->wpdb->get_row($this->wpdb->prepare('SELECT * FROM ' . $this->parent_table . ' WHERE id = %d ', $this->oxiid), ARRAY_A);
-        $this->child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM $this->child_table WHERE styleid = %d ORDER by id ASC", $this->oxiid), ARRAY_A);
-        if (!empty($this->dbdata['rawdata'])) :
-            $this->dbdata['rawdata'] = str_replace(['\\(spBac)', '\\spBac', '\\(spTac)', '\\spTac'], ['<br> ', '<br> ', '&nbsp;', '&nbsp;'], $this->dbdata['rawdata']);
-            $this->style = json_decode(stripslashes($this->dbdata['rawdata']), true);
-        endif;
-        $this->StyleName = ucfirst(str_replace('-', '_', $this->dbdata['style_name']));
-        $this->oxitype = ucfirst(strtolower($this->dbdata['type']));
-        $this->import_font_family();
-    }
+   
 
     /**
      * Template Modal opener
@@ -506,5 +469,43 @@ class AdminStyle
             </div>
         </div>
 <?php
+    }
+     /**
+     * Shortcode Addons Construct
+     *
+     * @since 2.1.0
+     */
+    public function __construct($type = '')
+    {
+        global $wpdb;
+        $this->wpdb = $wpdb;
+        $this->parent_table = $this->wpdb->prefix . 'oxi_div_style';
+        $this->child_table = $this->wpdb->prefix . 'oxi_div_list';
+        $this->import_table = $this->wpdb->prefix . 'oxi_div_import';
+        $this->oxiid = (!empty($_GET['styleid']) ? sanitize_text_field($_GET['styleid']) : '');
+        $this->WRAPPER = '.shortcode-addons-wrapper-' . $this->oxiid;
+        if ($type != 'admin') {
+            $this->hooks();
+            $this->render();
+        }
+    }
+
+    /**
+     * Template hooks
+     *
+     * @since 2.0.0
+     */
+    public function hooks()
+    {
+        $this->template_scripts();
+        $this->dbdata = $this->wpdb->get_row($this->wpdb->prepare('SELECT * FROM ' . $this->parent_table . ' WHERE id = %d ', $this->oxiid), ARRAY_A);
+        $this->child = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM $this->child_table WHERE styleid = %d ORDER by id ASC", $this->oxiid), ARRAY_A);
+        if (!empty($this->dbdata['rawdata'])) :
+            $this->dbdata['rawdata'] = str_replace(['\\(spBac)', '\\spBac', '\\(spTac)', '\\spTac'], ['<br> ', '<br> ', '&nbsp;', '&nbsp;'], $this->dbdata['rawdata']);
+            $this->style = json_decode(stripslashes($this->dbdata['rawdata']), true);
+        endif;
+        $this->StyleName = ucfirst(str_replace('-', '_', $this->dbdata['style_name']));
+        $this->oxitype = ucfirst(strtolower($this->dbdata['type']));
+        $this->import_font_family();
     }
 }

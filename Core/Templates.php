@@ -143,6 +143,29 @@ class Templates
         $this->public_frontend_loader();
         $this->old_render();
     }
+     /**
+     * old empty old render
+     *
+     * @since 2.0.0
+     */
+    public function old_render()
+    {
+        echo '';
+    }
+
+    /**
+     * load current element render since 2.0.0
+     *
+     * @since 2.0.0
+     */
+    public function render()
+    {
+        echo '<div class="oxi-addons-container ' . $this->WRAPPER . ' ' . get_option('oxi_addons_conflict_class') . '">
+                 <div class="oxi-addons-row">';
+        $this->default_render($this->style, $this->child, $this->admin);
+        echo '   </div>
+              </div>';
+    }
 
     /**
      * load css and js hooks
@@ -235,29 +258,7 @@ class Templates
         ));
     }
 
-    /**
-     * old empty old render
-     *
-     * @since 2.0.0
-     */
-    public function old_render()
-    {
-        echo '';
-    }
-
-    /**
-     * load current element render since 2.0.0
-     *
-     * @since 2.0.0
-     */
-    public function render()
-    {
-        echo '<div class="oxi-addons-container ' . $this->WRAPPER . ' ' . get_option('oxi_addons_conflict_class') . '">
-                 <div class="oxi-addons-row">';
-        $this->default_render($this->style, $this->child, $this->admin);
-        echo '   </div>
-              </div>';
-    }
+   
 
     /**
      * load public jquery

@@ -27,26 +27,12 @@ class GoogleFont extends Console {
      */
     public $stored_font;
 
-    public function font_manager() {
-
-        do_action('shortcode-addons/before_init');
-        // Load Elements
-
-        $this->admin();
-
-        $this->render();
-    }
-
-    public function admin() {
-        $this->admin_font_manager();
-    }
-
     public function render() {
         ?>
         <div class="wrap">  
-            <?php
-            apply_filters('shortcode-addons/admin_menu', false);
-            ?>
+        <?php
+        apply_filters('shortcode-addons/admin_menu', false);
+        ?>
             <div class="oxi-addons-wrapper">
                 <div class="oxi-addons-row">
                     <h1><?php _e('Google Fonts Manager'); ?> </h1>
@@ -105,6 +91,20 @@ class GoogleFont extends Console {
             </div>
         </div>
         <?php
+    }
+
+    public function font_manager() {
+
+        do_action('shortcode-addons/before_init');
+        // Load Elements
+
+        $this->admin();
+
+        $this->render();
+    }
+
+    public function admin() {
+        $this->admin_font_manager();
     }
 
 }

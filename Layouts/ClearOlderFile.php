@@ -34,24 +34,7 @@ class ClearOlderFile extends Console
         $this->delete_transient();
     }
 
-    /**
-     * Remove files in dir
-     *
-     * @since 1.0.0
-     */
-    public function empty_dir($str)
-    {
-
-        if (is_file($str)) {
-            return unlink($str);
-        } elseif (is_dir($str)) {
-            $scan = glob(rtrim($str, '/') . '/*');
-            foreach ($scan as $index => $path) {
-                $this->empty_dir($path);
-            }
-            return @rmdir($str);
-        }
-    }
+   
 
     /**
      * Shortcode Addons Elements.
@@ -72,7 +55,24 @@ class ClearOlderFile extends Console
             }
         }
     }
+ /**
+     * Remove files in dir
+     *
+     * @since 1.0.0
+     */
+    public function empty_dir($str)
+    {
 
+        if (is_file($str)) {
+            return unlink($str);
+        } elseif (is_dir($str)) {
+            $scan = glob(rtrim($str, '/') . '/*');
+            foreach ($scan as $index => $path) {
+                $this->empty_dir($path);
+            }
+            return @rmdir($str);
+        }
+    }
 
 
     //   

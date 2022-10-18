@@ -10,17 +10,6 @@ namespace SHORTCODE_ADDONS\Oxilab;
 class Reviews {
 
     /**
-     * Revoke this function when the object is created.
-     *
-     */
-    public function __construct() {
-        add_action('admin_notices', array($this, 'first_install'));
-        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
-        add_action('wp_ajax_shortcode_addons_reviews', array($this, 'notice_dissmiss'));
-        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
-    }
-
-    /**
      * Admin Notice Ajax  loader
      * @return void
      */
@@ -103,6 +92,17 @@ class Reviews {
     public function dismiss_button_scripts() {
         wp_enqueue_script('shortcode_addons_reviews', SA_ADDONS_URL . '/Oxilab/js/notice.js', false, SA_ADDONS_PLUGIN_VERSION);
         wp_localize_script('shortcode_addons_reviews', 'shortcode_addons_reviews', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode_addons_reviews')));
+    }
+
+    /**
+     * Revoke this function when the object is created.
+     *
+     */
+    public function __construct() {
+        add_action('admin_notices', array($this, 'first_install'));
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+        add_action('wp_ajax_shortcode_addons_reviews', array($this, 'notice_dissmiss'));
+        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
     }
 
 }

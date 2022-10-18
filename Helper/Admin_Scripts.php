@@ -12,31 +12,7 @@ if (!defined('ABSPATH')) {
 trait Admin_Scripts
 {
 
-    /**
-     * font family loader validation
-     *
-     * @since v2.1.0
-     */
-    public function loader_font_familly_validation($data = [])
-    {
-        foreach ($data as $value) {
-            wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
-        }
-    }
-    /**
-     * Admin Notice JS file loader
-     * @return void
-     */
-    public function admin_settings()
-    {
-        $this->admin_scripts();
-        wp_enqueue_script('shortcode-addons-settings-page', SA_ADDONS_URL . '/assets/backend/js/settings.js', false, SA_ADDONS_PLUGIN_VERSION);
-    }
-    /**
-     * Load Admin CSS and jQuery
-     *
-     * @since v2.1.0
-     */
+    
     public function admin_scripts()
     {
         $this->loader_font_familly_validation(['Bree+Serif', 'Source+Sans+Pro']);
@@ -129,4 +105,29 @@ trait Admin_Scripts
         wp_register_script('shortcode_addons_media_scripts', SA_ADDONS_URL . '/assets/backend/js/media-uploader.js', false, SA_ADDONS_PLUGIN_VERSION);
         wp_enqueue_script('shortcode_addons_media_scripts');
     }
+    /**
+     * font family loader validation
+     *
+     * @since v2.1.0
+     */
+    public function loader_font_familly_validation($data = [])
+    {
+        foreach ($data as $value) {
+            wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
+        }
+    }
+    /**
+     * Admin Notice JS file loader
+     * @return void
+     */
+    public function admin_settings()
+    {
+        $this->admin_scripts();
+        wp_enqueue_script('shortcode-addons-settings-page', SA_ADDONS_URL . '/assets/backend/js/settings.js', false, SA_ADDONS_PLUGIN_VERSION);
+    }
+    /**
+     * Load Admin CSS and jQuery
+     *
+     * @since v2.1.0
+     */
 }

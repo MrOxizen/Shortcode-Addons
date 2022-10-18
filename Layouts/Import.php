@@ -15,37 +15,6 @@ class Import extends Console
 
     public $elements;
 
-    /**
-     * Shortcode Addons Extension Constructor.
-     *
-     * @since 2.0.0
-     */
-    public function element_page()
-    {
-        do_action('shortcode-addons/before_init');
-        // Load Elements
-
-        $this->admin();
-
-        $this->render();
-    }
-
-    public function admin()
-    {
-        $this->import();
-        $this->admin_scripts();
-    }
-
-    /**
-     * Generate safe path
-     * @since v1.0.0
-     */
-    public function safe_path($path)
-    {
-
-        $path = str_replace(['//', '\\\\'], ['/', '\\'], $path);
-        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
-    }
 
     /**
      * Shortcode Addons Extension render.
@@ -152,5 +121,37 @@ class Import extends Console
             </div>
         </div>
 <?php
+    }
+    
+    /**
+     * Shortcode Addons Extension Constructor.
+     *
+     * @since 2.0.0
+     */
+    public function element_page()
+    {
+        do_action('shortcode-addons/before_init');
+        // Load Elements
+
+        $this->admin();
+
+        $this->render();
+    }
+
+    public function admin()
+    {
+        $this->import();
+        $this->admin_scripts();
+    }
+
+    /**
+     * Generate safe path
+     * @since v1.0.0
+     */
+    public function safe_path($path)
+    {
+
+        $path = str_replace(['//', '\\\\'], ['/', '\\'], $path);
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
     }
 }
