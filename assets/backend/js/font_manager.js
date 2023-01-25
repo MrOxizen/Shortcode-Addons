@@ -1,7 +1,7 @@
-
 jQuery.noConflict();
 (function ($) {
     var $wrapper = $("#s-a-font-manager-fonts");
+
     function FONTNEWRegExp(par = '') {
         return new RegExp(par, "g");
     }
@@ -17,19 +17,27 @@ jQuery.noConflict();
         let result;
         try {
             result = await $.ajax({
-                url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
+                url: shortcode_addons_ultimate.ajaxurl,
                 method: 'POST',
-                dataType: "json",
-
                 data: {
-                    _wpnonce: ShortCodeAddonsUltimate.nonce,
+                    action: 'shortcode_addons_ultimate',
+                    _wpnonce: shortcode_addons_ultimate.nonce,
+                    functionname: functionname,
                     styleid: styleid,
                     childid: childid,
                     rawdata: rawdata
                 }
             });
-            console.log(result)
-            return callback(result);
+            if (result) {
+                try {
+                    console.log(JSON.parse(result));
+                    return callback(JSON.parse(result));
+                } catch (e) {
+                    console.log(result);
+                    return callback(result)
+                }
+            }
+
         } catch (error) {
             console.error(error);
         }
@@ -37,8 +45,8 @@ jQuery.noConflict();
 
     $(document).ready(function () {
         var $menu = $(".shortcode-addons-fonts-selected"),
-                offset = $menu.offset(),
-                topPadding = 15;
+            offset = $menu.offset(),
+            topPadding = 15;
         $(window).scroll(function () {
             if ($(window).scrollTop() + 35 + 15 > offset.top) {
                 $menu.addClass('font_selection_fixed');
@@ -52,6 +60,7 @@ jQuery.noConflict();
         Get_Google_Fonts();
         Selected_Google_Fonts();
     });
+
     function Get_Google_Fonts() {
         var styleid = parseInt($('#s-a-font-manager-fonts').attr('data-font-load'));
         if (styleid < 3) {

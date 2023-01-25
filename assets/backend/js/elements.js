@@ -4,6 +4,7 @@ jQuery.noConflict();
     var childid = '';
     var clsname = '';
     var childid = '';
+
     async function ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, callback) {
         if (functionname === "") {
             alert('Confirm Function Name');
@@ -12,17 +13,26 @@ jQuery.noConflict();
         let result;
         try {
             result = await $.ajax({
-                url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
+                url: shortcode_addons_ultimate.ajaxurl,
                 method: 'POST',
-                dataType: "json",
                 data: {
-                    _wpnonce: ShortCodeAddonsUltimate.nonce,
+                    action: 'shortcode_addons_ultimate',
+                    _wpnonce: shortcode_addons_ultimate.nonce,
+                    functionname: functionname,
                     styleid: styleid,
                     childid: childid,
                     rawdata: rawdata
                 }
             });
-            return callback(result);
+            if (result) {
+                try {
+                    console.log(JSON.parse(result));
+                    return callback(JSON.parse(result));
+                } catch (e) {
+                    console.log(result);
+                    return callback(result)
+                }
+            }
         } catch (error) {
             console.error(error);
         }
@@ -102,16 +112,15 @@ jQuery.noConflict();
         var functionname = 'shortcode_delete';
         $(this).append('<span class="spinner sa-spinner-open"></span>');
         ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, function (callback) {
-            console.log(callback);
-            setTimeout(function () {
-                if (callback === 'done') {
-                    $This.parents('tr').remove();
-                }
-            }, 1000);
-        }
+                console.log(callback);
+                setTimeout(function () {
+                    if (callback === 'done') {
+                        $This.parents('tr').remove();
+                    }
+                }, 1000);
+            }
         );
     });
-
 
 
     setTimeout(function () {

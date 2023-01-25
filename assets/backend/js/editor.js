@@ -28,18 +28,26 @@ jQuery.noConflict();
         let result;
         try {
             result = await $.ajax({
-                url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
+                url: shortcode_addons_ultimate.ajaxurl,
                 method: 'POST',
-                dataType: "json",
                 data: {
-                    _wpnonce: ShortCodeAddonsUltimate.nonce,
+                    action: 'shortcode_addons_ultimate',
+                    _wpnonce: shortcode_addons_ultimate.nonce,
+                    functionname: functionname,
                     styleid: styleid,
                     childid: childid,
                     rawdata: rawdata
                 }
             });
-            //  console.log(result);
-            return callback(result);
+            if (result) {
+                try {
+                    console.log(JSON.parse(result));
+                    return callback(JSON.parse(result));
+                } catch (e) {
+                    console.log(result);
+                    return callback(result)
+                }
+            }
         } catch (error) {
             console.error(error);
         }
@@ -148,11 +156,13 @@ jQuery.noConflict();
         return $root;
     };
     $('.shortcode-addons-form-toggle [type=radio]').uncheckableRadio();
+
     function PopoverActiveDeactive($_This) {
         $(".shortcode-form-control").not($_This.parents()).removeClass('popover-active');
         $_This.closest(".shortcode-form-control").toggleClass('popover-active');
         event.stopPropagation();
     }
+
     $(document.body).on("click", ".shortcode-form-control-content-popover .shortcode-form-control-input-wrapper", function (event) {
         PopoverActiveDeactive($(this));
     });
@@ -250,6 +260,7 @@ jQuery.noConflict();
         });
         group.height(tallest);
     }
+
     setTimeout(function () {
         oxiequalHeight(jQuery(".oxiequalHeight"));
     }, 500);
@@ -280,13 +291,12 @@ jQuery.noConflict();
     });
 
 
-
     function ShortcodeAddonsPreviewDataLoader() {
         ShortcodeAddonsTemplateSettings('elements_template_render_data',
-                JSON.stringify($("#oxi-addons-form-submit").serializeJSON({checkboxUncheckedValue: "0"})),
-                styleid, childid, function (callback) {
-                    $("#oxi-addons-preview-data").html(callback);
-                });
+            JSON.stringify($("#oxi-addons-form-submit").serializeJSON({checkboxUncheckedValue: "0"})),
+            styleid, childid, function (callback) {
+                $("#oxi-addons-preview-data").html(callback);
+            });
     }
 
     function ShortcodeAddonsModalConfirm(id, data) {
@@ -372,6 +382,7 @@ jQuery.noConflict();
             $(this).html($value);
         });
     }
+
     function ShortCodeMultipleSelector_Handler($value) {
         return $value.replace(/{{[0-9a-zA-Z.?:_-]+}}/g, function (match, contents, offset, input_string) {
             var m = match.replace(/{{/g, "").replace(/}}/g, "");
@@ -392,6 +403,7 @@ jQuery.noConflict();
             return m;
         });
     }
+
     $("body").on("click", ".shortcode-addons-template-item-edit", function (e) {
         e.preventDefault();
         $('#shortcode-addons-template-modal-form')[0].reset();
@@ -800,6 +812,7 @@ jQuery.noConflict();
             });
         }
     });
+
 //console.log(offset);
 
     function ShortCodeFormSliderINT(ID = '') {
@@ -914,6 +927,7 @@ jQuery.noConflict();
             }
         });
     }
+
     ShortCodeFormSliderINT();
     $(".shortcode-form-slider-input input").on("keyup", function () {
         $input = $(this);
@@ -996,7 +1010,6 @@ jQuery.noConflict();
                 ShortcodeAddonsPreviewDataLoader();
             }
         }
-
 
 
     });
@@ -1302,6 +1315,7 @@ jQuery.noConflict();
 
 //       shortcode-form-control-tag-area
     }
+
     if ($('div').hasClass('shortcode-form-repeater-fields-wrapper')) {
         $(".shortcode-form-repeater-fields-wrapper").sortable({
             axis: 'y',
@@ -1329,6 +1343,7 @@ jQuery.noConflict();
         RepeaterTitle();
         $(this).parents('.shortcode-form-repeater-fields').toggleClass('shortcode-form-repeater-controls-open');
     });
+
     function childRecursive(element, func) {
         func(element);
         var children = element.children();
@@ -1338,9 +1353,11 @@ jQuery.noConflict();
             });
         }
     }
+
     function getNewAttr(str, newNum, REP) {
         return str.replace(REP, 'saarsarep' + newNum);
     }
+
     function setCloneAttr(element, value, REP) {
 
         if (element.attr('id') !== undefined) {
@@ -1356,6 +1373,7 @@ jQuery.noConflict();
             element.attr('data-condition', getNewAttr(element.attr('data-condition'), value, REP));
         }
     }
+
     $(document.body).on("click", ".shortcode-form-repeater-button", function () {
         event.preventDefault();
         $This = $(this);

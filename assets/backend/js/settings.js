@@ -2,8 +2,7 @@ jQuery.noConflict();
 (function ($) {
     var styleid = '';
     var childid = '';
-    var clsname = '';
-    var childid = '';
+
     async function ShortCodeAddonsRestApi(functionname, rawdata, styleid, childid, callback) {
         if (functionname === "") {
             alert('Confirm Function Name');
@@ -12,19 +11,27 @@ jQuery.noConflict();
         let result;
         try {
             result = await $.ajax({
-                url: ShortCodeAddonsUltimate.root + 'ShortCodeAddonsUltimate/v2/' + functionname,
+                url: shortcode_addons_ultimate.ajaxurl,
                 method: 'POST',
-                dataType: "json",
-
                 data: {
-                    _wpnonce: ShortCodeAddonsUltimate.nonce,
+                    action: 'shortcode_addons_ultimate',
+                    _wpnonce: shortcode_addons_ultimate.nonce,
+                    functionname: functionname,
                     styleid: styleid,
                     childid: childid,
                     rawdata: rawdata
                 }
             });
-            console.log(result);
-            return callback(result);
+            if (result) {
+                try {
+                    console.log(JSON.parse(result));
+                    return callback(JSON.parse(result));
+                } catch (e) {
+                    console.log(result);
+                    return callback(result)
+                }
+            }
+
         } catch (error) {
             console.error(error);
         }
