@@ -17,7 +17,27 @@ class Settings
     public $license;
     public $status;
 
-  
+    public function __construct()
+    {
+
+        do_action('shortcode-addons/before_init');
+        // Load Elements
+
+        $this->admin();
+
+        $this->render();
+    }
+
+    public function admin()
+    {
+        $this->admin_settings();
+
+        global $wp_roles;
+        $this->roles = $wp_roles->get_names();
+        $this->saved_role = get_option('oxi_addons_user_permission');
+        $this->license = get_option('shortcode_addons_license_key');
+        $this->status = get_option('oxi_addons_license_status');
+    }
 
     public function render()
     {
@@ -204,26 +224,5 @@ class Settings
             </div>
         </div>
 <?php
-    }
-      public function __construct()
-    {
-
-        do_action('shortcode-addons/before_init');
-        // Load Elements
-
-        $this->admin();
-
-        $this->render();
-    }
-
-    public function admin()
-    {
-        $this->admin_settings();
-
-        global $wp_roles;
-        $this->roles = $wp_roles->get_names();
-        $this->saved_role = get_option('oxi_addons_user_permission');
-        $this->license = get_option('shortcode_addons_license_key');
-        $this->status = get_option('oxi_addons_license_status');
     }
 }

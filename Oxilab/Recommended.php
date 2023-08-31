@@ -7,7 +7,8 @@ namespace SHORTCODE_ADDONS\Oxilab;
  *
  * @author biplo
  */
-class Recommended {
+class Recommended
+{
 
     const GET_LOCAL_PLUGINS = 'get_all_oxilab_plugins';
     const PLUGINS = 'https://www.oxilab.org/wp-json/oxilabplugins/v2/all_plugins';
@@ -15,9 +16,66 @@ class Recommended {
     public $get_plugins = [];
     public $current_plugins = 'shortcode-addons/index.php';
 
-   
 
-    public function extension() {
+
+
+
+    /**
+     * Admin Notice CSS file loader
+     * @return void
+     */
+    public function admin_enqueue_scripts()
+    {
+        wp_enqueue_script("jquery");
+        wp_enqueue_style('shortcode-addons-notice-css', SA_ADDONS_URL . '/Oxilab/css/notice.css', false, SA_ADDONS_PLUGIN_VERSION);
+        $this->dismiss_button_scripts();
+    }
+
+    /**
+     * Admin Notice JS file loader
+     * @return void
+     */
+    public function dismiss_button_scripts()
+    {
+        wp_enqueue_script('shortcode-addons-recommend', SA_ADDONS_URL . '/Oxilab/js/recommend.js', false, SA_ADDONS_PLUGIN_VERSION);
+        wp_localize_script('shortcode-addons-recommend', 'shortcode_addons_recommended', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode_addons_recommended')));
+    }
+
+    /**
+     * Admin Notice Ajax  loader
+     * @return void
+     */
+    public function notice_dissmiss()
+    {
+        if (isset($_POST['_wpnonce']) || wp_verify_nonce(sanitize_key(wp_unslash($_POST['_wpnonce'])), 'shortcode_addons_recommended')) :
+            $data = 'done';
+            update_option('shortcode_addons_recommended', $data);
+            echo 'done';
+        else :
+            return;
+        endif;
+        die();
+    }
+    /**
+     * Revoke this function when the object is created.
+     *
+     */
+    public function __construct()
+    {
+        require_once(ABSPATH . 'wp-admin/includes/screen.php');
+        $screen = get_current_screen();
+        if (isset($screen->parent_file) && 'plugins.php' === $screen->parent_file && 'update' === $screen->id) {
+            return;
+        }
+
+        $this->extension();
+        add_action('admin_notices', array($this, 'install_plugins'));
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+        add_action('wp_ajax_shortcode_addons_recommended', array($this, 'notice_dissmiss'));
+        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
+    }
+    public function extension()
+    {
         $response = get_transient(self::GET_LOCAL_PLUGINS);
         if (!$response || !is_array($response)) {
             $URL = self::PLUGINS;
@@ -36,15 +94,16 @@ class Recommended {
      * First Installation Track
      * @return void
      */
-    public function install_plugins() {
-      
+    public function install_plugins()
+    {
+
         $installed_plugins = get_plugins();
 
         $plugin = [];
         $i = 1;
 
         foreach ($this->get_plugins as $key => $value) {
-            if (!isset($installed_plugins[$value['modules-path']])):
+            if (!isset($installed_plugins[$value['modules-path']])) :
                 $plugin[$i] = $value;
                 $i++;
             endif;
@@ -52,23 +111,23 @@ class Recommended {
 
         $recommend = [];
 
-        for ($p = 1; $p < 100; $p++):
-            if (isset($plugin[$p])):
-                if (isset($plugin[$p]['dependency']) && $plugin[$p]['dependency'] != ''):
-                    if (isset($installed_plugins[$plugin[$p]['dependency']])):
+        for ($p = 1; $p < 100; $p++) :
+            if (isset($plugin[$p])) :
+                if (isset($plugin[$p]['dependency']) && $plugin[$p]['dependency'] != '') :
+                    if (isset($installed_plugins[$plugin[$p]['dependency']])) :
                         $recommend = $plugin[$p];
                         $p = 100;
                     endif;
-                elseif ($plugin[$p]['modules-path'] != $this->current_plugins):
+                elseif ($plugin[$p]['modules-path'] != $this->current_plugins) :
                     $recommend = $plugin[$p];
                     $p = 100;
                 endif;
-            else:
+            else :
                 $p = 100;
             endif;
         endfor;
-      
-        if (count($recommend) > 2 && $recommend['modules-path'] != ''):
+
+        if (count($recommend) > 2 && $recommend['modules-path'] != '') :
             $plugin = explode('/', $recommend['modules-path'])[0];
             $massage = '<p>Thank you for using my Shortcode Addons. ' . $recommend['modules-massage'] . '</p>';
 
@@ -89,56 +148,4 @@ class Recommended {
                     </div>';
         endif;
     }
-
-    /**
-     * Admin Notice CSS file loader
-     * @return void
-     */
-    public function admin_enqueue_scripts() {
-        wp_enqueue_script("jquery");
-        wp_enqueue_style('shortcode-addons-notice-css', SA_ADDONS_URL . '/Oxilab/css/notice.css', false, SA_ADDONS_PLUGIN_VERSION);
-        $this->dismiss_button_scripts();
-    }
-
-    /**
-     * Admin Notice JS file loader
-     * @return void
-     */
-    public function dismiss_button_scripts() {
-        wp_enqueue_script('shortcode-addons-recommend', SA_ADDONS_URL . '/Oxilab/js/recommend.js', false, SA_ADDONS_PLUGIN_VERSION);
-        wp_localize_script('shortcode-addons-recommend', 'shortcode_addons_recommended', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode_addons_recommended')));
-    }
-
-    /**
-     * Admin Notice Ajax  loader
-     * @return void
-     */
-    public function notice_dissmiss() {
-        if (isset($_POST['_wpnonce']) || wp_verify_nonce(sanitize_key(wp_unslash($_POST['_wpnonce'])), 'shortcode_addons_recommended')):
-            $data = 'done';
-            update_option('shortcode_addons_recommended', $data);
-            echo 'done';
-        else:
-            return;
-        endif;
-        die();
-    }
-     /**
-     * Revoke this function when the object is created.
-     *
-     */
-    public function __construct() {
-        require_once(ABSPATH . 'wp-admin/includes/screen.php');
-        $screen = get_current_screen();
-        if (isset($screen->parent_file) && 'plugins.php' === $screen->parent_file && 'update' === $screen->id) {
-            return;
-        }
-
-        $this->extension();
-        add_action('admin_notices', array($this, 'install_plugins'));
-        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
-        add_action('wp_ajax_shortcode_addons_recommended', array($this, 'notice_dissmiss'));
-        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
-    }
-
 }

@@ -141,149 +141,6 @@ class AdminStyle
     public $StyleName;
     public $template_css_render;
 
-   
-
-    /**
-     * Template Modal opener
-     * Define Multiple Data With Single Data
-     *
-     * @since 2.0.0
-     */
-    public function modal_opener()
-    {
-        $this->add_substitute_control('', [], [
-            'type' => Controls::MODALOPENER,
-            'title' => __('Add New Data', SHORTCODE_ADDOONS),
-            'sub-title' => __('Open Data Form', SHORTCODE_ADDOONS),
-            'showing' => TRUE,
-        ]);
-    }
-
-    /**
-     * Template Shortcode Name
-     * Define Shortcode Name
-     *
-     * @since 2.0.0
-     */
-    public function shortcode_name()
-    {
-        $this->add_substitute_control('', $this->dbdata, [
-            'type' => Controls::SHORTCODENAME,
-            'title' => __('Shortcode Name', SHORTCODE_ADDOONS),
-            'placeholder' => __('Set Your Shortcode Name', SHORTCODE_ADDOONS),
-            'showing' => TRUE,
-        ]);
-    }
-
-    /**
-     * Template Shortcode Information
-     * Parent Sector where users will get Shortcode Information
-     *
-     * @since 2.0.0
-     */
-    public function shortcode_info()
-    {
-        $this->add_substitute_control($this->oxiid, $this->dbdata, [
-            'type' => Controls::SHORTCODEINFO,
-            'title' => __('Shortcode', SHORTCODE_ADDOONS),
-            'showing' => TRUE,
-        ]);
-    }
-
-    /**
-     * Template Modal Form Data
-     * return always false and abstract with current Style Template
-     *
-     * @since 2.0.0
-     */
-    public function modal_form_data()
-    {
-        $this->form = 'single';
-    }
-
-    /**
-     * Template Parent Modal Form
-     *
-     * @since 2.0.0
-     */
-    public function modal_form()
-    {
-
-        echo '<div class="modal fade" id="oxi-addons-list-data-modal" >
-                <div class="modal-dialog">
-                    <form method="post" id="shortcode-addons-template-modal-form">
-                         <div class="modal-content">';
-        $this->modal_form_data();
-        echo '          <div class="modal-footer">
-                                <input type="hidden" id="shortcodeitemid" name="shortcodeitemid" value="">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" id="shortcode-template-modal-submit">Submit</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-              </div>';
-    }
-
-    /**
-     * Template Parent Item Data Rearrange
-     *
-     * @since 2.0.0
-     */
-    public function shortcode_rearrange()
-    {
-        echo '';
-    }
-    public function register_controls()
-    {
-        echo '';
-    }
-
-    /**
-     * Template CSS Render
-     *
-     * @since 2.0.0
-     */
-    public function template_css_render($style)
-    {
-        $styleid = $style['shortcode-addons-elements-id'];
-        $this->oxiid = $styleid;
-        $this->WRAPPER = '.shortcode-addons-wrapper-' . $this->oxiid;
-        $this->style = $style;
-        ob_start();
-        $this->template_css_render = 'css_render';
-        $dt = $this->import_font_family();
-        $dt .= $this->register_controls();
-        ob_end_clean();
-
-        $fullcssfile = '';
-        foreach ($this->CSSDATA as $key => $responsive) {
-            $tempcss = '';
-            foreach ($responsive as $class => $classes) {
-                $tempcss .= $class . '{';
-                foreach ($classes as $properties) {
-                    $tempcss .= $properties;
-                }
-                $tempcss .= '}';
-            }
-            if ($key == 'laptop') :
-                $fullcssfile .= $tempcss;
-            elseif ($key == 'tab') :
-                $fullcssfile .= '@media only screen and (min-width : 669px) and (max-width : 993px){';
-                $fullcssfile .= $tempcss;
-                $fullcssfile .= '}';
-            elseif ($key == 'mobile') :
-                $fullcssfile .= '@media only screen and (max-width : 668px){';
-                $fullcssfile .= $tempcss;
-                $fullcssfile .= '}';
-            endif;
-        }
-        $font = json_encode($this->font);
-        $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->parent_table} SET stylesheet = %s WHERE id = %d", $fullcssfile, $styleid));
-        $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->parent_table} SET font_family = %s WHERE id = %d", $font, $styleid));
-        return 'success';
-    }
-
     /**
      * Inline Template CSS Render
      *
@@ -470,7 +327,150 @@ class AdminStyle
         </div>
 <?php
     }
-     /**
+
+    /**
+     * Template Modal opener
+     * Define Multiple Data With Single Data
+     *
+     * @since 2.0.0
+     */
+    public function modal_opener()
+    {
+        $this->add_substitute_control('', [], [
+            'type' => Controls::MODALOPENER,
+            'title' => __('Add New Data', SHORTCODE_ADDOONS),
+            'sub-title' => __('Open Data Form', SHORTCODE_ADDOONS),
+            'showing' => TRUE,
+        ]);
+    }
+
+    /**
+     * Template Shortcode Name
+     * Define Shortcode Name
+     *
+     * @since 2.0.0
+     */
+    public function shortcode_name()
+    {
+        $this->add_substitute_control('', $this->dbdata, [
+            'type' => Controls::SHORTCODENAME,
+            'title' => __('Shortcode Name', SHORTCODE_ADDOONS),
+            'placeholder' => __('Set Your Shortcode Name', SHORTCODE_ADDOONS),
+            'showing' => TRUE,
+        ]);
+    }
+
+    /**
+     * Template Shortcode Information
+     * Parent Sector where users will get Shortcode Information
+     *
+     * @since 2.0.0
+     */
+    public function shortcode_info()
+    {
+        $this->add_substitute_control($this->oxiid, $this->dbdata, [
+            'type' => Controls::SHORTCODEINFO,
+            'title' => __('Shortcode', SHORTCODE_ADDOONS),
+            'showing' => TRUE,
+        ]);
+    }
+
+    /**
+     * Template Modal Form Data
+     * return always false and abstract with current Style Template
+     *
+     * @since 2.0.0
+     */
+    public function modal_form_data()
+    {
+        $this->form = 'single';
+    }
+
+    /**
+     * Template Parent Modal Form
+     *
+     * @since 2.0.0
+     */
+    public function modal_form()
+    {
+
+        echo '<div class="modal fade" id="oxi-addons-list-data-modal" >
+                <div class="modal-dialog">
+                    <form method="post" id="shortcode-addons-template-modal-form">
+                         <div class="modal-content">';
+        $this->modal_form_data();
+        echo '          <div class="modal-footer">
+                                <input type="hidden" id="shortcodeitemid" name="shortcodeitemid" value="">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" id="shortcode-template-modal-submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+              </div>';
+    }
+
+    /**
+     * Template Parent Item Data Rearrange
+     *
+     * @since 2.0.0
+     */
+    public function shortcode_rearrange()
+    {
+        echo '';
+    }
+    public function register_controls()
+    {
+        echo '';
+    }
+
+    /**
+     * Template CSS Render
+     *
+     * @since 2.0.0
+     */
+    public function template_css_render($style)
+    {
+        $styleid = $style['shortcode-addons-elements-id'];
+        $this->oxiid = $styleid;
+        $this->WRAPPER = '.shortcode-addons-wrapper-' . $this->oxiid;
+        $this->style = $style;
+        ob_start();
+        $this->template_css_render = 'css_render';
+        $dt = $this->import_font_family();
+        $dt .= $this->register_controls();
+        ob_end_clean();
+
+        $fullcssfile = '';
+        foreach ($this->CSSDATA as $key => $responsive) {
+            $tempcss = '';
+            foreach ($responsive as $class => $classes) {
+                $tempcss .= $class . '{';
+                foreach ($classes as $properties) {
+                    $tempcss .= $properties;
+                }
+                $tempcss .= '}';
+            }
+            if ($key == 'laptop') :
+                $fullcssfile .= $tempcss;
+            elseif ($key == 'tab') :
+                $fullcssfile .= '@media only screen and (min-width : 669px) and (max-width : 993px){';
+                $fullcssfile .= $tempcss;
+                $fullcssfile .= '}';
+            elseif ($key == 'mobile') :
+                $fullcssfile .= '@media only screen and (max-width : 668px){';
+                $fullcssfile .= $tempcss;
+                $fullcssfile .= '}';
+            endif;
+        }
+        $font = json_encode($this->font);
+        $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->parent_table} SET stylesheet = %s WHERE id = %d", $fullcssfile, $styleid));
+        $this->wpdb->query($this->wpdb->prepare("UPDATE {$this->parent_table} SET font_family = %s WHERE id = %d", $font, $styleid));
+        return 'success';
+    }
+
+
+    /**
      * Shortcode Addons Construct
      *
      * @since 2.1.0

@@ -11,13 +11,25 @@ if (!defined('ABSPATH')) {
  *
  * @author biplo
  */
-class Support {
+class Support
+{
 
     use \SHORTCODE_ADDONS\Helper\Admin_Scripts;
 
+    public function __construct()
+    {
+        $this->header();
+        $this->Public_Render();
+    }
 
-    public function Public_Render() {
-        ?>
+    public function header()
+    {
+        $this->admin_scripts();
+        apply_filters('shortcode-addons/admin_menu', false);
+    }
+    public function Public_Render()
+    {
+?>
         <div class="oxi-addons-wrapper">
             <div class="oxi-addons-import-layouts">
                 <div class="about-wrap text-center">
@@ -88,17 +100,6 @@ class Support {
         </div>
 
 
-        <?php
+<?php
     }
-    
-    public function __construct() {
-        $this->header();
-        $this->Public_Render();
-    }
-
-    public function header() {
-        $this->admin_scripts();
-        apply_filters('shortcode-addons/admin_menu', false);
-    }
-
 }

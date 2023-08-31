@@ -9,79 +9,8 @@ namespace SHORTCODE_ADDONS\Helper;
 trait Helper
 {
 
-    
 
-    /**
-     * Plugin menu Permission
-     *
-     * @since 2.0.0
-     */
-    public function menu_permission()
-    {
-        $user_role = get_option('oxi_addons_user_permission');
-        $role_object = get_role($user_role);
-        if (isset($role_object->capabilities) && is_array($role_object->capabilities)) :
-            reset($role_object->capabilities);
-            return key($role_object->capabilities);
-        else :
-            return 'manage_options';
-        endif;
-    }
 
-    /**
-     * Plugin admin menu
-     *
-     * @since 2.0.0
-     */
-    public function oxilab_admin_menu($agr)
-    {
-
-        $bgimage = SA_ADDONS_URL . 'image/sa-logo.png';
-        $sub = '';
-
-        $menu = '<div class="oxi-addons-wrapper">
-                    <div class="oxilab-new-admin-menu">
-                        <div class="oxi-site-logo">
-                            <a href="' . admin_url('admin.php?page=shortcode-addons') . '" class="header-logo" style=" background-image: url(' . $bgimage . ');">
-                            </a>
-                        </div>
-                        <nav class="oxilab-sa-admin-nav">
-                            <ul class="oxilab-sa-admin-menu">';
-
-        $GETPage = sanitize_text_field($_GET['page']);
-        $oxitype = (!empty($_GET['oxitype']) ? sanitize_text_field($_GET['oxitype']) : '');
-
-        if ($oxitype != '') :
-            $menu .= '<li class="active"><a href="' . admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype) . '">' . $this->name_converter($oxitype) . '</a></li>';
-        endif;
-        $response = [
-            'Elements' => [
-                'name' => 'Elements',
-                'homepage' => 'shortcode-addons'
-            ],
-            'Import' => [
-                'name' => 'Import',
-                'homepage' => 'shortcode-addons-import'
-            ]
-        ];
-
-        foreach ($response as $key => $value) {
-            $active = ($GETPage == $value['homepage'] ? (empty($oxitype) ? ' class="active" ' : '') : '');
-            $menu .= '<li ' . $active . '><a href="' . admin_url('admin.php?page=' . $value['homepage'] . '') . '">' . $this->name_converter($value['name']) . '</a></li>';
-        }
-        $menu .= '              </ul>
-                            <ul class="oxilab-sa-admin-menu2">
-                               ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE ? ' <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Upgrade</a></li>' : '') . '
-                               <li class="saadmin-doc"><a target="_black" href="https://www.oxilabdemos.com/shortcode-addons/docs/">Docs</a></li>
-                               <li class="saadmin-doc"><a target="_black" href="https://wordpress.org/support/plugin/shortcode-addons/">Support</a></li>
-                               <li class="saadmin-set"><a href="' . admin_url('admin.php?page=shortcode-addons-settings') . '"><span class="dashicons dashicons-admin-generic"></span></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                ' . $sub;
-        echo __($menu, SHORTCODE_ADDOONS);
-    }
 
     /**
      * Plugin admin menu
@@ -376,6 +305,79 @@ trait Helper
             return;
         endif;
         die();
+    }
+
+
+    /**
+     * Plugin menu Permission
+     *
+     * @since 2.0.0
+     */
+    public function menu_permission()
+    {
+        $user_role = get_option('oxi_addons_user_permission');
+        $role_object = get_role($user_role);
+        if (isset($role_object->capabilities) && is_array($role_object->capabilities)) :
+            reset($role_object->capabilities);
+            return key($role_object->capabilities);
+        else :
+            return 'manage_options';
+        endif;
+    }
+
+    /**
+     * Plugin admin menu
+     *
+     * @since 2.0.0
+     */
+    public function oxilab_admin_menu($agr)
+    {
+
+        $bgimage = SA_ADDONS_URL . 'image/sa-logo.png';
+        $sub = '';
+
+        $menu = '<div class="oxi-addons-wrapper">
+                    <div class="oxilab-new-admin-menu">
+                        <div class="oxi-site-logo">
+                            <a href="' . admin_url('admin.php?page=shortcode-addons') . '" class="header-logo" style=" background-image: url(' . $bgimage . ');">
+                            </a>
+                        </div>
+                        <nav class="oxilab-sa-admin-nav">
+                            <ul class="oxilab-sa-admin-menu">';
+
+        $GETPage = sanitize_text_field($_GET['page']);
+        $oxitype = (!empty($_GET['oxitype']) ? sanitize_text_field($_GET['oxitype']) : '');
+
+        if ($oxitype != '') :
+            $menu .= '<li class="active"><a href="' . admin_url('admin.php?page=shortcode-addons&oxitype=' . $oxitype) . '">' . $this->name_converter($oxitype) . '</a></li>';
+        endif;
+        $response = [
+            'Elements' => [
+                'name' => 'Elements',
+                'homepage' => 'shortcode-addons'
+            ],
+            'Import' => [
+                'name' => 'Import',
+                'homepage' => 'shortcode-addons-import'
+            ]
+        ];
+
+        foreach ($response as $key => $value) {
+            $active = ($GETPage == $value['homepage'] ? (empty($oxitype) ? ' class="active" ' : '') : '');
+            $menu .= '<li ' . $active . '><a href="' . admin_url('admin.php?page=' . $value['homepage'] . '') . '">' . $this->name_converter($value['name']) . '</a></li>';
+        }
+        $menu .= '              </ul>
+                            <ul class="oxilab-sa-admin-menu2">
+                               ' . (apply_filters(SA_ADDONS_PLUGIN_ADMIN, false) == FALSE ? ' <li class="fazil-class" ><a target="_blank" href="https://www.oxilabdemos.com/shortcode-addons/pricing/">Upgrade</a></li>' : '') . '
+                               <li class="saadmin-doc"><a target="_black" href="https://www.oxilabdemos.com/shortcode-addons/docs/">Docs</a></li>
+                               <li class="saadmin-doc"><a target="_black" href="https://wordpress.org/support/plugin/shortcode-addons/">Support</a></li>
+                               <li class="saadmin-set"><a href="' . admin_url('admin.php?page=shortcode-addons-settings') . '"><span class="dashicons dashicons-admin-generic"></span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                ' . $sub;
+        echo __($menu, SHORTCODE_ADDOONS);
     }
     /**
      * Plugin fixed

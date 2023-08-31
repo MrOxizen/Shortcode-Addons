@@ -143,7 +143,7 @@ class Templates
         $this->public_frontend_loader();
         $this->old_render();
     }
-     /**
+    /**
      * old empty old render
      *
      * @since 2.0.0
@@ -153,75 +153,6 @@ class Templates
         echo '';
     }
 
-    /**
-     * load current element render since 2.0.0
-     *
-     * @since 2.0.0
-     */
-    public function render()
-    {
-        echo '<div class="oxi-addons-container ' . $this->WRAPPER . ' ' . get_option('oxi_addons_conflict_class') . '">
-                 <div class="oxi-addons-row">';
-        $this->default_render($this->style, $this->child, $this->admin);
-        echo '   </div>
-              </div>';
-    }
-
-    /**
-     * load css and js hooks
-     *
-     * @since 2.0.0
-     */
-    public function hooks()
-    {
-
-        $this->public_frontend_loader();
-        $this->public_jquery();
-        $this->public_css();
-        $this->render();
-        $inlinecss = $this->inline_public_css() . $this->inline_css;
-        $inlinejs = $this->inline_public_jquery();
-        wp_enqueue_style('shortcode-addons-' . $this->oxitype . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])), SA_ADDONS_UPLOAD_URL . $this->oxitype . '/Css/' . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])) . '.css', false, SA_ADDONS_PLUGIN_VERSION);
-        if ($this->CSSDATA == '' && $this->admin == 'admin') {
-            $this->style['shortcode-addons-elements-id'] = $this->oxiid;
-            $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $this->oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])) . '';
-            $CLASS = new $cls('admin');
-            $inlinecss .= $CLASS->inline_template_css_render($this->style);
-        } else {
-            $inlinecss .= $this->CSSDATA;
-        }
-        echo $this->font_familly_validation(json_decode(($this->dbdata['font_family'] != '' ? $this->dbdata['font_family'] : "[]"), true));
-
-        if ($inlinejs != '') :
-            if ($this->admin == 'admin') :
-                //only load while ajax called
-                echo _('<script>
-                        (function ($) {
-                            setTimeout(function () {');
-                echo $inlinejs;
-                echo _('    }, 1000);
-                        })(jQuery)</script>');
-            else :
-                $jquery = '(function ($) {var $ = jQuery; ' . $inlinejs . '})(jQuery);';
-                wp_add_inline_script($this->JSHANDLE, $jquery);
-            endif;
-
-        endif;
-
-        if ($inlinecss != '') :
-
-            $inlinecss = html_entity_decode(str_replace('<br>', ' ', str_replace('&nbsp;', ' ', $inlinecss)));
-            if ($this->admin == 'admin') :
-                //only load while ajax called
-                echo _('<style>');
-                echo $inlinecss;
-                echo _('</style>');
-            else :
-
-                wp_add_inline_style('shortcode-addons-style', $inlinecss);
-            endif;
-        endif;
-    }
 
     /**
      * front end loader css and js
@@ -258,7 +189,7 @@ class Templates
         ));
     }
 
-   
+
 
     /**
      * load public jquery
@@ -328,5 +259,76 @@ class Templates
     public function Json_Decode($rawdata)
     {
         return $rawdata != '' ? json_decode(stripcslashes($rawdata), true) : [];
+    }
+
+
+    /**
+     * load current element render since 2.0.0
+     *
+     * @since 2.0.0
+     */
+    public function render()
+    {
+        echo '<div class="oxi-addons-container ' . $this->WRAPPER . ' ' . get_option('oxi_addons_conflict_class') . '">
+                 <div class="oxi-addons-row">';
+        $this->default_render($this->style, $this->child, $this->admin);
+        echo '   </div>
+              </div>';
+    }
+
+    /**
+     * load css and js hooks
+     *
+     * @since 2.0.0
+     */
+    public function hooks()
+    {
+
+        $this->public_frontend_loader();
+        $this->public_jquery();
+        $this->public_css();
+        $this->render();
+        $inlinecss = $this->inline_public_css() . $this->inline_css;
+        $inlinejs = $this->inline_public_jquery();
+        wp_enqueue_style('shortcode-addons-' . $this->oxitype . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])), SA_ADDONS_UPLOAD_URL . $this->oxitype . '/Css/' . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])) . '.css', false, SA_ADDONS_PLUGIN_VERSION);
+        if ($this->CSSDATA == '' && $this->admin == 'admin') {
+            $this->style['shortcode-addons-elements-id'] = $this->oxiid;
+            $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $this->oxitype . '\Admin\\' . ucfirst(str_replace('-', '_', $this->dbdata['style_name'])) . '';
+            $CLASS = new $cls('admin');
+            $inlinecss .= $CLASS->inline_template_css_render($this->style);
+        } else {
+            $inlinecss .= $this->CSSDATA;
+        }
+        echo $this->font_familly_validation(json_decode(($this->dbdata['font_family'] != '' ? $this->dbdata['font_family'] : "[]"), true));
+
+        if ($inlinejs != '') :
+            if ($this->admin == 'admin') :
+                //only load while ajax called
+                echo _('<script>
+                        (function ($) {
+                            setTimeout(function () {');
+                echo $inlinejs;
+                echo _('    }, 1000);
+                        })(jQuery)</script>');
+            else :
+                $jquery = '(function ($) {var $ = jQuery; ' . $inlinejs . '})(jQuery);';
+                wp_add_inline_script($this->JSHANDLE, $jquery);
+            endif;
+
+        endif;
+
+        if ($inlinecss != '') :
+
+            $inlinecss = html_entity_decode(str_replace('<br>', ' ', str_replace('&nbsp;', ' ', $inlinecss)));
+            if ($this->admin == 'admin') :
+                //only load while ajax called
+                echo _('<style>');
+                echo $inlinecss;
+                echo _('</style>');
+            else :
+
+                wp_add_inline_style('shortcode-addons-style', $inlinecss);
+            endif;
+        endif;
     }
 }

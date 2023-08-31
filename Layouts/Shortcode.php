@@ -7,15 +7,33 @@ namespace SHORTCODE_ADDONS\Layouts;
  *
  * @author biplo
  */
+
 use SHORTCODE_ADDONS\Helper\Database as Database;
 
-class Shortcode extends Database {
+class Shortcode extends Database
+{
 
+
+
+    /*
+     * Shortcode Addons file Check.
+     * 
+     * @since 2.1.0
+     */
+
+    public function file_check($elements)
+    {
+        ob_start();
+        $upload = new \SHORTCODE_ADDONS\Core\Console();
+        $upload->post_get_elements($elements);
+        ob_get_clean();
+    }
     /**
      * Shortcode Call
      */
-    public function oxi_addons($styleid = 0, $user = 'user') {
-        if ($styleid == 0):
+    public function oxi_addons($styleid = 0, $user = 'user')
+    {
+        if ($styleid == 0) :
             return;
         endif;
         ob_start();
@@ -26,7 +44,7 @@ class Shortcode extends Database {
         if (is_array($styledata)) {
             $element = ucfirst(strtolower(str_replace('-', '_', $styledata['type'])));
             $cls = '\SHORTCODE_ADDONS_UPLOAD\\' . $element . '\Templates\\' . ucfirst(str_replace('-', '_', $styledata['style_name'])) . '';
-            if (!class_exists($cls)):
+            if (!class_exists($cls)) :
                 $this->file_check($element);
             endif;
             $CLASS = new $cls;
@@ -41,18 +59,4 @@ class Shortcode extends Database {
         echo $shortcode;
         return ob_get_clean();
     }
-
-    /*
-     * Shortcode Addons file Check.
-     * 
-     * @since 2.1.0
-     */
-
-    public function file_check($elements) {
-        ob_start();
-        $upload = new \SHORTCODE_ADDONS\Core\Console();
-        $upload->post_get_elements($elements);
-        ob_get_clean();
-    }
-
 }

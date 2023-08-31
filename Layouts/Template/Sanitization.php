@@ -7,172 +7,7 @@ use SHORTCODE_ADDONS\Core\Admin\Controls as Controls;
 trait Sanitization
 {
 
-    /**
-     * font settings sanitize 
-     * works at layouts page to adding font Settings sanitize
-     */
-    public function AdminTextSenitize($data)
-    {
-        $data = str_replace('\\\\"', '&quot;', $data);
-        $data = str_replace('\\\"', '&quot;', $data);
-        $data = str_replace('\\"', '&quot;', $data);
-        $data = str_replace('\"', '&quot;', $data);
-        $data = str_replace('"', '&quot;', $data);
-        $data = str_replace('\\\\&quot;', '&quot;', $data);
-        $data = str_replace('\\\&quot;', '&quot;', $data);
-        $data = str_replace('\\&quot;', '&quot;', $data);
-        $data = str_replace('\&quot;', '&quot;', $data);
-        $data = str_replace("\\\\'", '&apos;', $data);
-        $data = str_replace("\\\'", '&apos;', $data);
-        $data = str_replace("\\'", '&apos;', $data);
-        $data = str_replace("\'", '&apos;', $data);
-        $data = str_replace("\\\\&apos;", '&apos;', $data);
-        $data = str_replace("\\\&apos;", '&apos;', $data);
-        $data = str_replace("\\&apos;", '&apos;', $data);
-        $data = str_replace("\&apos;", '&apos;', $data);
-        $data = str_replace("'", '&apos;', $data);
-        $data = str_replace('<', '&lt;', $data);
-        $data = str_replace('>', '&gt;', $data);
-        $data = sanitize_text_field($data);
-        return $data;
-    }
 
-    /*
-     * Shortcode Addons Style Admin Panel header
-     * 
-     * @since 2.0.0
-     */
-
-    public function start_section_header($id, array $arg = [])
-    {
-        echo '<ul class="oxi-addons-tabs-ul">   ';
-        foreach ($arg['options'] as $key => $value) {
-            echo '<li ref="#shortcode-addons-section-' . $key . '">' . $value . '</li>';
-        }
-        echo '</ul>';
-    }
-
-    /*
-     * Shortcode Addons Style Admin Panel Body
-     * 
-     * @since 2.0.0
-     */
-
-    public function start_section_tabs($id, array $arg = [])
-    {
-        echo '<div class="oxi-addons-tabs-content-tabs" id="shortcode-addons-section-';
-        if (array_key_exists('condition', $arg)) :
-            foreach ($arg['condition'] as $value) {
-                echo $value;
-            }
-        endif;
-        echo '">';
-    }
-
-    /*
-     * Shortcode Addons Style Admin Panel end tabs
-     * 
-     * @since 2.0.0
-     */
-
-    public function end_section_tabs()
-    {
-        echo '</div>';
-    }
-
-    /*
-     * Shortcode Addons Style Admin Panel Col 6 or Entry devider
-     * 
-     * @since 2.0.0
-     */
-
-    public function start_section_devider()
-    {
-        echo '<div class="oxi-addons-col-6">';
-    }
-
-    /*
-     * Shortcode Addons Style Admin Panel end Entry Divider
-     * 
-     * @since 2.0.0
-     */
-
-    public function end_section_devider()
-    {
-        echo '</div>';
-    }
-
-    /*
-     * Shortcode Addons Style Admin Panel Form Dependency 
-     * 
-     * @since 2.0.0
-     */
-
-    public function forms_condition(array $arg = [])
-    {
-
-        if (array_key_exists('condition', $arg)) :
-            $i = $arg['condition'] != '' ? count($arg['condition']) : 0;
-            // echo $i;
-            $data = '';
-            $s = 1;
-            $form_condition = array_key_exists('form_condition', $arg) ? $arg['form_condition'] : '';
-            foreach ($arg['condition'] != '' ? $arg['condition'] : [] as $key => $value) {
-                if (is_array($value)) :
-                    $c = count($value);
-                    $crow = 1;
-                    if ($c > 1 && $i > 1) :
-                        $data .= '(';
-                    endif;
-                    foreach ($value as $item) {
-                        $data .= $form_condition . $key . ' === \'' . $item . '\'';
-                        if ($crow < $c) :
-                            $data .= ' || ';
-                            $crow++;
-                        endif;
-                    }
-                    if ($c > 1 && $i > 1) :
-                        $data .= ')';
-                    endif;
-                elseif ($value == 'COMPILED') :
-                    $data .= $form_condition . $key;
-                elseif ($value == 'EMPTY') :
-                    $data .= $form_condition . $key . ' !== \'\'';
-                elseif (empty($value)) :
-                    $data .= $form_condition . $key;
-                else :
-                    $data .= $form_condition . $key . ' === \'' . $value . '\'';
-                endif;
-
-                if ($s < $i) :
-                    $data .= ' && ';
-                    $s++;
-                endif;
-            }
-            if (!empty($data)) :
-                return 'data-condition="' . $data . '"';
-            endif;
-        endif;
-    }
-
-    /*
-     * Shortcode Addons Style Admin Panel Each Tabs
-     * 
-     * @since 2.0.0
-     */
-
-    public function start_controls_section($id, array $arg = [])
-    {
-        $defualt = ['showing' => FALSE];
-        $arg = array_merge($defualt, $arg);
-        $condition = $this->forms_condition($arg);
-        echo '<div class="oxi-addons-content-div ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '" ' . $condition . '>
-                    <div class="oxi-head">
-                    ' . $arg['label'] . '
-                    <div class="oxi-head-toggle"></div>
-                    </div>
-                    <div class="oxi-addons-content-div-body">';
-    }
 
     /*
      * Shortcode Addons Style Admin Panel end Each Tabs
@@ -2547,6 +2382,173 @@ trait Sanitization
             ]
         );
         echo '</div></div>';
+    }
+
+    /**
+     * font settings sanitize 
+     * works at layouts page to adding font Settings sanitize
+     */
+    public function AdminTextSenitize($data)
+    {
+        $data = str_replace('\\\\"', '&quot;', $data);
+        $data = str_replace('\\\"', '&quot;', $data);
+        $data = str_replace('\\"', '&quot;', $data);
+        $data = str_replace('\"', '&quot;', $data);
+        $data = str_replace('"', '&quot;', $data);
+        $data = str_replace('\\\\&quot;', '&quot;', $data);
+        $data = str_replace('\\\&quot;', '&quot;', $data);
+        $data = str_replace('\\&quot;', '&quot;', $data);
+        $data = str_replace('\&quot;', '&quot;', $data);
+        $data = str_replace("\\\\'", '&apos;', $data);
+        $data = str_replace("\\\'", '&apos;', $data);
+        $data = str_replace("\\'", '&apos;', $data);
+        $data = str_replace("\'", '&apos;', $data);
+        $data = str_replace("\\\\&apos;", '&apos;', $data);
+        $data = str_replace("\\\&apos;", '&apos;', $data);
+        $data = str_replace("\\&apos;", '&apos;', $data);
+        $data = str_replace("\&apos;", '&apos;', $data);
+        $data = str_replace("'", '&apos;', $data);
+        $data = str_replace('<', '&lt;', $data);
+        $data = str_replace('>', '&gt;', $data);
+        $data = sanitize_text_field($data);
+        return $data;
+    }
+
+    /*
+     * Shortcode Addons Style Admin Panel header
+     * 
+     * @since 2.0.0
+     */
+
+    public function start_section_header($id, array $arg = [])
+    {
+        echo '<ul class="oxi-addons-tabs-ul">   ';
+        foreach ($arg['options'] as $key => $value) {
+            echo '<li ref="#shortcode-addons-section-' . $key . '">' . $value . '</li>';
+        }
+        echo '</ul>';
+    }
+
+    /*
+     * Shortcode Addons Style Admin Panel Body
+     * 
+     * @since 2.0.0
+     */
+
+    public function start_section_tabs($id, array $arg = [])
+    {
+        echo '<div class="oxi-addons-tabs-content-tabs" id="shortcode-addons-section-';
+        if (array_key_exists('condition', $arg)) :
+            foreach ($arg['condition'] as $value) {
+                echo $value;
+            }
+        endif;
+        echo '">';
+    }
+
+    /*
+     * Shortcode Addons Style Admin Panel end tabs
+     * 
+     * @since 2.0.0
+     */
+
+    public function end_section_tabs()
+    {
+        echo '</div>';
+    }
+
+    /*
+     * Shortcode Addons Style Admin Panel Col 6 or Entry devider
+     * 
+     * @since 2.0.0
+     */
+
+    public function start_section_devider()
+    {
+        echo '<div class="oxi-addons-col-6">';
+    }
+
+    /*
+     * Shortcode Addons Style Admin Panel end Entry Divider
+     * 
+     * @since 2.0.0
+     */
+
+    public function end_section_devider()
+    {
+        echo '</div>';
+    }
+
+    /*
+     * Shortcode Addons Style Admin Panel Form Dependency 
+     * 
+     * @since 2.0.0
+     */
+
+    public function forms_condition(array $arg = [])
+    {
+
+        if (array_key_exists('condition', $arg)) :
+            $i = $arg['condition'] != '' ? count($arg['condition']) : 0;
+            // echo $i;
+            $data = '';
+            $s = 1;
+            $form_condition = array_key_exists('form_condition', $arg) ? $arg['form_condition'] : '';
+            foreach ($arg['condition'] != '' ? $arg['condition'] : [] as $key => $value) {
+                if (is_array($value)) :
+                    $c = count($value);
+                    $crow = 1;
+                    if ($c > 1 && $i > 1) :
+                        $data .= '(';
+                    endif;
+                    foreach ($value as $item) {
+                        $data .= $form_condition . $key . ' === \'' . $item . '\'';
+                        if ($crow < $c) :
+                            $data .= ' || ';
+                            $crow++;
+                        endif;
+                    }
+                    if ($c > 1 && $i > 1) :
+                        $data .= ')';
+                    endif;
+                elseif ($value == 'COMPILED') :
+                    $data .= $form_condition . $key;
+                elseif ($value == 'EMPTY') :
+                    $data .= $form_condition . $key . ' !== \'\'';
+                elseif (empty($value)) :
+                    $data .= $form_condition . $key;
+                else :
+                    $data .= $form_condition . $key . ' === \'' . $value . '\'';
+                endif;
+
+                if ($s < $i) :
+                    $data .= ' && ';
+                    $s++;
+                endif;
+            }
+            if (!empty($data)) :
+                return 'data-condition="' . $data . '"';
+            endif;
+        endif;
+    }
+
+    /*
+     * Shortcode Addons Style Admin Panel Each Tabs
+     * 
+     * @since 2.0.0
+     */
+
+    public function start_controls_section($id, array $arg = [])
+    {
+        $defualt = ['showing' => FALSE];
+        $arg = array_merge($defualt, $arg);
+        $condition = $this->forms_condition($arg);
+        echo '<div class="oxi-addons-content-div ' . (($arg['showing']) ? '' : 'oxi-admin-head-d-none') . '" ' . $condition . '>
+                    <div class="oxi-head">
+                    ' . $arg['label'] . '
+                    <div class="oxi-head-toggle"></div>
+                    </div>
+                    <div class="oxi-addons-content-div-body">';
     }
 
     /*

@@ -99,7 +99,7 @@ jQuery.noConflict();
     });
     $('.shortcode-control-type-select .shortcode-addons-select-input').each(function (e) {
         if (!$(this).parents('.shortcode-addons-form-repeater-store').length) {
-            $(this).select2({width: '100%'});
+            $(this).select2({ width: '100%' });
         }
     });
     $('.shortcode-form-control').each(function (e) {
@@ -277,7 +277,7 @@ jQuery.noConflict();
             jQuery(".oxi_addons_table_data").DataTable({
                 "aLengthMenu": [[7, 25, 50, -1], [7, 25, 50, "All"]],
                 "initComplete": function (settings, json) {
-                    jQuery(".oxi-addons-row.table-responsive").css("opacity", "1").animate({height: jQuery(".oxi-addons-row.table-responsive").get(0).scrollHeight}, 1000);
+                    jQuery(".oxi-addons-row.table-responsive").css("opacity", "1").animate({ height: jQuery(".oxi-addons-row.table-responsive").get(0).scrollHeight }, 1000);
                     ;
                 }
             });
@@ -293,7 +293,7 @@ jQuery.noConflict();
 
     function ShortcodeAddonsPreviewDataLoader() {
         ShortcodeAddonsTemplateSettings('elements_template_render_data',
-            JSON.stringify($("#oxi-addons-form-submit").serializeJSON({checkboxUncheckedValue: "0"})),
+            JSON.stringify($("#oxi-addons-form-submit").serializeJSON({ checkboxUncheckedValue: "0" })),
             styleid, childid, function (callback) {
                 $("#oxi-addons-preview-data").html(callback);
             });
@@ -311,7 +311,7 @@ jQuery.noConflict();
 
     $("#addonsstylenamechange").on("click", function (e) {
         e.preventDefault();
-        var rawdata = JSON.stringify($("#shortcode-addons-name-change-submit").serializeJSON({checkboxUncheckedValue: "0"}));
+        var rawdata = JSON.stringify($("#shortcode-addons-name-change-submit").serializeJSON({ checkboxUncheckedValue: "0" }));
         var functionname = "elements_template_change_name";
         $(this).html('<span class="dashicons dashicons-admin-generic"></span>');
         ShortcodeAddonsTemplateSettings(functionname, rawdata, styleid, childid, function (callback) {
@@ -344,7 +344,7 @@ jQuery.noConflict();
     });
     $("#shortcode-addons-templates-submit").on("click", function (e) {
         e.preventDefault();
-        var rawdata = JSON.stringify($("#oxi-addons-form-submit").serializeJSON({checkboxUncheckedValue: "0"}));
+        var rawdata = JSON.stringify($("#oxi-addons-form-submit").serializeJSON({ checkboxUncheckedValue: "0" }));
         var functionname = "elements_template_style_data";
         $(this).html('<span class="dashicons dashicons-admin-generic"></span>');
         ShortcodeAddonsTemplateSettings(functionname, rawdata, styleid, childid, function (callback) {
@@ -359,7 +359,7 @@ jQuery.noConflict();
     });
     $("#shortcode-template-modal-submit").on("click", function (e) {
         e.preventDefault();
-        var rawdata = JSON.stringify($("#shortcode-addons-template-modal-form").serializeJSON({checkboxUncheckedValue: "0"}));
+        var rawdata = JSON.stringify($("#shortcode-addons-template-modal-form").serializeJSON({ checkboxUncheckedValue: "0" }));
         var functionname = "elements_template_modal_data";
         var childid = $("#shortcodeitemid").val();
         $(this).html('<span class="dashicons dashicons-admin-generic"></span>');
@@ -438,7 +438,7 @@ jQuery.noConflict();
                                         }
                                     } else if (tp === 'hidden') {
                                         $Input.val(d);
-                                        $Input.siblings('.shortcode-addons-media-control').children('.shortcode-addons-media-control-image-load').css({'background-image': 'url(' + d + ')'});
+                                        $Input.siblings('.shortcode-addons-media-control').children('.shortcode-addons-media-control-image-load').css({ 'background-image': 'url(' + d + ')' });
                                     } else {
                                         $Input.val(d);
                                     }
@@ -465,7 +465,7 @@ jQuery.noConflict();
                                 $('input[name=' + key + ']').val(value);
                                 if (!key.includes("image-alt")) {
 
-                                    $('input[name=' + key + ']').siblings('.shortcode-addons-media-control').children('.shortcode-addons-media-control-image-load').css({'background-image': 'url(' + value + ')'});
+                                    $('input[name=' + key + ']').siblings('.shortcode-addons-media-control').children('.shortcode-addons-media-control-image-load').css({ 'background-image': 'url(' + value + ')' });
                                 }
                                 console.log(key.includes("image-alt"));
 
@@ -484,7 +484,7 @@ jQuery.noConflict();
                 $('.shortcode-addons-form-conditionize').conditionize();
                 $('.shortcode-control-type-select .shortcode-addons-select-input').each(function (e) {
                     $id = $(this).attr('id');
-                    $('#' + $id).select2({width: '100%'});
+                    $('#' + $id).select2({ width: '100%' });
                 });
                 $("#oxi-addons-list-data-modal").modal("show");
             }
@@ -813,7 +813,7 @@ jQuery.noConflict();
         }
     });
 
-//console.log(offset);
+    //console.log(offset);
 
     function ShortCodeFormSliderINT(ID = '') {
         $this = $('.shortcode-form-slider');
@@ -1265,18 +1265,18 @@ jQuery.noConflict();
                         language: 'en',
                         formats: {
                             alignleft: [
-                                {selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: {textAlign: 'left'}},
-                                {selector: 'img,table,dl.wp-caption', classes: 'alignleft'}
+                                { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'left' } },
+                                { selector: 'img,table,dl.wp-caption', classes: 'alignleft' }
                             ],
                             aligncenter: [
-                                {selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: {textAlign: 'center'}},
-                                {selector: 'img,table,dl.wp-caption', classes: 'aligncenter'}
+                                { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'center' } },
+                                { selector: 'img,table,dl.wp-caption', classes: 'aligncenter' }
                             ],
                             alignright: [
-                                {selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: {textAlign: 'right'}},
-                                {selector: 'img,table,dl.wp-caption', classes: 'alignright'}
+                                { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'right' } },
+                                { selector: 'img,table,dl.wp-caption', classes: 'alignright' }
                             ],
-                            strikethrough: {inline: 'del'}
+                            strikethrough: { inline: 'del' }
                         },
                         relative_urls: false,
                         remove_script_host: false,
@@ -1307,13 +1307,13 @@ jQuery.noConflict();
 
                 })
                 setTimeout(function () {
-                    $('#' + $id).css({'display': ''});
+                    $('#' + $id).css({ 'display': '' });
                 }, 1500);
 
             }
         });
 
-//       shortcode-form-control-tag-area
+        //       shortcode-form-control-tag-area
     }
 
     if ($('div').hasClass('shortcode-form-repeater-fields-wrapper')) {
@@ -1374,7 +1374,7 @@ jQuery.noConflict();
         }
     }
 
-    $(document.body).on("click", ".shortcode-form-repeater-button", function () {
+    $(document.body).on("click", ".shortcode-form-repeater-button", function (event) {
         event.preventDefault();
         $This = $(this);
         $inputVAL = $This.parent().siblings('.shortcode-control-type-hidden').children().find('input').val(parseInt($This.parent().siblings('.shortcode-control-type-hidden').children().find('input').val()) + 1).val();
@@ -1387,7 +1387,7 @@ jQuery.noConflict();
         $Current = $This.parent().siblings('.shortcode-form-repeater-fields-wrapper').children(':last');
         $Current.find('select').each(function () {
             if (this.type === 'select-one') {
-                $(this).select2({width: '100%'})
+                $(this).select2({ width: '100%' })
             }
         });
         ShortcodeFormSlider($Current, 'create');
@@ -1395,7 +1395,7 @@ jQuery.noConflict();
         RunDefault($Current);
     });
 
-    $(document.body).on("click", ".shortcode-form-repeater-fields-wrapper .shortcode-form-repeater-controls-duplicate", function () {
+    $(document.body).on("click", ".shortcode-form-repeater-fields-wrapper .shortcode-form-repeater-controls-duplicate", function (event) {
         event.preventDefault();
         $patent = $(this).parents('.shortcode-form-repeater-fields');
         var REP = 'saarsa' + $patent.find('*').filter(':input').attr('name').split('saarsa')[1];
@@ -1410,12 +1410,12 @@ jQuery.noConflict();
         });
         newItem.insertAfter($patent);
         $patent.find('select').each(function () {
-            $('#' + this.id).select2({width: '100%'});
+            $('#' + this.id).select2({ width: '100%' });
         });
         ShortcodeFormSlider($patent, 'create');
         $patent.next().find('select').each(function () {
             if (this.type === 'select-one') {
-                $(this).select2({width: '100%'});
+                $(this).select2({ width: '100%' });
             }
         });
         ShortcodeFormSlider($patent.next(), 'create');

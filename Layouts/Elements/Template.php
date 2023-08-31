@@ -13,47 +13,6 @@ trait Template
         return $this->admin_name_validation($data);
     }
 
-    public function pre_created_templates()
-    {
-        if (count($this->database_data()) == 0) :
-            return;
-        endif;
-
-        $return = _(' <div class="oxi-addons-row table-responsive abop" style="margin-bottom: 20px; opacity: 0; height: 0px">
-                        <table class="table table-hover widefat oxi_addons_table_data" style="background-color: #fff; border: 1px solid #ccc">
-                            <thead>
-                                <tr>
-                                    <th style="width: 10%">ID</th>
-                                    <th style="width: 15%">Name</th>
-                                    <th style="width: 15%">Templates</th>
-                                    <th style="width: 30%">Shortcode</th>
-                                    <th style="width: 30%">Edit Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>');
-        foreach ($this->database_data() as $value) {
-            $id = $value['id'];
-            $return .= _('<tr>');
-            $return .= _('<td>' . $id . '</td>');
-            $return .= _('<td>' . $this->admin_name_validation($value['name']) . '</td>');
-            $return .= _('<td>' . $this->admin_name_validation($value['style_name']) . '</td>');
-            $return .= _('<td><span>Shortcode &nbsp;&nbsp;<input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="[oxi_addons id=&quot;' . $id . '&quot;]"></span> <br>'
-                . '<span>Php Code &nbsp;&nbsp; <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;?php echo do_shortcode(&#039;[oxi_addons  id=&quot;' . $id . '&quot;]&#039;); ?&gt;"></span></td>');
-            $return .= _('<td> 
-                       <a href="' . admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&styleid=$id") . '"  title="Edit"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Edit</a>
-                        <button class="btn btn-danger shortcode-addons-addons-data-delete" style="float:left"  title="Delete"  type="button" value="' . $id . '">Delete</button>  
-                       <a href="' . esc_url(esc_url_raw(rest_url()) . 'ShortCodeAddonsUltimate/v2/shortcode_export?styleid=' . $id . '&_wpnonce=' . wp_create_nonce('wp_rest'))  . '"  title="Export"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Export</a>    
-                </td>');
-            $return .= _(' </tr>');
-        }
-        $return .= _('      </tbody>
-                </table>
-            </div>
-            <br>
-            <br>');
-        return $return;
-    }
-
 
 
     public function Shortcode($rawdata)
@@ -254,5 +213,46 @@ trait Template
         </div>
 
 <?php
+    }
+
+    public function pre_created_templates()
+    {
+        if (count($this->database_data()) == 0) :
+            return;
+        endif;
+
+        $return = _(' <div class="oxi-addons-row table-responsive abop" style="margin-bottom: 20px; opacity: 0; height: 0px">
+                        <table class="table table-hover widefat oxi_addons_table_data" style="background-color: #fff; border: 1px solid #ccc">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%">ID</th>
+                                    <th style="width: 15%">Name</th>
+                                    <th style="width: 15%">Templates</th>
+                                    <th style="width: 30%">Shortcode</th>
+                                    <th style="width: 30%">Edit Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>');
+        foreach ($this->database_data() as $value) {
+            $id = $value['id'];
+            $return .= _('<tr>');
+            $return .= _('<td>' . $id . '</td>');
+            $return .= _('<td>' . $this->admin_name_validation($value['name']) . '</td>');
+            $return .= _('<td>' . $this->admin_name_validation($value['style_name']) . '</td>');
+            $return .= _('<td><span>Shortcode &nbsp;&nbsp;<input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="[oxi_addons id=&quot;' . $id . '&quot;]"></span> <br>'
+                . '<span>Php Code &nbsp;&nbsp; <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;?php echo do_shortcode(&#039;[oxi_addons  id=&quot;' . $id . '&quot;]&#039;); ?&gt;"></span></td>');
+            $return .= _('<td> 
+                       <a href="' . admin_url("admin.php?page=shortcode-addons&oxitype=$this->oxitype&styleid=$id") . '"  title="Edit"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Edit</a>
+                        <button class="btn btn-danger shortcode-addons-addons-data-delete" style="float:left"  title="Delete"  type="button" value="' . $id . '">Delete</button>  
+                       <a href="' . esc_url(esc_url_raw(rest_url()) . 'ShortCodeAddonsUltimate/v2/shortcode_export?styleid=' . $id . '&_wpnonce=' . wp_create_nonce('wp_rest'))  . '"  title="Export"  class="btn btn-info" style="float:left; margin-right: 5px; margin-left: 5px;">Export</a>    
+                </td>');
+            $return .= _(' </tr>');
+        }
+        $return .= _('      </tbody>
+                </table>
+            </div>
+            <br>
+            <br>');
+        return $return;
     }
 }

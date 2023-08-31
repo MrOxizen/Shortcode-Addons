@@ -70,6 +70,39 @@ class Database
         $this->child_table = $wpdb->prefix . 'oxi_div_list';
         $this->import_table = $wpdb->prefix . 'oxi_div_import';
     }
+
+    public function font_familly_validation($data = [])
+    {
+        foreach ($data as $value) {
+            wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
+        }
+    }
+
+    public function admin_name_validation($data)
+    {
+        $data = str_replace('_', ' ', $data);
+        $data = str_replace('-', ' ', $data);
+        $data = str_replace('+', ' ', $data);
+        return ucwords($data);
+    }
+    /**
+     * Remove files in dir
+     *
+     * @since 1.0.0
+     */
+    public function empty_dir($str)
+    {
+
+        if (is_file($str)) {
+            return unlink($str);
+        } elseif (is_dir($str)) {
+            $scan = glob(rtrim($str, '/') . '/*');
+            foreach ($scan as $index => $path) {
+                $this->empty_dir($path);
+            }
+            return @rmdir($str);
+        }
+    }
     /**
      * Plugin Create Upload Folder
      *
@@ -125,7 +158,7 @@ class Database
         update_option('SA_ADDONS_PLUGIN_VERSION', SA_ADDONS_PLUGIN_VERSION);
     }
 
-   
+
 
 
 
@@ -156,38 +189,5 @@ class Database
         $data = str_replace('-', ' ', $data);
         $data = str_replace('+', ' ', $data);
         return ucwords($data);
-    }
-
-    public function font_familly_validation($data = [])
-    {
-        foreach ($data as $value) {
-            wp_enqueue_style('' . $value . '', 'https://fonts.googleapis.com/css?family=' . $value . '');
-        }
-    }
-
-    public function admin_name_validation($data)
-    {
-        $data = str_replace('_', ' ', $data);
-        $data = str_replace('-', ' ', $data);
-        $data = str_replace('+', ' ', $data);
-        return ucwords($data);
-    }
-    /**
-     * Remove files in dir
-     *
-     * @since 1.0.0
-     */
-    public function empty_dir($str)
-    {
-
-        if (is_file($str)) {
-            return unlink($str);
-        } elseif (is_dir($str)) {
-            $scan = glob(rtrim($str, '/') . '/*');
-            foreach ($scan as $index => $path) {
-                $this->empty_dir($path);
-            }
-            return @rmdir($str);
-        }
     }
 }

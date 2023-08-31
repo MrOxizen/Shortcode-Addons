@@ -14,86 +14,67 @@ use SHORTCODE_ADDONS\Core\Admin\Controls as Controls;
  *
  * @author biplo
  */
-trait AdminHelper {
+trait AdminHelper
+{
 
-    /**
-     * Replace data
-     *
-     * @since v2.1.0
-     */
-    public function str_replace_first($from, $to, $content) {
-        $from = '/' . preg_quote($from, '/') . '/';
 
-        return preg_replace($from, $to, $content, 1);
-    }
 
-    /**
-     * Template Modal opener
-     * Define Multiple Data With Single Data
-     *
-     * @since 2.0.0
-     */
-    public function modal_opener() {
-        $this->add_substitute_control('', [], [
-            'type' => Controls::MODALOPENER,
-            'title' => __('Add New Data', SHORTCODE_ADDOONS),
-            'sub-title' => __('Open Data Form', SHORTCODE_ADDOONS),
-            'showing' => TRUE,
-        ]);
-    }
+        /**
+         * Template Shortcode Name
+         * Define Shortcode Name
+         *
+         * @since 2.0.0
+         */
+        public function shortcode_name()
+        {
+                $this->add_substitute_control('', $this->dbdata, [
+                        'type' => Controls::SHORTCODENAME,
+                        'title' => __('Shortcode Name', SHORTCODE_ADDOONS),
+                        'placeholder' => __('Set Your Shortcode Name', SHORTCODE_ADDOONS),
+                        'showing' => TRUE,
+                ]);
+        }
 
-    /**
-     * Template Shortcode Name
-     * Define Shortcode Name
-     *
-     * @since 2.0.0
-     */
-    public function shortcode_name() {
-        $this->add_substitute_control('', $this->dbdata, [
-            'type' => Controls::SHORTCODENAME,
-            'title' => __('Shortcode Name', SHORTCODE_ADDOONS),
-            'placeholder' => __('Set Your Shortcode Name', SHORTCODE_ADDOONS),
-            'showing' => TRUE,
-        ]);
-    }
+        /**
+         * Template Shortcode Information
+         * Parent Sector where users will get Shortcode Information
+         *
+         * @since 2.0.0
+         */
+        public function shortcode_info()
+        {
+                $this->add_substitute_control($this->oxiid, $this->dbdata, [
+                        'type' => Controls::SHORTCODEINFO,
+                        'title' => __('Shortcode', SHORTCODE_ADDOONS),
+                        'showing' => TRUE,
+                ]);
+        }
 
-    /**
-     * Template Shortcode Information
-     * Parent Sector where users will get Shortcode Information
-     *
-     * @since 2.0.0
-     */
-    public function shortcode_info() {
-        $this->add_substitute_control($this->oxiid, $this->dbdata, [
-            'type' => Controls::SHORTCODEINFO,
-            'title' => __('Shortcode', SHORTCODE_ADDOONS),
-            'showing' => TRUE,
-        ]);
-    }
+        /**
+         * Template Modal Form Data
+         * return always false and abstract with current Style Template
+         *
+         * @since 2.0.0
+         */
+        public function modal_form_data()
+        {
+                $this->form = 'single';
+        }
 
-    /**
-     * Template Modal Form Data
-     * return always false and abstract with current Style Template
-     *
-     * @since 2.0.0
-     */
-    public function modal_form_data() {
-        $this->form = 'single';
-    }
+        /**
+         * Template Parent Modal Form
+         *
+         * @since 2.0.0
+         */
+        public function modal_form()
+        {
 
-    /**
-     * Template Parent Modal Form
-     *
-     * @since 2.0.0
-     */
-    public function modal_form() {
-
-        echo '<div class="modal fade" id="oxi-addons-list-data-modal" >
+                echo '<div class="modal fade" id="oxi-addons-list-data-modal" >
                 <div class="modal-dialog">
                     <form method="post" id="shortcode-addons-template-modal-form">
                          <div class="modal-content">';
-        $this->modal_form_data();
-        echo '          <div class="modal-footer">
+                $this->modal_form_data();
+                echo '          <div class="modal-footer">
                                 <input type="hidden" id="shortcodeitemid" name="shortcodeitemid" value="">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-success" id="shortcode-template-modal-submit">Submit</button>
@@ -102,46 +83,48 @@ trait AdminHelper {
                     </form>
                 </div>
               </div>';
-    }
-
-    /**
-     * Template Parent Item Data Rearrange
-     *
-     * @since 2.0.0
-     */
-    public function shortcode_rearrange() {
-        echo '';
-    }
-
-    /**
-     * Shortcode Addons Import Font Family
-     *
-     * @since 2.1.0
-     */
-    public function import_font_family() {
-        $this->font_family = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s ORDER by id ASC", 'shortcode-addons'), ARRAY_A);
-        $googleFonts = $localFonts = '';
-        foreach ($this->font_family as $key => $value) {
-            if ($value['name'] == 'custom') {
-                $localFonts .= '|' . $value['font'];
-            } else {
-                $googleFonts .= '|' . $value['font'];
-                $this->google_font[$value['font']] = $value['font'];
-            }
         }
-        if ($googleFonts == ''):
-            $googleFonts = '|Roboto|Manjari|Gayathri|Open+Sans|Lato|Chilanka|Montserrat|Roboto+Condensed|Source+Sans+Pro';
-            $g = explode('|', $googleFonts);
-            foreach ($g as $value) {
-                if (!empty($value)):
-                    $this->google_font[$value] = $value;
-                endif;
-            }
-        endif;
-        $googlefont = admin_url("admin.php?page=shortcode-addons-font");
-        $systemFonts = '|Arial|Helvetica+Neue|Courier+New|Times+New+Roman|Comic+Sans+MS|Verdana|Impact|cursive|inherit';
 
-        $data = '(function($){
+        /**
+         * Template Parent Item Data Rearrange
+         *
+         * @since 2.0.0
+         */
+        public function shortcode_rearrange()
+        {
+                echo '';
+        }
+
+        /**
+         * Shortcode Addons Import Font Family
+         *
+         * @since 2.1.0
+         */
+        public function import_font_family()
+        {
+                $this->font_family = $this->wpdb->get_results($this->wpdb->prepare("SELECT * FROM $this->import_table WHERE type = %s ORDER by id ASC", 'shortcode-addons'), ARRAY_A);
+                $googleFonts = $localFonts = '';
+                foreach ($this->font_family as $key => $value) {
+                        if ($value['name'] == 'custom') {
+                                $localFonts .= '|' . $value['font'];
+                        } else {
+                                $googleFonts .= '|' . $value['font'];
+                                $this->google_font[$value['font']] = $value['font'];
+                        }
+                }
+                if ($googleFonts == '') :
+                        $googleFonts = '|Roboto|Manjari|Gayathri|Open+Sans|Lato|Chilanka|Montserrat|Roboto+Condensed|Source+Sans+Pro';
+                        $g = explode('|', $googleFonts);
+                        foreach ($g as $value) {
+                                if (!empty($value)) :
+                                        $this->google_font[$value] = $value;
+                                endif;
+                        }
+                endif;
+                $googlefont = admin_url("admin.php?page=shortcode-addons-font");
+                $systemFonts = '|Arial|Helvetica+Neue|Courier+New|Times+New+Roman|Comic+Sans+MS|Verdana|Impact|cursive|inherit';
+
+                $data = '(function($){
 
                                 var fontsLoaded = {};
 
@@ -451,7 +434,33 @@ trait AdminHelper {
                                 };
                         })(jQuery);
                         jQuery(\'.shortcode-addons-family\').fontselect();';
-        wp_add_inline_script('shortcode-addons-editor', $data);
-    }
+                wp_add_inline_script('shortcode-addons-editor', $data);
+        }
+        /**
+         * Replace data
+         *
+         * @since v2.1.0
+         */
+        public function str_replace_first($from, $to, $content)
+        {
+                $from = '/' . preg_quote($from, '/') . '/';
 
+                return preg_replace($from, $to, $content, 1);
+        }
+
+        /**
+         * Template Modal opener
+         * Define Multiple Data With Single Data
+         *
+         * @since 2.0.0
+         */
+        public function modal_opener()
+        {
+                $this->add_substitute_control('', [], [
+                        'type' => Controls::MODALOPENER,
+                        'title' => __('Add New Data', SHORTCODE_ADDOONS),
+                        'sub-title' => __('Open Data Form', SHORTCODE_ADDOONS),
+                        'showing' => TRUE,
+                ]);
+        }
 }

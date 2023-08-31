@@ -12,6 +12,47 @@ use SHORTCODE_ADDONS\Core\Console as Console;
 
 class ClearOlderFile extends Console
 {
+
+
+
+
+    /**
+     * Shortcode Addons Elements.
+     *
+     * @since 2.0.0
+     */
+    public function clear_elements()
+    {
+        $elements = $this->shortcode_elements();
+
+        foreach ($elements as $key => $value) {
+            if ($key != 'Custom Elements') {
+                foreach ($value as $k => $elements) {
+                    if (is_dir(SA_ADDONS_UPLOAD_PATH . $k)) :
+                        $this->empty_dir(SA_ADDONS_UPLOAD_PATH . $k);
+                    endif;
+                }
+            }
+        }
+    }
+    /**
+     * Remove files in dir
+     *
+     * @since 1.0.0
+     */
+    public function empty_dir($str)
+    {
+
+        if (is_file($str)) {
+            return unlink($str);
+        } elseif (is_dir($str)) {
+            $scan = glob(rtrim($str, '/') . '/*');
+            foreach ($scan as $index => $path) {
+                $this->empty_dir($path);
+            }
+            return @rmdir($str);
+        }
+    }
     /**
      * Plugin Create Upload Folder
      *
@@ -33,47 +74,4 @@ class ClearOlderFile extends Console
         $this->create_upload_folder();
         $this->delete_transient();
     }
-
-   
-
-    /**
-     * Shortcode Addons Elements.
-     *
-     * @since 2.0.0
-     */
-    public function clear_elements()
-    {
-        $elements = $this->shortcode_elements();
-
-        foreach ($elements as $key => $value) {
-            if ($key != 'Custom Elements') {
-                foreach ($value as $k => $elements) {
-                    if (is_dir(SA_ADDONS_UPLOAD_PATH . $k)) :
-                        $this->empty_dir(SA_ADDONS_UPLOAD_PATH . $k);
-                    endif;
-                }
-            }
-        }
-    }
- /**
-     * Remove files in dir
-     *
-     * @since 1.0.0
-     */
-    public function empty_dir($str)
-    {
-
-        if (is_file($str)) {
-            return unlink($str);
-        } elseif (is_dir($str)) {
-            $scan = glob(rtrim($str, '/') . '/*');
-            foreach ($scan as $index => $path) {
-                $this->empty_dir($path);
-            }
-            return @rmdir($str);
-        }
-    }
-
-
-    //   
 }

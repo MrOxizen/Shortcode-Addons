@@ -7,23 +7,59 @@ namespace SHORTCODE_ADDONS\Oxilab;
  *
  * @author biplo
  */
-class Reviews {
+class Reviews
+{
+
+
+    /**
+     * Admin Notice CSS file loader
+     * @return void
+     */
+    public function admin_enqueue_scripts()
+    {
+        wp_enqueue_script("jquery");
+        wp_enqueue_style('shortcode-addons-reviews-notice', SA_ADDONS_URL . '/Oxilab/css/notice.css', false, SA_ADDONS_PLUGIN_VERSION);
+        $this->dismiss_button_scripts();
+    }
+
+    /**
+     * Admin Notice JS file loader
+     * @return void
+     */
+    public function dismiss_button_scripts()
+    {
+        wp_enqueue_script('shortcode_addons_reviews', SA_ADDONS_URL . '/Oxilab/js/notice.js', false, SA_ADDONS_PLUGIN_VERSION);
+        wp_localize_script('shortcode_addons_reviews', 'shortcode_addons_reviews', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode_addons_reviews')));
+    }
+
+    /**
+     * Revoke this function when the object is created.
+     *
+     */
+    public function __construct()
+    {
+        add_action('admin_notices', array($this, 'first_install'));
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+        add_action('wp_ajax_shortcode_addons_reviews', array($this, 'notice_dissmiss'));
+        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
+    }
 
     /**
      * Admin Notice Ajax  loader
      * @return void
      */
-    public function notice_dissmiss() {
-        if (isset($_POST['_wpnonce']) || wp_verify_nonce(sanitize_key(wp_unslash($_POST['_wpnonce'])), 'shortcode_addons_reviews')):
+    public function notice_dissmiss()
+    {
+        if (isset($_POST['_wpnonce']) || wp_verify_nonce(sanitize_key(wp_unslash($_POST['_wpnonce'])), 'shortcode_addons_reviews')) :
             $notice = isset($_POST['notice']) ? sanitize_text_field($_POST['notice']) : '';
-            if ($notice == 'maybe'):
+            if ($notice == 'maybe') :
                 $data = strtotime("now");
                 update_option('shortcode_addons_activation_date', $data);
-            else:
+            else :
                 update_option('shortcode_addons_no_bug', $notice);
             endif;
             echo $notice;
-        else:
+        else :
             return;
         endif;
 
@@ -34,7 +70,8 @@ class Reviews {
      * First Installation Track
      * @return void
      */
-    public function first_install() {
+    public function first_install()
+    {
         if (!current_user_can('manage_options')) {
             return;
         }
@@ -74,35 +111,4 @@ class Reviews {
                     </div>
                 </div>');
     }
-
-    /**
-     * Admin Notice CSS file loader
-     * @return void
-     */
-    public function admin_enqueue_scripts() {
-        wp_enqueue_script("jquery");
-        wp_enqueue_style('shortcode-addons-reviews-notice', SA_ADDONS_URL . '/Oxilab/css/notice.css', false, SA_ADDONS_PLUGIN_VERSION);
-        $this->dismiss_button_scripts();
-    }
-
-    /**
-     * Admin Notice JS file loader
-     * @return void
-     */
-    public function dismiss_button_scripts() {
-        wp_enqueue_script('shortcode_addons_reviews', SA_ADDONS_URL . '/Oxilab/js/notice.js', false, SA_ADDONS_PLUGIN_VERSION);
-        wp_localize_script('shortcode_addons_reviews', 'shortcode_addons_reviews', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('shortcode_addons_reviews')));
-    }
-
-    /**
-     * Revoke this function when the object is created.
-     *
-     */
-    public function __construct() {
-        add_action('admin_notices', array($this, 'first_install'));
-        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
-        add_action('wp_ajax_shortcode_addons_reviews', array($this, 'notice_dissmiss'));
-        add_action('admin_notices', array($this, 'dismiss_button_scripts'));
-    }
-
 }
